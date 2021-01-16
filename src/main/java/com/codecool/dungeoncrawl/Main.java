@@ -15,14 +15,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
+    ArrayList<GameMap> mapList = getLevels();
+    GameMap map = mapList.get(0);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -58,6 +62,11 @@ public class Main extends Application {
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getTileName().equals("ladder up")) {
+                    map = mapList.get(mapList.indexOf(map) + 1);
+                } else if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getTileName().equals("ladder down")) {
+                    map = mapList.get(mapList.indexOf(map) - 1);
+                }
                 refresh();
                 break;
             case LEFT:
@@ -85,5 +94,15 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+    }
+
+    private ArrayList<GameMap> getLevels() {
+        ArrayList<GameMap> levels = new ArrayList<>();
+        File folder = new File("src/main/resources/levels");
+        File[] listOfFiles = folder.listFiles();
+        for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
+            levels.add(MapLoader.loadMap("/levels/" + listOfFile.getName()));
+        }
+        return levels;
     }
 }
