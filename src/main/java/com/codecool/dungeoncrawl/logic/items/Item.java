@@ -12,6 +12,10 @@ public abstract class Item implements Drawable {
 
     }
 
+    public void putItemOnBoardRandomly(){
+
+    }
+
     public Cell getCell() {
         return cell;
     }
