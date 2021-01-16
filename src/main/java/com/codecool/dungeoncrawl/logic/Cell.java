@@ -55,4 +55,8 @@ public class Cell implements Drawable {
     public int getY() {
         return y;
     }
+
+    public boolean canAddItem(){
+        return this.getType().equals(CellType.FLOOR) && this.getActor() == null && this.getItem() == null;
+    }
 }
