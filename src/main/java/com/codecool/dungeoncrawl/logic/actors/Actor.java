@@ -15,10 +15,12 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) {
+        if ((nextCell.getType() == CellType.FLOOR || nextCell.getType().equals(CellType.OPENDOOR)) && nextCell.getActor() == null) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+        } else if (nextCell.getType().equals(CellType.DOOR)) {
+            nextCell.setType(CellType.OPENDOOR);
         } else {
             throw new IllegalStateException("You shall not pass !");
         }
