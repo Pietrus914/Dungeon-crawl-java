@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import javafx.application.Application;
@@ -66,6 +67,9 @@ public class Main extends Application {
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getTileName().equals("door")){
+                    map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).setType(CellType.OPENDOOR);
+                }
                 refresh();
                 break;
         }
