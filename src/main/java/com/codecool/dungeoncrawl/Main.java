@@ -49,15 +49,17 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        Button pickUpButton = new ButtonPickUp(map);
+
+
+        HBox inventoryHBox = new HBox(inventoryListView);
+        inventoryListView.setFocusTraversable(false);
+
+        Button pickUpButton = new ButtonPickUp(map, inventoryListView);
         HBox hbox = new HBox();
         hbox.getChildren().add(pickUpButton);
         hbox.setPadding(new Insets(35, 0, 35, 0));
 //        hbox.alignmentProperty().setValue(Pos.CENTER);
         hbox.setAlignment(Pos.CENTER);
-
-        HBox inventoryHBox = new HBox(inventoryListView);
-        inventoryListView.setFocusTraversable(false);
 
 
         ui.add(new Label("Health: "), 0, 0);
@@ -124,9 +126,9 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
-        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
-        inventoryListView.setItems(items);
+//        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
+//        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
+//        inventoryListView.setItems(items);
     }
 
     private ArrayList<GameMap> getLevels() {
