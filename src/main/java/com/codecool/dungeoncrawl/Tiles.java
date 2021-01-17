@@ -35,8 +35,8 @@ public class Tiles {
         tileMap.put("ladder up", new Tile(21, 1));
         tileMap.put("ladder down", new Tile(21, 0));
         tileMap.put(ItemNames.SHIELD.getItemName(), new Tile(7,25));
-        tileMap.put(ItemNames.GLOVES.getItemName(), new Tile(11,23));
-        tileMap.put(ItemNames.MEDICINE.getItemName(), new Tile(26, 23));
+        tileMap.put(ItemNames.GLOVES.getItemName(), new Tile(10,22));
+        tileMap.put(ItemNames.MEDICINE.getItemName(), new Tile(25, 23));
         tileMap.put(ItemNames.MEAT.getItemName(), new Tile(17, 28));
     }
 

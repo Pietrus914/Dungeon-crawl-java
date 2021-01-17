@@ -134,11 +134,14 @@ public class Main extends Application {
         File folder = new File("src/main/resources/levels");
         File[] listOfFiles = folder.listFiles();
         for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
-            GameMap newMap = MapLoader.loadMap("/levels/" + listOfFile.getName());
+            String fileName = listOfFile.getName();
+            GameMap newMap = MapLoader.loadMap("/levels/" + fileName);
             levels.add(newMap);
             int mapNumber = 0;
             try {
-                mapNumber = (int)listOfFile.getName().charAt(-1);
+                mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length()-5)));
+                System.out.println(fileName);
+                System.out.println(mapNumber);
             } catch (Exception e){
                 mapNumber = 1;
             }

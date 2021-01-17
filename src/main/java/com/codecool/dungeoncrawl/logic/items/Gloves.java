@@ -2,14 +2,14 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Helmet extends Item {
-    public Helmet(Cell cell){
-        super(cell, ItemNames.HELMET);
+public class Gloves extends Item {
+    public Gloves(Cell cell) {
+        super(cell, ItemNames.GLOVES);
 
     }
 
     @Override
     public String getTileName() {
-        return ItemNames.HELMET.getItemName();
+        return ItemNames.GLOVES.getItemName();
     }
 }
