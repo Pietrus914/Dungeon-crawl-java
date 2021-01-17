@@ -3,25 +3,41 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.io.File;
+import java.util.Objects;
+
+
 public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
+    ArrayList<GameMap> mapList = getLevels();
+    GameMap map = mapList.get(0);
+    ItemsPlacer itemsPlacer = new ItemsPlacer(map);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    ListView<String> inventoryListView = new ListView<String>();
 
     public static void main(String[] args) {
         launch(args);
@@ -33,8 +49,22 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
+        Button pickUpButton = new ButtonPickUp(map);
+        HBox hbox = new HBox();
+        hbox.getChildren().add(pickUpButton);
+        hbox.setPadding(new Insets(35, 0, 35, 0));
+//        hbox.alignmentProperty().setValue(Pos.CENTER);
+        hbox.setAlignment(Pos.CENTER);
+
+        HBox inventoryHBox = new HBox(inventoryListView);
+        inventoryListView.setFocusTraversable(false);
+
+
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
+        ui.add(new Label("Inventory:"),0,2);
+        ui.add(inventoryHBox,0,3,2,1);
+        ui.add(hbox, 0,4, 2,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -43,6 +73,8 @@ public class Main extends Application {
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
+
+        itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -54,18 +86,22 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
+                changeLevel();
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                changeLevel();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                changeLevel();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
+                changeLevel();
                 refresh();
                 break;
         }
@@ -79,11 +115,34 @@ public class Main extends Application {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
+                } else if (cell.getItem() != null){
+                    Tiles.drawTile(context, cell.getItem(), x, y);
                 } else {
                     Tiles.drawTile(context, cell, x, y);
                 }
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
+        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
+        inventoryListView.setItems(items);
+    }
+
+    private ArrayList<GameMap> getLevels() {
+        ArrayList<GameMap> levels = new ArrayList<>();
+        File folder = new File("src/main/resources/levels");
+        File[] listOfFiles = folder.listFiles();
+        for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
+            levels.add(MapLoader.loadMap("/levels/" + listOfFile.getName()));
+        }
+        return levels;
+    }
+
+    private void changeLevel() {
+        if (map.getPlayer().getCell().getTileName().equals("ladder up")) {
+            map = mapList.get(mapList.indexOf(map) + 1);
+        } else if (map.getPlayer().getCell().getTileName().equals("ladder down")) {
+            map = mapList.get(mapList.indexOf(map) - 1);
+        }
     }
 }
