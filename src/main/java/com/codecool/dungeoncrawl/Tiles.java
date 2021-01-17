@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Drawable;
-import com.codecool.dungeoncrawl.logic.items.Item;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -32,6 +31,8 @@ public class Tiles {
         tileMap.put("key", new Tile(16,23));
         tileMap.put("sword", new Tile(1,30));
         tileMap.put("helmet", new Tile(4,22));
+        tileMap.put("ladder up", new Tile(21, 1));
+        tileMap.put("ladder down", new Tile(21, 0));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {
