@@ -1,17 +1,21 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -34,8 +38,17 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
+        Button pickUpButton = new ButtonPickUp();
+        HBox hbox = new HBox();
+        hbox.getChildren().add(pickUpButton);
+        hbox.setPadding(new Insets(35, 0, 0, 0));
+//        hbox.alignmentProperty().setValue(Pos.CENTER);
+        hbox.setAlignment(Pos.CENTER);
+
+
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
+        ui.add(hbox, 0,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -44,8 +57,8 @@ public class Main extends Application {
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
-        itemsPlacer.addItemsRandomly();
 
+        itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
