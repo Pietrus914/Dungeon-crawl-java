@@ -144,17 +144,21 @@ public class Main extends Application {
             Player samePlayer = map.getPlayer();
             int x = map.getPlayer().getX();
             int y = map.getPlayer().getY();
+            map.getCell(x,y).setActor(null);
             map = mapList.get(mapList.indexOf(map) + 1);
             map.setPlayer(samePlayer);
             map.getCell(x,y).setActor(samePlayer);
+            samePlayer.setCellForActor(map.getCell(x,y));
 
         } else if (map.getPlayer().getCell().getTileName().equals("ladder down")) {
             Player samePlayer = map.getPlayer();
             int x = map.getPlayer().getX();
             int y = map.getPlayer().getY();
+            map.getCell(x,y).setActor(null);
             map = mapList.get(mapList.indexOf(map) - 1);
             map.setPlayer(samePlayer);
             map.getCell(x,y).setActor(samePlayer);
+            samePlayer.setCellForActor(map.getCell(x,y));
 
         }
 
