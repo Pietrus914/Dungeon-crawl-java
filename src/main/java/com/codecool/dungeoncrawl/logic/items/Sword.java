@@ -4,11 +4,11 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Sword extends Item{
     public Sword(Cell cell) {
-        super(cell);
+        super(cell, ItemNames.SWORD);
     }
 
     @Override
     public String getTileName(){
-        return "sword";
+        return ItemNames.SWORD.getItemName();
     }
 }

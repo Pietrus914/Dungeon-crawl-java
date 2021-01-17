@@ -13,11 +13,15 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
-    public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+    public static GameMap loadMap(String mapFile) {
+        InputStream is = MapLoader.class.getResourceAsStream(mapFile);
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
+        int goUpX = scanner.nextInt();
+        int goUpY = scanner.nextInt();
+        int goDownX = scanner.nextInt();
+        int goDownY = scanner.nextInt();
 
         scanner.nextLine(); // empty line
 
@@ -45,7 +49,7 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Ghost(cell);
                             break;
-                        case 'd':
+                        case 'm':
                             cell.setType(CellType.FLOOR);
                             new Demon(cell);
                             break;
@@ -65,12 +69,22 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Sword(cell);
                             break;
+                        case 'u':
+                            cell.setType(CellType.UP);
+                            break;
+                        case 'd':
+                            cell.setType(CellType.DOWN);
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
                 }
             }
         }
+        map.setGoUpX(goUpX);
+        map.setGoUpY(goUpY);
+        map.setGoDownX(goDownX);
+        map.setGoDownY(goDownY);
         return map;
     }
 

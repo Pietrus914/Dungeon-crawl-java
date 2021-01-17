@@ -6,6 +6,10 @@ public class GameMap {
     private int width;
     private int height;
     private Cell[][] cells;
+    int goUpX;
+    int goUpY;
+    int goDownX;
+    int goDownY;
 
     private Player player;
 
@@ -38,5 +42,37 @@ public class GameMap {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getGoUpX() {
+        return goUpX;
+    }
+
+    public void setGoUpX(int goUpX) {
+        this.goUpX = goUpX;
+    }
+
+    public int getGoUpY() {
+        return goUpY;
+    }
+
+    public void setGoUpY(int goUpY) {
+        this.goUpY = goUpY;
+    }
+
+    public int getGoDownX() {
+        return goDownX;
+    }
+
+    public void setGoDownX(int goDownX) {
+        this.goDownX = goDownX;
+    }
+
+    public int getGoDownY() {
+        return goDownY;
+    }
+
+    public void setGoDownY(int goDownY) {
+        this.goDownY = goDownY;
     }
 }

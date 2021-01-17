@@ -9,18 +9,35 @@ import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 public class MonsterPlacer {
     private GameMap map;
 
+    private int mapNumber;
     private int ghostCounter;
     private int demonCounter;
     private final int ghostNumber;
     private final int demonNumber;
 
 
-    public MonsterPlacer(GameMap map) {
+    public MonsterPlacer(GameMap map, int mapNumber) {
         this.map = map;
+        this.mapNumber = setMapNumber(mapNumber);
         this.ghostCounter = 0;
         this.demonCounter = 0;
         this.ghostNumber = 4;
         this.demonNumber = 2;
+    }
+
+    private int setMapNumber(int mapNumber) {
+        int number =0;
+        switch (mapNumber){
+            case 1:
+                number = 1;
+                break;
+            case 2:
+                number = 2;
+                break;
+            default:
+                number = 3;
+        }
+        return number;
     }
 
     private boolean enoughGhost() {
