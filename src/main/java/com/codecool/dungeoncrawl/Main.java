@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +24,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
 import java.util.Objects;
 
@@ -139,10 +139,25 @@ public class Main extends Application {
     }
 
     private void changeLevel() {
+
         if (map.getPlayer().getCell().getTileName().equals("ladder up")) {
+            Player samePlayer = map.getPlayer();
+            int x = map.getPlayer().getX();
+            int y = map.getPlayer().getY();
             map = mapList.get(mapList.indexOf(map) + 1);
+            map.setPlayer(samePlayer);
+            map.getCell(x,y).setActor(samePlayer);
+
         } else if (map.getPlayer().getCell().getTileName().equals("ladder down")) {
+            Player samePlayer = map.getPlayer();
+            int x = map.getPlayer().getX();
+            int y = map.getPlayer().getY();
             map = mapList.get(mapList.indexOf(map) - 1);
+            map.setPlayer(samePlayer);
+            map.getCell(x,y).setActor(samePlayer);
+
         }
+
+
     }
 }
