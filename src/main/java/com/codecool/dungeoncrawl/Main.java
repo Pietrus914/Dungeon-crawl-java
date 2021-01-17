@@ -38,7 +38,7 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        Button pickUpButton = new ButtonPickUp();
+        Button pickUpButton = new ButtonPickUp(map);
         HBox hbox = new HBox();
         hbox.getChildren().add(pickUpButton);
         hbox.setPadding(new Insets(35, 0, 0, 0));
@@ -48,7 +48,7 @@ public class Main extends Application {
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
-        ui.add(hbox, 0,1);
+        ui.add(hbox, 0,1, 2,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -61,6 +61,7 @@ public class Main extends Application {
         itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
+//        scene.focusOwnerProperty();
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
