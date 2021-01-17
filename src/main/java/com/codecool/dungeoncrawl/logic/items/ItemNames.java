@@ -3,7 +3,14 @@ package com.codecool.dungeoncrawl.logic.items;
 public enum ItemNames {
     HELMET("helmet"),
     SWORD("sword"),
-    KEY("key");
+    KEY("key"),
+    SHIELD("shield"),
+    GLOVES("gloves"),
+    MEDICINE("medicine"),
+    MEAT("meat");
+
+
+
 
     private final String itemName;
 

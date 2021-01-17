@@ -31,7 +31,7 @@ import java.util.Objects;
 public class Main extends Application {
     ArrayList<GameMap> mapList = getLevels();
     GameMap map = mapList.get(0);
-    ItemsPlacer itemsPlacer = new ItemsPlacer(map);
+//    ItemsPlacer itemsPlacer = new ItemsPlacer(map);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -74,7 +74,8 @@ public class Main extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
 
-        itemsPlacer.addItemsRandomly();
+
+//        itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -133,7 +134,17 @@ public class Main extends Application {
         File folder = new File("src/main/resources/levels");
         File[] listOfFiles = folder.listFiles();
         for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
-            levels.add(MapLoader.loadMap("/levels/" + listOfFile.getName()));
+            GameMap newMap = MapLoader.loadMap("/levels/" + listOfFile.getName());
+            levels.add(newMap);
+            int mapNumber = 0;
+            try {
+                mapNumber = (int)listOfFile.getName().charAt(-1);
+            } catch (Exception e){
+                mapNumber = 1;
+            }
+
+            ItemsPlacer newItemPlacer = new ItemsPlacer(newMap,mapNumber );
+            newItemPlacer.addItemsRandomly();
         }
         return levels;
     }
