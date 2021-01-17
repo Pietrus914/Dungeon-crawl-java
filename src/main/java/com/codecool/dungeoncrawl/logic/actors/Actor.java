@@ -19,6 +19,10 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+        } else if (nextCell.getType().equals(CellType.DOWN) || nextCell.getType().equals(CellType.UP)) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
         } else {
             throw new IllegalStateException("You shall not pass !");
         }
