@@ -5,7 +5,6 @@ import com.codecool.dungeoncrawl.logic.Inventory;
 import com.codecool.dungeoncrawl.logic.items.Item;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Player extends Actor {
 
@@ -25,8 +24,7 @@ public class Player extends Actor {
         inventory.add(item);
     }
 
-    public List<String> getInventoryItems(){
-
+    public ArrayList<String> getInventoryItems(){
         return inventory.getItems();
     }
 }

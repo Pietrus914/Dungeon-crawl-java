@@ -19,11 +19,11 @@ public class Inventory {
         inventoryList.add(item);
     }
 
-    public List<String> getItems(){
+    public ArrayList<String> getItems(){
         List<String> itemsNames = inventoryList.stream()
-                .map(item -> item.getName())
+                .map(Item::getName)
                 .collect(Collectors.toList());
-        return itemsNames;
+        return (ArrayList<String>) itemsNames;
     }
 
 

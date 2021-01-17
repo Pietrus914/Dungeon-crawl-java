@@ -20,7 +20,7 @@ public class ButtonPickUp extends Button {
             Item itemToGet = currentPlayerCell.getItem();
             currentPlayerCell.setItem(null);
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button PickUp pressed");
-//            player.addToInventory(itemToGet);
+            player.addToInventory(itemToGet);
         });
 
     }

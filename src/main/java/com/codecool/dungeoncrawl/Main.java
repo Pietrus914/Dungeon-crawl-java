@@ -5,6 +5,8 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,6 +22,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     ItemsPlacer itemsPlacer = new ItemsPlacer(map);
@@ -28,7 +33,7 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
-    ListView inventoryListView = new ListView();
+    ListView<String> inventoryListView = new ListView<String>();
 
     public static void main(String[] args) {
         launch(args);
@@ -68,7 +73,6 @@ public class Main extends Application {
         itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
-//        scene.focusOwnerProperty();
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
@@ -111,6 +115,8 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-
+        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
+        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
+        inventoryListView.setItems(items);
     }
 }
