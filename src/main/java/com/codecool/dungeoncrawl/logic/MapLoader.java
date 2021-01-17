@@ -16,6 +16,10 @@ public class MapLoader {
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
+        int goUpX = scanner.nextInt();
+        int goUpY = scanner.nextInt();
+        int goDownX = scanner.nextInt();
+        int goDownY = scanner.nextInt();
 
         scanner.nextLine(); // empty line
 
@@ -67,6 +71,10 @@ public class MapLoader {
                 }
             }
         }
+        map.setGoUpX(goUpX);
+        map.setGoUpY(goUpY);
+        map.setGoDownX(goDownX);
+        map.setGoDownY(goDownY);
         return map;
     }
 
