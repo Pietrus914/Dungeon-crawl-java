@@ -1,10 +1,12 @@
 package com.codecool.dungeoncrawl;
 
-import com.codecool.dungeoncrawl.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +14,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -19,9 +22,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.io.File;
 import java.util.Objects;
+
 
 public class Main extends Application {
     ArrayList<GameMap> mapList = getLevels();
@@ -32,6 +37,7 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    ListView<String> inventoryListView = new ListView<String>();
 
     public static void main(String[] args) {
         launch(args);
@@ -46,14 +52,19 @@ public class Main extends Application {
         Button pickUpButton = new ButtonPickUp(map);
         HBox hbox = new HBox();
         hbox.getChildren().add(pickUpButton);
-        hbox.setPadding(new Insets(35, 0, 0, 0));
+        hbox.setPadding(new Insets(35, 0, 35, 0));
 //        hbox.alignmentProperty().setValue(Pos.CENTER);
         hbox.setAlignment(Pos.CENTER);
+
+        HBox inventoryHBox = new HBox(inventoryListView);
+        inventoryListView.setFocusTraversable(false);
 
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
-        ui.add(hbox, 0,1, 2,1);
+        ui.add(new Label("Inventory:"),0,2);
+        ui.add(inventoryHBox,0,3,2,1);
+        ui.add(hbox, 0,4, 2,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -112,6 +123,9 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
+        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
+        inventoryListView.setItems(items);
     }
 
     private ArrayList<GameMap> getLevels() {

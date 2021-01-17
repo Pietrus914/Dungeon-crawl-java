@@ -4,6 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.items.Helmet;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.ItemNames;
+import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 
 import java.util.ArrayList;
@@ -33,7 +35,8 @@ public class ItemsPlacer {
                 int y = RandomProvider.getRandomNumberOfRange(1,map.getHeight() -1);
                 Cell cell = map.getCell(x,y);
                 if (cell.canAddItem()){
-                    new Helmet(cell);  // for now only helmet is added randomly
+                    ItemsFactory.createItem(cell, ItemNames.HELMET); // for now only helmet is added randomly
+//                    new Helmet(cell);  // for now only helmet is added randomly
                     cellFound = true;
                     itemCounter ++;
                 }

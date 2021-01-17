@@ -1,4 +1,4 @@
-package com.codecool.dungeoncrawl.guiControllers;
+package com.codecool.dungeoncrawl.gui.guiControllers;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
@@ -20,7 +20,7 @@ public class ButtonPickUp extends Button {
             Item itemToGet = currentPlayerCell.getItem();
             currentPlayerCell.setItem(null);
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button PickUp pressed");
-
+            player.addToInventory(itemToGet);
         });
 
     }
