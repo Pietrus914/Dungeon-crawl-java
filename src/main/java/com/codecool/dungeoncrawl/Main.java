@@ -19,8 +19,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
+    ArrayList<GameMap> mapList = getLevels();
+    GameMap map = mapList.get(0);
     ItemsPlacer itemsPlacer = new ItemsPlacer(map);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -61,7 +66,6 @@ public class Main extends Application {
         itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
-//        scene.focusOwnerProperty();
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
@@ -71,18 +75,22 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
+                changeLevel();
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                changeLevel();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                changeLevel();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
+                changeLevel();
                 refresh();
                 break;
         }
@@ -104,5 +112,23 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+    }
+
+    private ArrayList<GameMap> getLevels() {
+        ArrayList<GameMap> levels = new ArrayList<>();
+        File folder = new File("src/main/resources/levels");
+        File[] listOfFiles = folder.listFiles();
+        for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
+            levels.add(MapLoader.loadMap("/levels/" + listOfFile.getName()));
+        }
+        return levels;
+    }
+
+    private void changeLevel() {
+        if (map.getPlayer().getCell().getTileName().equals("ladder up")) {
+            map = mapList.get(mapList.indexOf(map) + 1);
+        } else if (map.getPlayer().getCell().getTileName().equals("ladder down")) {
+            map = mapList.get(mapList.indexOf(map) - 1);
+        }
     }
 }
