@@ -2,15 +2,9 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Demon;
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
-import com.codecool.dungeoncrawl.logic.actors.Ghost;
-import com.codecool.dungeoncrawl.logic.items.Helmet;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MonsterPlacer {
     private GameMap map;
