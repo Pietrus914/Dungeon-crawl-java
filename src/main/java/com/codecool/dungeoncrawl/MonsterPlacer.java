@@ -11,8 +11,8 @@ public class MonsterPlacer {
 
     private int ghostCounter;
     private int demonCounter;
-    private int ghostNumber;
-    private int demonNumber;
+    private final int ghostNumber;
+    private final int demonNumber;
 
 
     public MonsterPlacer(GameMap map) {
