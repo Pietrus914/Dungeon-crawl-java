@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.items.Item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Inventory {
     private List<Item> inventoryList;
@@ -16,6 +17,13 @@ public class Inventory {
 
     public void add(Item item){
         inventoryList.add(item);
+    }
+
+    public List<String> getItems(){
+        List<String> itemsNames = inventoryList.stream()
+                .map(item -> item.getName())
+                .collect(Collectors.toList());
+        return itemsNames;
     }
 
 

@@ -1,9 +1,9 @@
 package com.codecool.dungeoncrawl;
 
-import com.codecool.dungeoncrawl.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,7 +17,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -49,7 +48,7 @@ public class Main extends Application {
         hbox.setAlignment(Pos.CENTER);
 
         HBox inventoryHBox = new HBox(inventoryListView);
-        inventoryListView.getItems().add("Inventory 1");
+        inventoryListView.setFocusTraversable(false);
 
 
         ui.add(new Label("Health: "), 0, 0);
@@ -112,7 +111,6 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-        
 
     }
 }
