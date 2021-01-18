@@ -76,7 +76,6 @@ public class Main extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
 
-
 //        itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -118,7 +117,7 @@ public class Main extends Application {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
-                } else if (cell.getItem() != null){
+                } else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y);
                 } else {
                     Tiles.drawTile(context, cell, x, y);
@@ -149,7 +148,9 @@ public class Main extends Application {
             }
 
             ItemsPlacer newItemPlacer = new ItemsPlacer(newMap,mapNumber );
+            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap,mapNumber);
             newItemPlacer.addItemsRandomly();
+            monsterPlacer.addAllMonsters();
         }
         return levels;
     }
