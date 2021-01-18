@@ -9,7 +9,7 @@ public class Gloves extends Item {
         super(cell, ItemNames.GLOVES);
 
         super.points = 4;
-        super.message = "New gloves added to inventory \n +" +  this.points + " to armor !";
+        super.message = "New gloves added to inventory \n +" +  this.points + " to strength !";
 
 
     }
@@ -21,6 +21,6 @@ public class Gloves extends Item {
 
     @Override
     public void getImpactOnPlayer() {
-        this.getCell().getActor().setArmor(points);
+        this.getCell().getActor().setStrength(points);
     }
 }

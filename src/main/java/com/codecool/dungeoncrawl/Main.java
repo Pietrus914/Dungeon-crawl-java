@@ -46,6 +46,8 @@ public class Main extends Application {
     ListView<String> inventoryListView = new ListView<String>();
     Button pickUpButton = new ButtonPickUp(map, inventoryListView);
     StatusLine status = new StatusLine("Let's start the game!");
+    HBox infoBox = new HBox(status);
+    HBox inventoryHBox = new HBox(inventoryListView);
 
 
     public static void main(String[] args) {
@@ -59,7 +61,6 @@ public class Main extends Application {
         ui.setPadding(new Insets(10));
 
         inventoryListView.setPrefHeight(240);
-        HBox inventoryHBox = new HBox(inventoryListView);
         inventoryListView.setFocusTraversable(false);
 
 
@@ -69,20 +70,8 @@ public class Main extends Application {
 
         CurrentStatus.getInstance().bind(status::setMessage);
 //        text.setFont(Font.font("arial",15));
-        HBox infoBox = new HBox(status);
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Strength: "), 0, 1);
-        ui.add(strengthLabel, 1, 1);
-        ui.add(new Label("Armor: "), 0, 2);
-        ui.add(armorLabel, 1, 2);
-
-        ui.add(new Label("Inventory: "),0,3);
-        ui.add(inventoryHBox,0,4,2,1);
-        ui.add(hbox, 0,5, 2,1);
-        ui.add(new Label("Status: "), 0, 6);
-        ui.add(infoBox,0,7,2,1);
+        uiAddElements(ui);
 
         BorderPane borderPane = new BorderPane();
 
@@ -97,6 +86,21 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+    }
+
+    private void uiAddElements(GridPane ui){
+        ui.add(new Label("Health: "), 0, 0);
+        ui.add(healthLabel, 1, 0);
+        ui.add(new Label("Strength: "), 0, 1);
+        ui.add(strengthLabel, 1, 1);
+        ui.add(new Label("Armor: "), 0, 2);
+        ui.add(armorLabel, 1, 2);
+
+        ui.add(new Label("Inventory: "),0,3);
+        ui.add(inventoryHBox,0,4,2,1);
+        ui.add(hbox, 0,5, 2,1);
+        ui.add(new Label("Status: "), 0, 6);
+        ui.add(infoBox,0,7,2,1);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {

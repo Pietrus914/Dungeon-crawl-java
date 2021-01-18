@@ -6,7 +6,7 @@ public class Sword extends Item{
     public Sword(Cell cell) {
         super(cell, ItemNames.SWORD);
         super.points = 4;
-        super.message = "New sword added to inventory \n +" + this.points +" to armor !";
+        super.message = "New sword added to inventory \n +" + this.points +" to strength !";
     }
 
     @Override
@@ -16,6 +16,6 @@ public class Sword extends Item{
 
     @Override
     public void getImpactOnPlayer() {
-        this.getCell().getActor().setArmor(points);
+        this.getCell().getActor().setStrength(points);
     }
 }

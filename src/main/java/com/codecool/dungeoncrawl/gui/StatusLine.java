@@ -3,7 +3,6 @@ package com.codecool.dungeoncrawl.gui;
 import javafx.scene.text.Text;
 
 public class StatusLine extends Text {
-//    private String message;
     private static int counter = 0;
 
     public StatusLine(String message){
@@ -11,9 +10,6 @@ public class StatusLine extends Text {
         this.setWrappingWidth(190);
     }
 
-//    public String getMessage() {
-//        return message;
-//    }
 
     public void setMessage(String message) {
         if (counter < 7){
