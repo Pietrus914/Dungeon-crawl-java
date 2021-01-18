@@ -8,10 +8,7 @@ public class StatusLine extends Text {
 
     public StatusLine(String message){
         this.setText(message);
-
     }
-
-
 
 //    public String getMessage() {
 //        return message;

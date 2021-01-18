@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.gui.guiControllers;
 
 import com.codecool.dungeoncrawl.Tiles;
+import com.codecool.dungeoncrawl.gui.StatusLine;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CurrentStatus;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
@@ -44,7 +46,7 @@ public class ButtonPickUp extends Button {
         Cell currentPlayerCell = player.getCell();
         Item itemToGet = currentPlayerCell.getItem();
         currentPlayerCell.setItem(null);
-
+        CurrentStatus.getInstance().setStatus("New item found!");
         player.addToInventory(itemToGet);
     }
 
