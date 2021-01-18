@@ -26,11 +26,9 @@ public class ButtonPickUp extends Button {
             currentPlayerCell.setItem(null);
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button PickUp pressed");
             player.addToInventory(itemToGet);
-            ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
+            ArrayList<String> itemsNames = map.getPlayer().getInventoryItemsNames();
             ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
             inventoryListView.setItems(items);
         });
-
     }
-
 }
