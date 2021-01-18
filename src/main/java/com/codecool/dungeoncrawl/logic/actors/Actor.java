@@ -19,12 +19,6 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-        } else if (nextCell.getType().equals(CellType.DOWN) || nextCell.getType().equals(CellType.UP)) {
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
-        } else if (nextCell.getType().equals(CellType.DOOR)) {
-            nextCell.setType(CellType.OPENDOOR);
         } else {
             throw new IllegalStateException("You shall not pass !");
         }
@@ -48,6 +42,10 @@ public abstract class Actor implements Drawable {
     }
 
     public void setCellForActor(Cell cell){
+        this.cell = cell;
+    }
+
+    public void setCell(Cell cell) {
         this.cell = cell;
     }
 }

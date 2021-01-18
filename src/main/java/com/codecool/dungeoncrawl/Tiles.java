@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.items.ItemNames;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
