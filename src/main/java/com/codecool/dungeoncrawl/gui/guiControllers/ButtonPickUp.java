@@ -46,7 +46,7 @@ public class ButtonPickUp extends Button {
         Cell currentPlayerCell = player.getCell();
         Item itemToGet = currentPlayerCell.getItem();
         currentPlayerCell.setItem(null);
-        CurrentStatus.getInstance().setStatus("New item found!");
+        CurrentStatus.getInstance().setStatus(itemToGet.getMessage());
         player.addToInventory(itemToGet);
     }
 

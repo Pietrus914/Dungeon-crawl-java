@@ -8,6 +8,7 @@ public class StatusLine extends Text {
 
     public StatusLine(String message){
         this.setText(message);
+        this.setWrappingWidth(190);
     }
 
 //    public String getMessage() {

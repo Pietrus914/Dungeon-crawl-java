@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.Drawable;
 
 public abstract class Item implements Drawable {
     private final ItemNames itemName;
+    protected String message;
     private Cell cell;
 
     public Item(Cell cell, ItemNames itemName){
@@ -30,4 +31,8 @@ public abstract class Item implements Drawable {
     public String getName() {
         return itemName.getItemName();
     }
+
+    public String getMessage(){
+        return message;
+    };
 }
