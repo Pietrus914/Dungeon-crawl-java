@@ -11,6 +11,6 @@ public class Key extends Item {
 
     @Override
     public String getTileName() {
-        return "key";
+        return ItemNames.KEY.getItemName();
     }
 }

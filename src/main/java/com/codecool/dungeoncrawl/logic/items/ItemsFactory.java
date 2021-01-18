@@ -17,6 +17,18 @@ public class ItemsFactory {
             case HELMET:
                 newItem = new Helmet(cell);
                 break;
+            case SHIELD:
+                newItem = new Shield(cell);
+                break;
+            case MEAT:
+                newItem = new Meat(cell);
+                break;
+            case GLOVES:
+                newItem = new Gloves(cell);
+                break;
+            case MEDICINE:
+                newItem = new Medicine(cell);
+                break;
             default:
                 throw new IllegalArgumentException("itemName not available");
         }

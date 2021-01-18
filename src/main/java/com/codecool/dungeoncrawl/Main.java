@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +24,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
 import java.util.Objects;
 
@@ -31,7 +31,7 @@ import java.util.Objects;
 public class Main extends Application {
     ArrayList<GameMap> mapList = getLevels();
     GameMap map = mapList.get(0);
-    ItemsPlacer itemsPlacer = new ItemsPlacer(map);
+//    ItemsPlacer itemsPlacer = new ItemsPlacer(map);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -49,15 +49,17 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        Button pickUpButton = new ButtonPickUp(map);
+
+
+        HBox inventoryHBox = new HBox(inventoryListView);
+        inventoryListView.setFocusTraversable(false);
+
+        Button pickUpButton = new ButtonPickUp(map, inventoryListView);
         HBox hbox = new HBox();
         hbox.getChildren().add(pickUpButton);
         hbox.setPadding(new Insets(35, 0, 35, 0));
 //        hbox.alignmentProperty().setValue(Pos.CENTER);
         hbox.setAlignment(Pos.CENTER);
-
-        HBox inventoryHBox = new HBox(inventoryListView);
-        inventoryListView.setFocusTraversable(false);
 
 
         ui.add(new Label("Health: "), 0, 0);
@@ -74,7 +76,7 @@ public class Main extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
 
-        itemsPlacer.addItemsRandomly();
+//        itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -115,7 +117,7 @@ public class Main extends Application {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
-                } else if (cell.getItem() != null){
+                } else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y);
                 } else {
                     Tiles.drawTile(context, cell, x, y);
@@ -123,9 +125,9 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
-        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
-        inventoryListView.setItems(items);
+//        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
+//        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
+//        inventoryListView.setItems(items);
     }
 
     private ArrayList<GameMap> getLevels() {
@@ -133,16 +135,43 @@ public class Main extends Application {
         File folder = new File("src/main/resources/levels");
         File[] listOfFiles = folder.listFiles();
         for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
-            levels.add(MapLoader.loadMap("/levels/" + listOfFile.getName()));
+            String fileName = listOfFile.getName();
+            GameMap newMap = MapLoader.loadMap("/levels/" + fileName);
+            levels.add(newMap);
+            int mapNumber = 0;
+            try {
+                mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length()-5)));
+                System.out.println(fileName);
+                System.out.println(mapNumber);
+            } catch (Exception e){
+                mapNumber = 1;
+            }
+
+            ItemsPlacer newItemPlacer = new ItemsPlacer(newMap,mapNumber );
+            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap,mapNumber);
+            newItemPlacer.addItemsRandomly();
+            monsterPlacer.addAllMonsters();
         }
         return levels;
     }
 
     private void changeLevel() {
+
         if (map.getPlayer().getCell().getTileName().equals("ladder up")) {
+            Player samePlayer = map.getPlayer();
             map = mapList.get(mapList.indexOf(map) + 1);
+            map.setPlayer(samePlayer);
+            map.getCell(map.getGoDownX(), map.getGoDownY()).setActor(samePlayer);
+            samePlayer.setCellForActor(map.getCell(map.getGoDownX(), map.getGoDownY()));
         } else if (map.getPlayer().getCell().getTileName().equals("ladder down")) {
+            Player samePlayer = map.getPlayer();
             map = mapList.get(mapList.indexOf(map) - 1);
+            map.setPlayer(samePlayer);
+            map.getCell(map.getGoUpX(), map.getGoUpY()).setActor(samePlayer);
+            samePlayer.setCellForActor(map.getCell(map.getGoUpX(), map.getGoUpY()));
+
         }
+
+
     }
 }
