@@ -6,7 +6,10 @@ import com.codecool.dungeoncrawl.logic.Drawable;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
+
     private int health = 10;
+    private int strength = 1;
+    private int armor = 0;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -27,6 +30,26 @@ public abstract class Actor implements Drawable {
             throw new IllegalStateException("You shall not pass !");
         }
 
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getArmor() {
+        return armor;
     }
 
     public int getHealth() {
