@@ -6,6 +6,8 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,6 +32,8 @@ import java.util.Objects;
 public class Main extends Application {
     ArrayList<GameMap> mapList = getLevels();
     GameMap map = mapList.get(0);
+    GameCamera gameCamera = new GameCamera(map, 0, 0);
+//    ItemsPlacer itemsPlacer = new ItemsPlacer(map);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -54,6 +58,7 @@ public class Main extends Application {
         HBox inventoryHBox = new HBox(inventoryListView);
         inventoryListView.setFocusTraversable(false);
 
+        Button pickUpButton = new ButtonPickUp(map, inventoryListView);
         HBox hbox = new HBox();
         hbox.getChildren().add(pickUpButton);
         hbox.setPadding(new Insets(35, 0, 35, 0));
@@ -81,6 +86,7 @@ public class Main extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
 
+//        itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -116,15 +122,16 @@ public class Main extends Application {
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gameCamera.centerOnEntity(map.getPlayer());
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
+                    Tiles.drawTile(context, cell.getActor(), x, y, gameCamera);
                 } else if (cell.getItem() != null) {
-                    Tiles.drawTile(context, cell.getItem(), x, y);
+                    Tiles.drawTile(context, cell.getItem(), x, y, gameCamera);
                 } else {
-                    Tiles.drawTile(context, cell, x, y);
+                    Tiles.drawTile(context, cell, x, y, gameCamera);
                 }
             }
         }
@@ -151,6 +158,8 @@ public class Main extends Application {
             int mapNumber = 0;
             try {
                 mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length()-5)));
+                System.out.println(fileName);
+                System.out.println(mapNumber);
             } catch (Exception e){
                 mapNumber = 1;
             }

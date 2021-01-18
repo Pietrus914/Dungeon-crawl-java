@@ -40,12 +40,14 @@ public class Tiles {
         tileMap.put(ItemNames.GLOVES.getItemName(), new Tile(10,22));
         tileMap.put(ItemNames.MEDICINE.getItemName(), new Tile(25, 23));
         tileMap.put(ItemNames.MEAT.getItemName(), new Tile(17, 28));
+        tileMap.put("door", new Tile(12, 17));
+        tileMap.put("open door", new Tile(13, 17));
     }
 
-    public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {
+    public static void drawTile(GraphicsContext context, Drawable d, int x, int y, GameCamera gameCamera) {
         Tile tile = tileMap.get(d.getTileName());
         context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,
-                x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+            (int) (x * TILE_WIDTH - gameCamera.getXOffset()), (int) (y * TILE_WIDTH - gameCamera.getYOffset()), TILE_WIDTH, TILE_WIDTH);
     }
 
     public static Tile getTile(String itemName){
