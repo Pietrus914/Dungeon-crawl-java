@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.gui.StatusLine;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
@@ -41,7 +42,7 @@ public class Main extends Application {
     HBox hbox = new HBox();
     ListView<String> inventoryListView = new ListView<String>();
     Button pickUpButton = new ButtonPickUp(map, inventoryListView);
-    Text text = new Text("Let's start the game!");
+    StatusLine status = new StatusLine("Let's start the game!");
 
     public static void main(String[] args) {
         launch(args);
@@ -63,7 +64,7 @@ public class Main extends Application {
         hbox.setAlignment(Pos.CENTER);
 
 //        text.setFont(Font.font("arial",15));
-        HBox infoBox = new HBox(text);
+        HBox infoBox = new HBox(status);
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);

@@ -31,6 +31,7 @@ public class ButtonPickUp extends Button {
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button PickUp pressed");
             addToInventory();
 
+
             ArrayList<String> itemsNames = player.getInventoryItemsNames();
             ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
 
