@@ -23,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Objects;
@@ -39,6 +40,10 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     ListView<String> inventoryListView = new ListView<String>();
+    Button pickUpButton = new ButtonPickUp(map, inventoryListView);
+
+
+
 
     public static void main(String[] args) {
         launch(args);
@@ -49,8 +54,6 @@ public class Main extends Application {
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
-
-
 
         HBox inventoryHBox = new HBox(inventoryListView);
         inventoryListView.setFocusTraversable(false);
@@ -63,11 +66,17 @@ public class Main extends Application {
         hbox.setAlignment(Pos.CENTER);
 
 
+
+        HBox tileInventoryBox = new HBox();
+
+
+
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
         ui.add(new Label("Inventory:"),0,2);
         ui.add(inventoryHBox,0,3,2,1);
         ui.add(hbox, 0,4, 2,1);
+        ui.add(tileInventoryBox,0,5,2,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -127,9 +136,15 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-//        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
-//        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
-//        inventoryListView.setItems(items);
+        setButtonDisable(map.getPlayer().getCell());
+    }
+
+    private void setButtonDisable(Cell cell) {
+        if (cell.getActor().getTileName().equals("player") && cell.getItem() != null){
+            pickUpButton.setDisable(false);
+        } else {
+            pickUpButton.setDisable(true);
+        }
     }
 
     private ArrayList<GameMap> getLevels() {

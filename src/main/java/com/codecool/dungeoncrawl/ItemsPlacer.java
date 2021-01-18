@@ -2,15 +2,11 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.items.Helmet;
-import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.ItemNames;
 import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ItemsPlacer {
@@ -24,20 +20,11 @@ public class ItemsPlacer {
 
     private GameMap map;
 
-//    private int itemCounter;
     private int mapNumber;
-//    private int itemsNumber = 3;
-
-
-
-
-
 
     public ItemsPlacer(GameMap map, int mapNumber) {
         this.map = map;
         this.mapNumber = setMapNumber(mapNumber);
-//        this.itemsNumber = setItemsNumber(mapNumber);
-//        this.itemCounter = 0;
     }
 
     private int setMapNumber(int mapNumber) {
@@ -64,19 +51,10 @@ public class ItemsPlacer {
                 int y = RandomProvider.getRandomNumberOfRange(1,map.getHeight() -1);
                 Cell cell = map.getCell(x,y);
                 if (cell.canAddItem()){
-//                    ItemsFactory.createItem(cell, ItemNames.HELMET); // for now only helmet is added randomly
                     ItemsFactory.createItem(cell, name);
                     cellFound = true;
-//                    itemCounter ++;
                 }
             }
         }
-
-
     }
-
-//    private boolean enoughItems(){
-//        return itemCounter >= itemsNumber;
-//    }
-
 }

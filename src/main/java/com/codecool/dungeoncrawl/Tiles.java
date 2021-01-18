@@ -49,4 +49,14 @@ public class Tiles {
         context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,
             (int) (x * TILE_WIDTH - gameCamera.getXOffset()), (int) (y * TILE_WIDTH - gameCamera.getYOffset()), TILE_WIDTH, TILE_WIDTH);
     }
+
+    public static Tile getTile(String itemName){
+        return tileMap.get(itemName);
+    }
+
+    public static void drawTileInInventory(GraphicsContext context, String name,int x,int y){
+        Tile tile = getTile(name);
+        context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,
+                x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+    }
 }
