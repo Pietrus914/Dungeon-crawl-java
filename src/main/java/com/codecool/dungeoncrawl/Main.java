@@ -40,6 +40,8 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Label strengthLabel = new Label();
+    Label armorLabel = new Label();
     HBox hbox = new HBox();
     ListView<String> inventoryListView = new ListView<String>();
     Button pickUpButton = new ButtonPickUp(map, inventoryListView);
@@ -71,11 +73,16 @@ public class Main extends Application {
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Inventory: "),0,2);
-        ui.add(inventoryHBox,0,3,2,1);
-        ui.add(hbox, 0,4, 2,1);
-        ui.add(new Label("Status: "), 0, 5);
-        ui.add(infoBox,0,6,2,1);
+        ui.add(new Label("Strength: "), 0, 1);
+        ui.add(strengthLabel, 1, 1);
+        ui.add(new Label("Armor: "), 0, 2);
+        ui.add(armorLabel, 1, 2);
+
+        ui.add(new Label("Inventory: "),0,3);
+        ui.add(inventoryHBox,0,4,2,1);
+        ui.add(hbox, 0,5, 2,1);
+        ui.add(new Label("Status: "), 0, 6);
+        ui.add(infoBox,0,7,2,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -133,7 +140,10 @@ public class Main extends Application {
                 }
             }
         }
+
         healthLabel.setText("" + map.getPlayer().getHealth());
+        strengthLabel.setText("" + map.getPlayer().getStrength());
+        armorLabel.setText(""+ map.getPlayer().getArmor());
         setButtonDisable(map.getPlayer().getCell());
     }
 

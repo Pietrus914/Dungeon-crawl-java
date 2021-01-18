@@ -34,16 +34,16 @@ public abstract class Actor implements Drawable {
 
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setHealth(int points) {
+        this.health += points;
     }
 
-    public void setStrength(int strength) {
-        this.strength = strength;
+    public void setStrength(int points) {
+        this.strength += points;
     }
 
-    public void setArmor(int armor) {
-        this.armor = armor;
+    public void setArmor(int points) {
+        this.armor += points;
     }
 
     public int getStrength() {

@@ -16,7 +16,7 @@ public class StatusLine extends Text {
 //    }
 
     public void setMessage(String message) {
-        if (counter < 3){
+        if (counter < 7){
             this.setText(message);
         } else {
             this.setText("");

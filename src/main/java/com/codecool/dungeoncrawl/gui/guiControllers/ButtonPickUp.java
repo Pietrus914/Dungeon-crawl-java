@@ -48,6 +48,7 @@ public class ButtonPickUp extends Button {
         currentPlayerCell.setItem(null);
         CurrentStatus.getInstance().setStatus(itemToGet.getMessage());
         player.addToInventory(itemToGet);
+        itemToGet.getImpactOnPlayer();
     }
 
     private void addIconsToListView(ListView<String> inventoryListView){
