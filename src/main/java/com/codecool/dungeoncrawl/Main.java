@@ -28,12 +28,10 @@ import java.util.ArrayList;
 import java.io.File;
 import java.util.Objects;
 
-
 public class Main extends Application {
     ArrayList<GameMap> mapList = getLevels();
     GameMap map = mapList.get(0);
     GameCamera gameCamera = new GameCamera(map, 0, 0);
-//    ItemsPlacer itemsPlacer = new ItemsPlacer(map);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -41,9 +39,6 @@ public class Main extends Application {
     Label healthLabel = new Label();
     ListView<String> inventoryListView = new ListView<String>();
     Button pickUpButton = new ButtonPickUp(map, inventoryListView);
-
-
-
 
     public static void main(String[] args) {
         launch(args);
@@ -58,18 +53,12 @@ public class Main extends Application {
         HBox inventoryHBox = new HBox(inventoryListView);
         inventoryListView.setFocusTraversable(false);
 
-        Button pickUpButton = new ButtonPickUp(map, inventoryListView);
         HBox hbox = new HBox();
         hbox.getChildren().add(pickUpButton);
         hbox.setPadding(new Insets(35, 0, 35, 0));
-//        hbox.alignmentProperty().setValue(Pos.CENTER);
         hbox.setAlignment(Pos.CENTER);
 
-
-
         HBox tileInventoryBox = new HBox();
-
-
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
@@ -86,7 +75,6 @@ public class Main extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
 
-//        itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -140,11 +128,7 @@ public class Main extends Application {
     }
 
     private void setButtonDisable(Cell cell) {
-        if (cell.getActor().getTileName().equals("player") && cell.getItem() != null){
-            pickUpButton.setDisable(false);
-        } else {
-            pickUpButton.setDisable(true);
-        }
+        pickUpButton.setDisable(!cell.getActor().getTileName().equals("player") || cell.getItem() == null);
     }
 
     private ArrayList<GameMap> getLevels() {
@@ -188,7 +172,5 @@ public class Main extends Application {
             samePlayer.setCellForActor(map.getCell(map.getGoUpX(), map.getGoUpY()));
 
         }
-
-
     }
 }

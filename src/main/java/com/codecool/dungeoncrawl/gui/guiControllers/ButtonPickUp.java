@@ -27,7 +27,6 @@ public class ButtonPickUp extends Button {
         this.player = map.getPlayer();
         this.setTooltip(new Tooltip("Add item to your inventory"));
         this.setFocusTraversable(false);
-//        this.setDisable(true);
         this.setOnAction(ignoreEvent -> {
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button PickUp pressed");
             addToInventory();
