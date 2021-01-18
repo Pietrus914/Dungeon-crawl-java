@@ -24,7 +24,15 @@ public class Player extends Actor {
         inventory.add(item);
     }
 
-    public ArrayList<String> getInventoryItems(){
+    public ArrayList<String> getInventoryItemsNames(){
+        return inventory.getItemsNames();
+    }
+
+    public ArrayList<Item> getInventoryItems(){
         return inventory.getItems();
+    }
+
+    public void removeItemFromInventory(Item item){
+        inventory.remove(item);
     }
 }
