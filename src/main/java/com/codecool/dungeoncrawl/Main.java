@@ -6,8 +6,6 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,9 +19,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Objects;
@@ -37,8 +38,10 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    HBox hbox = new HBox();
     ListView<String> inventoryListView = new ListView<String>();
     Button pickUpButton = new ButtonPickUp(map, inventoryListView);
+    Text text = new Text("Let's start the game!");
 
     public static void main(String[] args) {
         launch(args);
@@ -50,22 +53,25 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
+        inventoryListView.setPrefHeight(240);
         HBox inventoryHBox = new HBox(inventoryListView);
         inventoryListView.setFocusTraversable(false);
 
-        HBox hbox = new HBox();
+
         hbox.getChildren().add(pickUpButton);
         hbox.setPadding(new Insets(35, 0, 35, 0));
         hbox.setAlignment(Pos.CENTER);
 
-        HBox tileInventoryBox = new HBox();
+//        text.setFont(Font.font("arial",15));
+        HBox infoBox = new HBox(text);
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Inventory:"),0,2);
+        ui.add(new Label("Inventory: "),0,2);
         ui.add(inventoryHBox,0,3,2,1);
         ui.add(hbox, 0,4, 2,1);
-        ui.add(tileInventoryBox,0,5,2,1);
+        ui.add(new Label("Status: "), 0, 5);
+        ui.add(infoBox,0,6,2,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -142,8 +148,6 @@ public class Main extends Application {
             int mapNumber = 0;
             try {
                 mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length()-5)));
-                System.out.println(fileName);
-                System.out.println(mapNumber);
             } catch (Exception e){
                 mapNumber = 1;
             }
