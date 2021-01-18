@@ -29,35 +29,42 @@ public class ButtonPickUp extends Button {
         this.setFocusTraversable(false);
         this.setDisable(true);
         this.setOnAction(ignoreEvent -> {
-            Cell currentPlayerCell = player.getCell();
-            Item itemToGet = currentPlayerCell.getItem();
-            currentPlayerCell.setItem(null);
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button PickUp pressed");
-            player.addToInventory(itemToGet);
+            addToInventory();
 
-            ArrayList<String> itemsNames = map.getPlayer().getInventoryItemsNames();
+            ArrayList<String> itemsNames = player.getInventoryItemsNames();
             ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
 
-
             inventoryListView.setItems(items);
-            inventoryListView.setCellFactory(param -> new ListCell<String>(){
-                private ImageView displayImage = new ImageView();
-                @Override
-                public void updateItem(String name, boolean empty){
-                    super.updateItem(name, empty);
-                    if (empty){
-                        setText(null);
-                        setGraphic(null);
-                    } else {
-                        Canvas canvas = new Canvas(Tiles.TILE_WIDTH, Tiles.TILE_WIDTH);
-                        GraphicsContext context = canvas.getGraphicsContext2D();
-                        context.fillRect(0,0,1,1);
-                        Tiles.drawTileInInventory(context,name, 0,0);
-                        setText(name);
-                        setGraphic(canvas);
-                    }
+            addIconsToListView(inventoryListView);
+        });
+    }
+
+    private void addToInventory(){
+        Cell currentPlayerCell = player.getCell();
+        Item itemToGet = currentPlayerCell.getItem();
+        currentPlayerCell.setItem(null);
+
+        player.addToInventory(itemToGet);
+    }
+
+    private void addIconsToListView(ListView<String> inventoryListView){
+        inventoryListView.setCellFactory(param -> new ListCell<String>(){
+            @Override
+            public void updateItem(String name, boolean empty){
+                super.updateItem(name, empty);
+                if (empty){
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    Canvas canvas = new Canvas(Tiles.TILE_WIDTH, Tiles.TILE_WIDTH);
+                    GraphicsContext context = canvas.getGraphicsContext2D();
+                    context.fillRect(0,0,1,1);
+                    Tiles.drawTileInInventory(context,name, 0,0);
+                    setText(name);
+                    setGraphic(canvas);
                 }
-            });
+            }
         });
     }
 }

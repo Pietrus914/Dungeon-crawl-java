@@ -151,8 +151,6 @@ public class Main extends Application {
             int mapNumber = 0;
             try {
                 mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length()-5)));
-                System.out.println(fileName);
-                System.out.println(mapNumber);
             } catch (Exception e){
                 mapNumber = 1;
             }
