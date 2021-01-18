@@ -38,6 +38,7 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     ListView<String> inventoryListView = new ListView<String>();
+    Button pickUpButton = new ButtonPickUp(map, inventoryListView);
 
     public static void main(String[] args) {
         launch(args);
@@ -49,12 +50,9 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-
-
         HBox inventoryHBox = new HBox(inventoryListView);
         inventoryListView.setFocusTraversable(false);
 
-        Button pickUpButton = new ButtonPickUp(map, inventoryListView);
         HBox hbox = new HBox();
         hbox.getChildren().add(pickUpButton);
         hbox.setPadding(new Insets(35, 0, 35, 0));
@@ -125,9 +123,15 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-//        ArrayList<String> itemsNames = map.getPlayer().getInventoryItems();
-//        ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
-//        inventoryListView.setItems(items);
+        setButtonDisable(map.getPlayer().getCell());
+    }
+
+    private void setButtonDisable(Cell cell) {
+        if (cell.getActor().getTileName().equals("player") && cell.getItem() != null){
+            pickUpButton.setDisable(false);
+        } else {
+            pickUpButton.setDisable(true);
+        }
     }
 
     private ArrayList<GameMap> getLevels() {
