@@ -17,6 +17,6 @@ public class Medicine extends Item {
 
     @Override
     public void getImpactOnPlayer() {
-        this.getCell().getActor().setHealth(points);
+        this.getCell().getActor().increaseHealth(points);
     }
 }

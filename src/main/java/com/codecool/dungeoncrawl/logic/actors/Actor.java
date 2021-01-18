@@ -4,12 +4,16 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
+import java.util.function.Consumer;
+
 public abstract class Actor implements Drawable {
     private Cell cell;
-
     private int health = 10;
     private int strength = 1;
     private int armor = 0;
+    private Consumer<Integer> onHealthChange = null;
+    private Consumer<Integer> onStrengthChange = null;
+    private Consumer<Integer> onArmorChange = null;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -34,16 +38,37 @@ public abstract class Actor implements Drawable {
 
     }
 
-    public void setHealth(int points) {
+    public void setOnHealthChange(Consumer<Integer> onHealthChange){
+        this.onHealthChange = onHealthChange;
+    }
+
+    public void increaseHealth(int points) {
         this.health += points;
+        if (this.onHealthChange != null){
+            this.onHealthChange.accept(this.health);
+        }
     }
 
-    public void setStrength(int points) {
+    public void setOnStrengthChange(Consumer<Integer> onStrengthChange){
+        this.onStrengthChange = onStrengthChange;
+    }
+
+    public void increaseStrength(int points) {
         this.strength += points;
+        if (this.onStrengthChange != null){
+            this.onStrengthChange.accept(this.strength);
+        }
     }
 
-    public void setArmor(int points) {
+    public void setOnArmorChange(Consumer<Integer> onArmorChange){
+        this.onArmorChange = onArmorChange;
+    }
+
+    public void increaseArmor(int points) {
         this.armor += points;
+        if (this.onArmorChange != null){
+            this.onArmorChange.accept(this.armor);
+        }
     }
 
     public int getStrength() {

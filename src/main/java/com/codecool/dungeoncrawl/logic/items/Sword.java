@@ -16,6 +16,6 @@ public class Sword extends Item{
 
     @Override
     public void getImpactOnPlayer() {
-        this.getCell().getActor().setStrength(points);
+        this.getCell().getActor().increaseStrength(points);
     }
 }

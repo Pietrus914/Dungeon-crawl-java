@@ -17,6 +17,6 @@ public class Helmet extends Item {
 
     @Override
     public void getImpactOnPlayer() {
-        this.getCell().getActor().setArmor(points);
+        this.getCell().getActor().increaseArmor(points);
     }
 }

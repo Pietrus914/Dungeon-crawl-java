@@ -24,4 +24,6 @@ public class CurrentStatus {
     public void bind(Consumer<String> updatingMessage) {
         this.updatingMessage = updatingMessage;
     }
+
+
 }

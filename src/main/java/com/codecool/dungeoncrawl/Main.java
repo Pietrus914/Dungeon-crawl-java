@@ -69,9 +69,14 @@ public class Main extends Application {
         hbox.setAlignment(Pos.CENTER);
 
         CurrentStatus.getInstance().bind(status::setMessage);
-//        text.setFont(Font.font("arial",15));
+        map.getPlayer().setOnHealthChange((Integer health) -> healthLabel.setText("" + health));
+        map.getPlayer().setOnStrengthChange((Integer strength) -> strengthLabel.setText("" + strength));
+        map.getPlayer().setOnArmorChange((Integer armor) -> armorLabel.setText("" + armor));
 
         uiAddElements(ui);
+        healthLabel.setText("" + map.getPlayer().getHealth());
+        strengthLabel.setText("" + map.getPlayer().getStrength());
+        armorLabel.setText(""+ map.getPlayer().getArmor());
 
         BorderPane borderPane = new BorderPane();
 
@@ -144,10 +149,6 @@ public class Main extends Application {
                 }
             }
         }
-
-        healthLabel.setText("" + map.getPlayer().getHealth());
-        strengthLabel.setText("" + map.getPlayer().getStrength());
-        armorLabel.setText(""+ map.getPlayer().getArmor());
         setButtonDisable(map.getPlayer().getCell());
     }
 
