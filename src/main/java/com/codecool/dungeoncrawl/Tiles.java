@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.items.ItemNames;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -43,9 +44,9 @@ public class Tiles {
         tileMap.put("open door", new Tile(13, 17));
     }
 
-    public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {
+    public static void drawTile(GraphicsContext context, Drawable d, int x, int y, GameCamera gameCamera) {
         Tile tile = tileMap.get(d.getTileName());
         context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,
-                x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+            (int) (x * TILE_WIDTH - gameCamera.getXOffset()), (int) (y * TILE_WIDTH - gameCamera.getYOffset()), TILE_WIDTH, TILE_WIDTH);
     }
 }
