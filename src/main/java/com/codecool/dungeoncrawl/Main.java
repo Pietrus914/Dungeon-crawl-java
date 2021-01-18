@@ -6,8 +6,6 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Objects;
@@ -31,7 +30,6 @@ import java.util.Objects;
 public class Main extends Application {
     ArrayList<GameMap> mapList = getLevels();
     GameMap map = mapList.get(0);
-//    ItemsPlacer itemsPlacer = new ItemsPlacer(map);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -39,6 +37,9 @@ public class Main extends Application {
     Label healthLabel = new Label();
     ListView<String> inventoryListView = new ListView<String>();
     Button pickUpButton = new ButtonPickUp(map, inventoryListView);
+
+
+
 
     public static void main(String[] args) {
         launch(args);
@@ -60,11 +61,17 @@ public class Main extends Application {
         hbox.setAlignment(Pos.CENTER);
 
 
+
+        HBox tileInventoryBox = new HBox();
+
+
+
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
         ui.add(new Label("Inventory:"),0,2);
         ui.add(inventoryHBox,0,3,2,1);
         ui.add(hbox, 0,4, 2,1);
+        ui.add(tileInventoryBox,0,5,2,1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -74,7 +81,6 @@ public class Main extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
 
-//        itemsPlacer.addItemsRandomly();
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
