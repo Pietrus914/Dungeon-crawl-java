@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class Player extends Actor {
 
+    private String name;
     private Inventory inventory;
 
     public Player(Cell cell) {
@@ -37,6 +38,16 @@ public class Player extends Actor {
 
     public void removeItemFromInventory(Item item){
         inventory.remove(item);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
