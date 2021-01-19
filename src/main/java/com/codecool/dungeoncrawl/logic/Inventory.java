@@ -19,7 +19,7 @@ public class Inventory {
         inventoryList.add(item);
     }
 
-    public ArrayList<String> getItems(){
+    public ArrayList<String> getItemsNames(){
         List<String> itemsNames = inventoryList.stream()
                 .map(Item::getName)
                 .collect(Collectors.toList());
@@ -27,4 +27,11 @@ public class Inventory {
     }
 
 
+    public void remove(Item item) {
+        inventoryList.remove(item);
+    }
+
+    public ArrayList<Item> getItems() {
+        return (ArrayList<Item>) inventoryList;
+    }
 }

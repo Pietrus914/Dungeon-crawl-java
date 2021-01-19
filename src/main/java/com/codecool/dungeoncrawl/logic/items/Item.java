@@ -5,7 +5,9 @@ import com.codecool.dungeoncrawl.logic.Drawable;
 
 public abstract class Item implements Drawable {
     private final ItemNames itemName;
+    protected String message;
     private Cell cell;
+    protected int points;
 
     public Item(Cell cell, ItemNames itemName){
         this.cell = cell;
@@ -30,4 +32,10 @@ public abstract class Item implements Drawable {
     public String getName() {
         return itemName.getItemName();
     }
+
+    public String getMessage(){
+        return message;
+    };
+
+    public void getImpactOnPlayer(){};
 }

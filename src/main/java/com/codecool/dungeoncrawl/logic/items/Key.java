@@ -6,6 +6,7 @@ public class Key extends Item {
 
     public Key(Cell cell){
         super(cell, ItemNames.KEY );
+        super.message = "Key to secret door added to inventory";
 
     }
 
@@ -13,4 +14,6 @@ public class Key extends Item {
     public String getTileName() {
         return ItemNames.KEY.getItemName();
     }
+
+
 }
