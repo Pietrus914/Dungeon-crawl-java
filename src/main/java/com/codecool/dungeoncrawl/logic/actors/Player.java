@@ -35,4 +35,5 @@ public class Player extends Actor {
     public void removeItemFromInventory(Item item){
         inventory.remove(item);
     }
-}
+
+  }

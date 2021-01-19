@@ -1,13 +1,13 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.gui.StatusLine;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CurrentStatus;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,9 +21,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Objects;
@@ -37,8 +40,15 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Label strengthLabel = new Label();
+    Label armorLabel = new Label();
+    HBox hbox = new HBox();
     ListView<String> inventoryListView = new ListView<String>();
     Button pickUpButton = new ButtonPickUp(map, inventoryListView);
+    StatusLine status = new StatusLine("Let's start the game!");
+    HBox infoBox = new HBox(status);
+    HBox inventoryHBox = new HBox(inventoryListView);
+
 
     public static void main(String[] args) {
         launch(args);
@@ -50,22 +60,23 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        HBox inventoryHBox = new HBox(inventoryListView);
+        inventoryListView.setPrefHeight(240);
         inventoryListView.setFocusTraversable(false);
 
-        HBox hbox = new HBox();
+
         hbox.getChildren().add(pickUpButton);
         hbox.setPadding(new Insets(35, 0, 35, 0));
         hbox.setAlignment(Pos.CENTER);
 
-        HBox tileInventoryBox = new HBox();
+        CurrentStatus.getInstance().bind(status::setMessage);
+        map.getPlayer().setOnHealthChange((Integer health) -> healthLabel.setText("" + health));
+        map.getPlayer().setOnStrengthChange((Integer strength) -> strengthLabel.setText("" + strength));
+        map.getPlayer().setOnArmorChange((Integer armor) -> armorLabel.setText("" + armor));
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Inventory:"),0,2);
-        ui.add(inventoryHBox,0,3,2,1);
-        ui.add(hbox, 0,4, 2,1);
-        ui.add(tileInventoryBox,0,5,2,1);
+        uiAddElements(ui);
+        healthLabel.setText("" + map.getPlayer().getHealth());
+        strengthLabel.setText("" + map.getPlayer().getStrength());
+        armorLabel.setText(""+ map.getPlayer().getArmor());
 
         BorderPane borderPane = new BorderPane();
 
@@ -80,6 +91,21 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+    }
+
+    private void uiAddElements(GridPane ui){
+        ui.add(new Label("Health: "), 0, 0);
+        ui.add(healthLabel, 1, 0);
+        ui.add(new Label("Strength: "), 0, 1);
+        ui.add(strengthLabel, 1, 1);
+        ui.add(new Label("Armor: "), 0, 2);
+        ui.add(armorLabel, 1, 2);
+
+        ui.add(new Label("Inventory: "),0,3);
+        ui.add(inventoryHBox,0,4,2,1);
+        ui.add(hbox, 0,5, 2,1);
+        ui.add(new Label("Status: "), 0, 6);
+        ui.add(infoBox,0,7,2,1);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -123,7 +149,6 @@ public class Main extends Application {
                 }
             }
         }
-        healthLabel.setText("" + map.getPlayer().getHealth());
         setButtonDisable(map.getPlayer().getCell());
     }
 
@@ -142,8 +167,6 @@ public class Main extends Application {
             int mapNumber = 0;
             try {
                 mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length()-5)));
-                System.out.println(fileName);
-                System.out.println(mapNumber);
             } catch (Exception e){
                 mapNumber = 1;
             }

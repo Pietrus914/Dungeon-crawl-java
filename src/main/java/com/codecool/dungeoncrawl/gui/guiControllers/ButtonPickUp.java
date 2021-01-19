@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.gui.guiControllers;
 
 import com.codecool.dungeoncrawl.Tiles;
+import com.codecool.dungeoncrawl.gui.StatusLine;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CurrentStatus;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
@@ -31,6 +33,7 @@ public class ButtonPickUp extends Button {
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button PickUp pressed");
             addToInventory();
 
+
             ArrayList<String> itemsNames = player.getInventoryItemsNames();
             ObservableList<String> items = FXCollections.observableArrayList(itemsNames);
 
@@ -43,8 +46,9 @@ public class ButtonPickUp extends Button {
         Cell currentPlayerCell = player.getCell();
         Item itemToGet = currentPlayerCell.getItem();
         currentPlayerCell.setItem(null);
-
+        CurrentStatus.getInstance().setStatus(itemToGet.getMessage());
         player.addToInventory(itemToGet);
+        itemToGet.getImpactOnPlayer();
     }
 
     private void addIconsToListView(ListView<String> inventoryListView){
