@@ -78,4 +78,15 @@ public class Player extends Actor {
             throw new IllegalStateException("You shall not pass !");
         }
     }
+
+//    @Override
+//    public void increaseHealth(int points) {
+//        int health = this.getHealth();
+//        if (health + points < this.getMaxHealth() ){
+//
+//            super.increaseHealth(points);
+//        }
+//    }
+
+
 }
