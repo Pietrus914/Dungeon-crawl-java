@@ -40,7 +40,7 @@ public class Tiles {
         tileMap.put(ItemNames.GLOVES.getItemName(), new Tile(10,22));
         tileMap.put(ItemNames.MEDICINE.getItemName(), new Tile(25, 23));
         tileMap.put(ItemNames.MEAT.getItemName(), new Tile(17, 28));
-        tileMap.put("door", new Tile(12, 17));
+        tileMap.put("close door", new Tile(12, 17));
         tileMap.put("open door", new Tile(13, 17));
     }
 

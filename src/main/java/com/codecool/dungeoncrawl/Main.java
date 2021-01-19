@@ -144,6 +144,8 @@ public class Main extends Application {
                     Tiles.drawTile(context, cell.getActor(), x, y, gameCamera);
                 } else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y, gameCamera);
+                } else if (cell.getBuilding() != null) {
+                    Tiles.drawTile(context, cell.getBuilding(), x, y, gameCamera);
                 } else {
                     Tiles.drawTile(context, cell, x, y, gameCamera);
                 }
@@ -180,20 +182,21 @@ public class Main extends Application {
     }
 
     private void changeLevel() {
+        if (map.getPlayer().getCell().getBuilding() != null) {
+            if (map.getPlayer().getCell().getBuilding().getTileName().equals("ladder up")) {
+                Player samePlayer = map.getPlayer();
+                map = mapList.get(mapList.indexOf(map) + 1);
+                map.setPlayer(samePlayer);
+                map.getCell(map.getGoDownX(), map.getGoDownY()).setActor(samePlayer);
+                samePlayer.setCellForActor(map.getCell(map.getGoDownX(), map.getGoDownY()));
+            } else if (map.getPlayer().getCell().getBuilding().getTileName().equals("ladder down")) {
+                Player samePlayer = map.getPlayer();
+                map = mapList.get(mapList.indexOf(map) - 1);
+                map.setPlayer(samePlayer);
+                map.getCell(map.getGoUpX(), map.getGoUpY()).setActor(samePlayer);
+                samePlayer.setCellForActor(map.getCell(map.getGoUpX(), map.getGoUpY()));
 
-        if (map.getPlayer().getCell().getTileName().equals("ladder up")) {
-            Player samePlayer = map.getPlayer();
-            map = mapList.get(mapList.indexOf(map) + 1);
-            map.setPlayer(samePlayer);
-            map.getCell(map.getGoDownX(), map.getGoDownY()).setActor(samePlayer);
-            samePlayer.setCellForActor(map.getCell(map.getGoDownX(), map.getGoDownY()));
-        } else if (map.getPlayer().getCell().getTileName().equals("ladder down")) {
-            Player samePlayer = map.getPlayer();
-            map = mapList.get(mapList.indexOf(map) - 1);
-            map.setPlayer(samePlayer);
-            map.getCell(map.getGoUpX(), map.getGoUpY()).setActor(samePlayer);
-            samePlayer.setCellForActor(map.getCell(map.getGoUpX(), map.getGoUpY()));
-
+            }
         }
     }
 }
