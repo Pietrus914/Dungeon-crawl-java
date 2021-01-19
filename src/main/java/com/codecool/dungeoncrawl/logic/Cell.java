@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.buildings.Building;
 import com.codecool.dungeoncrawl.logic.items.Item;
 
 public class Cell implements Drawable {
@@ -9,6 +10,7 @@ public class Cell implements Drawable {
     private GameMap gameMap;
     private int x, y;
     private Item item;
+    private Building building;
 
     Cell(GameMap gameMap, int x, int y, CellType type) {
         this.gameMap = gameMap;
@@ -58,5 +60,13 @@ public class Cell implements Drawable {
 
     public boolean canAddItem(){
         return this.getType().equals(CellType.FLOOR) && this.getActor() == null && this.getItem() == null;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

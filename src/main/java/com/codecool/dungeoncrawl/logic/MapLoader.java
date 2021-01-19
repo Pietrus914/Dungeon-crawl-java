@@ -4,6 +4,10 @@ import com.codecool.dungeoncrawl.logic.actors.Demon;
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.buildings.BuildingsName;
+import com.codecool.dungeoncrawl.logic.buildings.CloseDoor;
+import com.codecool.dungeoncrawl.logic.buildings.LadderDown;
+import com.codecool.dungeoncrawl.logic.buildings.LadderUp;
 import com.codecool.dungeoncrawl.logic.items.Helmet;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Key;
@@ -70,13 +74,16 @@ public class MapLoader {
                             new Sword(cell);
                             break;
                         case 'u':
-                            cell.setType(CellType.UP);
+                            cell.setType(CellType.FLOOR);
+                            new LadderUp(cell, BuildingsName.UP);
                             break;
                         case 'd':
-                            cell.setType(CellType.DOWN);
+                            cell.setType(CellType.FLOOR);
+                            new LadderDown(cell, BuildingsName.DOWN);
                             break;
                         case 'D':
-                            cell.setType(CellType.DOOR);
+                            cell.setType(CellType.FLOOR);
+                            new CloseDoor(cell, BuildingsName.DOOR);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
