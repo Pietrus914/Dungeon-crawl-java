@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.gui.StatusLine;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CurrentStatus;
@@ -56,6 +57,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+//        StartPopUp startPopUp = new StartPopUp();
+        StartPopUp.display();
+
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
