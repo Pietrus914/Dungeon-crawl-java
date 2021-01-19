@@ -37,13 +37,11 @@ public class Player extends Actor {
         inventory.remove(item);
     }
 
-  }
-
     @Override
     public void move(int dx, int dy) {
         Cell cell = getCell();
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) {
+        if ((nextCell.getType() == CellType.FLOOR || nextCell.getType().equals(CellType.OPENDOOR)) && nextCell.getActor() == null) {
             cell.setActor(null);
             setCell(cell);
             nextCell.setActor(this);
@@ -55,7 +53,7 @@ public class Player extends Actor {
             nextCell.setActor(this);
             cell = nextCell;
             setCell(cell);
-        } else if (nextCell.getType().equals(CellType.DOOR) && getInventoryItems().contains("key")) {
+        } else if (nextCell.getType().equals(CellType.DOOR) && getInventoryItemsNames().contains("key")) {
             nextCell.setType(CellType.OPENDOOR);
         } else {
             throw new IllegalStateException("You shall not pass !");
