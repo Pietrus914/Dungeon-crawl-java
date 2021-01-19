@@ -57,6 +57,11 @@ public class StartPopUp {
 
     }
 
+//    public static void setPlayerName(String playerName) {
+//        if (playerName.equals("")){
+//        StartPopUp.playerName = playerName;
+//    }
+
     public static String getPlayerName() {
         return playerName;
     }

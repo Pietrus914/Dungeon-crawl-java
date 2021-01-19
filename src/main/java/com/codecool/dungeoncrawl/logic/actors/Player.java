@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.DevelopersNames;
 import com.codecool.dungeoncrawl.logic.Inventory;
 import com.codecool.dungeoncrawl.logic.buildings.BuildingsName;
 import com.codecool.dungeoncrawl.logic.buildings.OpenDoor;
@@ -64,7 +65,10 @@ public class Player extends Actor {
                 cell.setBuilding(new OpenDoor(cell, BuildingsName.OPENDOOR));
                 setCell(cell);
             }
-        } else if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) {
+        } else if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null || (
+                DevelopersNames.getDevelopersNames().contains(this.getName()) && (
+                        nextCell.getType().equals(CellType.EMPTY) || nextCell.getType().equals(CellType.WALL))
+                )) {
             cell.setActor(null);
             setCell(cell);
             nextCell.setActor(this);
