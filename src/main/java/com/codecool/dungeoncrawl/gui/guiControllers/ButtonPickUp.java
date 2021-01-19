@@ -7,6 +7,7 @@ import com.codecool.dungeoncrawl.logic.CurrentStatus;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.ItemNames;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
@@ -47,7 +48,9 @@ public class ButtonPickUp extends Button {
         Item itemToGet = currentPlayerCell.getItem();
         currentPlayerCell.setItem(null);
         CurrentStatus.getInstance().setStatus(itemToGet.getMessage());
-        player.addToInventory(itemToGet);
+        if (!itemToGet.getName().equals(ItemNames.MEAT.getItemName())){
+            player.addToInventory(itemToGet);
+        }
         itemToGet.getImpactOnPlayer();
     }
 

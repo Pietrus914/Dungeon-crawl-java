@@ -13,7 +13,7 @@ public class ItemsPlacer {
 
     private static Map<Integer, ItemNames[]> itemsContainer = new HashMap<>();
     static {
-        itemsContainer.put(1, new ItemNames[]{ItemNames.SWORD, ItemNames.HELMET});
+        itemsContainer.put(1, new ItemNames[]{ItemNames.SWORD, ItemNames.HELMET, ItemNames.MEAT});
         itemsContainer.put(2,new ItemNames[]{ItemNames.MEAT, ItemNames.GLOVES, ItemNames.SHIELD});
         itemsContainer.put(3, new ItemNames[]{ItemNames.MEDICINE,ItemNames.HELMET, ItemNames.SWORD});
     }
