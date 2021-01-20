@@ -2,10 +2,7 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.gui.StatusLine;
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CurrentStatus;
-import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
@@ -46,7 +43,10 @@ public class Main extends Application {
     Label armorLabel = new Label();
     HBox hbox = new HBox();
     ListView<String> inventoryListView = new ListView<String>();
-    Button pickUpButton = new ButtonPickUp(map, inventoryListView);
+
+    InventoryBoxDisplayer inventoryBoxDisplayer = new InventoryBoxDisplayer(map.getPlayer().getInventory(), inventoryListView);
+
+    Button pickUpButton = new ButtonPickUp(map,inventoryBoxDisplayer );
     StatusLine status = new StatusLine("Let's start the game!");
     HBox infoBox = new HBox(status);
     HBox inventoryHBox = new HBox(inventoryListView);

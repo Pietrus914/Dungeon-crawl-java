@@ -7,6 +7,7 @@ import com.codecool.dungeoncrawl.logic.Inventory;
 import com.codecool.dungeoncrawl.logic.buildings.BuildingsName;
 import com.codecool.dungeoncrawl.logic.buildings.OpenDoor;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.ItemNames;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,12 @@ public class Player extends Actor {
     }
 
     public void addToInventory(Item item){
-        inventory.add(item);
+        if (!item.getName().equals(ItemNames.MEAT.getItemName())){
+            inventory.add(item);
+        }
+        item.getImpactOnPlayer();
+
+
     }
 
     public ArrayList<String> getInventoryItemsNames(){
@@ -45,7 +51,9 @@ public class Player extends Actor {
         return name;
     }
 
-
+    public Inventory getInventory() {
+        return inventory;
+    }
 
     public void setName(String name) {
         this.name = name;
