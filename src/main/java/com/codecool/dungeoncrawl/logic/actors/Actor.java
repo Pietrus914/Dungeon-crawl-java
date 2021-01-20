@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
+    private final int maxHealth = 10;
     private int health = 10;
     private int strength = 1;
     private int armor = 0;
@@ -75,6 +76,10 @@ public abstract class Actor implements Drawable {
 
     public int getHealth() {
         return health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public Cell getCell() {
