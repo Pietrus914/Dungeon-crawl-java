@@ -1,11 +1,13 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.MonsterPlacer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class GameMap {
     private int width;
     private int height;
     private Cell[][] cells;
+    private MonsterPlacer monsterPlacer;
     int goUpX;
     int goUpY;
     int goDownX;
@@ -74,5 +76,13 @@ public class GameMap {
 
     public void setGoDownY(int goDownY) {
         this.goDownY = goDownY;
+    }
+
+    public MonsterPlacer getMonsterPlacer() {
+        return monsterPlacer;
+    }
+
+    public void setMonsterPlacer(MonsterPlacer monsterPlacer) {
+        this.monsterPlacer = monsterPlacer;
     }
 }

@@ -2,9 +2,13 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Demon;
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MonsterPlacer {
     private GameMap map;
@@ -14,6 +18,7 @@ public class MonsterPlacer {
     private int demonCounter;
     private final int ghostNumber;
     private final int demonNumber;
+    private List<Actor> monsters = new ArrayList<>();
 
 
     public MonsterPlacer(GameMap map, int mapNumber) {
@@ -55,8 +60,9 @@ public class MonsterPlacer {
             int y = RandomProvider.getRandomNumberOfRange(1, map.getHeight() - 1);
             Cell cell = map.getCell(x, y);
             if (cell.canAddItem()) {
-                new Ghost(cell);
+                Ghost ghost = new Ghost(cell);
                 cellFoundGhost = true;
+                monsters.add(ghost);
             }
         }
     }
@@ -68,8 +74,9 @@ public class MonsterPlacer {
             int y = RandomProvider.getRandomNumberOfRange(1, map.getHeight() - 1);
             Cell cell = map.getCell(x, y);
             if (cell.canAddItem()) {
-                new Demon(cell);
+                Demon demon = new Demon(cell);
                 cellFoundDemon = true;
+                monsters.add(demon);
             }
         }
     }
@@ -83,5 +90,9 @@ public class MonsterPlacer {
             addDemonRandomly();
             demonCounter++;
         }
+    }
+
+    public List<Actor> getMonsters() {
+        return monsters;
     }
 }
