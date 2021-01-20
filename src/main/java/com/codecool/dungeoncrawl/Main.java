@@ -7,7 +7,9 @@ import com.codecool.dungeoncrawl.logic.CurrentStatus;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -124,23 +126,39 @@ public class Main extends Application {
             case UP:
                 map.getPlayer().move(0, -1);
                 changeLevel();
+                moveMonsters();
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
                 changeLevel();
+                moveMonsters();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
                 changeLevel();
+                moveMonsters();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
                 changeLevel();
+                moveMonsters();
                 refresh();
                 break;
+        }
+    }
+
+    private void moveMonsters() {
+        for (GameMap gameMap: mapList){
+            for (Actor monster: gameMap.getMonsterPlacer().getMonsters()){
+                try {
+                    monster.move(RandomProvider.getRandomNumberOfRange(-1,2), RandomProvider.getRandomNumberOfRange(-1,2));
+                } catch(IllegalStateException | ArrayIndexOutOfBoundsException e) {
+
+                }
+            }
         }
     }
 
@@ -186,6 +204,7 @@ public class Main extends Application {
 
             ItemsPlacer newItemPlacer = new ItemsPlacer(newMap,mapNumber );
             MonsterPlacer monsterPlacer = new MonsterPlacer(newMap,mapNumber);
+            newMap.setMonsterPlacer(monsterPlacer);
             newItemPlacer.addItemsRandomly();
             monsterPlacer.addAllMonsters();
         }
