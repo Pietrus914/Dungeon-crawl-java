@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.gui.StatusLine;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CurrentStatus;
@@ -39,6 +40,7 @@ public class Main extends Application {
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
+    Label nameLabel = new Label();
     Label healthLabel = new Label();
     Label strengthLabel = new Label();
     Label armorLabel = new Label();
@@ -56,6 +58,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        StartPopUp.display();
+        map.getPlayer().setName(StartPopUp.getPlayerName());
+
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -73,7 +79,10 @@ public class Main extends Application {
         map.getPlayer().setOnStrengthChange((Integer strength) -> strengthLabel.setText("" + strength));
         map.getPlayer().setOnArmorChange((Integer armor) -> armorLabel.setText("" + armor));
 
+
         uiAddElements(ui);
+        nameLabel.setText(map.getPlayer().getName());
+        nameLabel.setStyle("-fx-font-weight: bold;");
         healthLabel.setText("" + map.getPlayer().getHealth());
         strengthLabel.setText("" + map.getPlayer().getStrength());
         armorLabel.setText(""+ map.getPlayer().getArmor());
@@ -94,18 +103,20 @@ public class Main extends Application {
     }
 
     private void uiAddElements(GridPane ui){
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Strength: "), 0, 1);
-        ui.add(strengthLabel, 1, 1);
-        ui.add(new Label("Armor: "), 0, 2);
-        ui.add(armorLabel, 1, 2);
+        ui.add(new Label("Player: "), 0, 0);
+        ui.add(nameLabel, 1, 0);
+        ui.add(new Label("Health: "), 0, 1);
+        ui.add(healthLabel, 1, 1);
+        ui.add(new Label("Strength: "), 0, 2);
+        ui.add(strengthLabel, 1, 2);
+        ui.add(new Label("Armor: "), 0, 3);
+        ui.add(armorLabel, 1, 3);
 
-        ui.add(new Label("Inventory: "),0,3);
-        ui.add(inventoryHBox,0,4,2,1);
-        ui.add(hbox, 0,5, 2,1);
-        ui.add(new Label("Status: "), 0, 6);
-        ui.add(infoBox,0,7,2,1);
+        ui.add(new Label("Inventory: "),0,4);
+        ui.add(inventoryHBox,0,5,2,1);
+        ui.add(hbox, 0,6, 2,1);
+        ui.add(new Label("Status: "), 0, 7);
+        ui.add(infoBox,0,8,2,1);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
