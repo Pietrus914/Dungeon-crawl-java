@@ -34,4 +34,14 @@ public class Inventory {
     public ArrayList<Item> getItems() {
         return (ArrayList<Item>) inventoryList;
     }
+
+    public void removeKey() {
+        System.out.println(inventoryList.stream().map(Item::getName));
+        for (int i = 0; i < inventoryList.size(); i++) {
+            if (inventoryList.get(i).getName().equals("key")) {
+                inventoryList.remove(i);
+                break;
+            }
+        }
+    }
 }
