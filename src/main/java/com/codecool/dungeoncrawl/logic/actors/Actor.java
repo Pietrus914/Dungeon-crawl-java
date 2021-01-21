@@ -27,10 +27,29 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-        } else {
+        } else if(nextCell.getType().equals(CellType.FLOOR) && nextCell.getActor() != null){
+            fight(dx, dy);
+        }
+        else {
             throw new IllegalStateException("You shall not pass !");
         }
 
+    }
+
+    public void fight(int dx, int dy) {
+        Cell cell = getCell();
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        Actor player = cell.getActor();
+        Actor monster = nextCell.getActor();
+
+        int monsterHp = monster.getHealth();
+        monster.setHealth(monsterHp - player.getStrength());
+        System.out.println("hit " + player.getStrength());
+        System.out.println("monsterHP " + monsterHp);
+
+        if (monsterHp <= 0) {
+            nextCell.setActor(null);
+        }
     }
 
     public void setOnHealthChange(Consumer<Integer> onHealthChange){
@@ -100,5 +119,10 @@ public abstract class Actor implements Drawable {
 
     public void setCell(Cell cell) {
         this.cell = cell;
+    }
+
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 }
