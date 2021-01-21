@@ -70,6 +70,7 @@ public class Player extends Actor {
                 cell.setBuilding(new OpenDoor(cell, BuildingsName.OPENDOOR));
                 setCell(cell);
                 inventory.removeKey();
+                CurrentStatus.getInstance().setStatus("Door has been opened");
             } else {
                 CurrentStatus.getInstance().setStatus("You need a key");
             }
