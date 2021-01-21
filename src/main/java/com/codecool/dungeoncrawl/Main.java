@@ -160,6 +160,7 @@ public class Main extends Application {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gameCamera.centerOnEntity(map.getPlayer());
+        inventoryBoxDisplayer.refresh();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
@@ -213,13 +214,14 @@ public class Main extends Application {
                 map.setPlayer(samePlayer);
                 map.getCell(map.getGoDownX(), map.getGoDownY()).setActor(samePlayer);
                 samePlayer.setCellForActor(map.getCell(map.getGoDownX(), map.getGoDownY()));
+                CurrentStatus.getInstance().setStatus("Level " + (mapList.indexOf(map) + 1));
             } else if (map.getPlayer().getCell().getBuilding().getTileName().equals("ladder down")) {
                 Player samePlayer = map.getPlayer();
                 map = mapList.get(mapList.indexOf(map) - 1);
                 map.setPlayer(samePlayer);
                 map.getCell(map.getGoUpX(), map.getGoUpY()).setActor(samePlayer);
                 samePlayer.setCellForActor(map.getCell(map.getGoUpX(), map.getGoUpY()));
-
+                CurrentStatus.getInstance().setStatus("Level " + (mapList.indexOf(map) + 1));
             }
         }
     }
