@@ -220,13 +220,14 @@ public class Main extends Application {
                 map.setPlayer(samePlayer);
                 map.getCell(map.getGoDownX(), map.getGoDownY()).setActor(samePlayer);
                 samePlayer.setCellForActor(map.getCell(map.getGoDownX(), map.getGoDownY()));
+                CurrentStatus.getInstance().setStatus("Level " + (mapList.indexOf(map) + 1));
             } else if (map.getPlayer().getCell().getBuilding().getTileName().equals("ladder down")) {
                 Player samePlayer = map.getPlayer();
                 map = mapList.get(mapList.indexOf(map) - 1);
                 map.setPlayer(samePlayer);
                 map.getCell(map.getGoUpX(), map.getGoUpY()).setActor(samePlayer);
                 samePlayer.setCellForActor(map.getCell(map.getGoUpX(), map.getGoUpY()));
-
+                CurrentStatus.getInstance().setStatus("Level " + (mapList.indexOf(map) + 1));
             }
         }
     }
