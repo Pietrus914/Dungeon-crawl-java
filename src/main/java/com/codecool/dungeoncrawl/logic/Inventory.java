@@ -34,4 +34,8 @@ public class Inventory {
     public ArrayList<Item> getItems() {
         return (ArrayList<Item>) inventoryList;
     }
+
+    public void removeKey() {
+        inventoryList.removeIf(item -> item.getName().equals("key"));
+    }
 }

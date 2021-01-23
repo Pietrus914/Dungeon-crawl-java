@@ -1,9 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.DevelopersNames;
-import com.codecool.dungeoncrawl.logic.Inventory;
+import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.buildings.BuildingsName;
 import com.codecool.dungeoncrawl.logic.buildings.OpenDoor;
 import com.codecool.dungeoncrawl.logic.items.Item;
@@ -72,6 +69,9 @@ public class Player extends Actor {
                 cell = nextCell;
                 cell.setBuilding(new OpenDoor(cell, BuildingsName.OPENDOOR));
                 setCell(cell);
+                inventory.removeKey();
+            } else {
+                CurrentStatus.getInstance().setStatus("You need a key");
             }
         } else if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null || (
                 DevelopersNames.getDevelopersNames().contains(this.getName()) && (
@@ -88,15 +88,6 @@ public class Player extends Actor {
             throw new IllegalStateException("You shall not pass !");
         }
     }
-
-//    @Override
-//    public void increaseHealth(int points) {
-//        int health = this.getHealth();
-//        if (health + points < this.getMaxHealth() ){
-//
-//            super.increaseHealth(points);
-//        }
-//    }
 
 
 }
