@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DevelopersNames {
 

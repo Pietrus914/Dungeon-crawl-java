@@ -70,6 +70,7 @@ public class Player extends Actor {
                 cell.setBuilding(new OpenDoor(cell, BuildingsName.OPENDOOR));
                 setCell(cell);
                 inventory.removeKey();
+                CurrentStatus.getInstance().setStatus("Door has been opened");
             } else {
                 CurrentStatus.getInstance().setStatus("You need a key");
             }
@@ -85,7 +86,11 @@ public class Player extends Actor {
         } else if(nextCell.getType().equals(CellType.FLOOR) && nextCell.getActor() != null){
             fight(dx, dy);
         } else {
-            throw new IllegalStateException("You shall not pass !");
+            cell.setActor(null);
+            setCell(cell);
+            nextCell.setActor(this);
+            cell = nextCell;
+            setCell(cell);
         }
     }
 
