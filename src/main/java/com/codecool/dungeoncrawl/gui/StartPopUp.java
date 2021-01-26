@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.gui;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,6 +23,9 @@ public class StartPopUp {
     public static void display(){
 
         Stage window = new Stage();
+        window.setOnCloseRequest(windowEvent -> {
+            Platform.exit();
+        });
 
         /**
          * it blocks other windows and get focus to this window
@@ -37,6 +41,8 @@ public class StartPopUp {
         Label label = new Label();
         label.setPadding(new Insets(25,25,25,25));
         label.setText("What is your name?");
+        label.setStyle("-fx-font-weight: bold;");
+
 
         Button startButton = new Button(title);
         startButton.setOnAction(e -> {

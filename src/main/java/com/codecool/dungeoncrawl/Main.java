@@ -21,10 +21,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -44,9 +40,10 @@ public class Main extends Application {
     Label strengthLabel = new Label();
     Label armorLabel = new Label();
     HBox hbox = new HBox();
-    ListView<String> inventoryListView = new ListView<String>();
+    ListView<String> inventoryListView = new ListView<>();
 
-    InventoryBoxDisplayer inventoryBoxDisplayer = new InventoryBoxDisplayer(map.getPlayer().getInventory(), inventoryListView);
+    InventoryBoxDisplayer inventoryBoxDisplayer =
+            new InventoryBoxDisplayer(map.getPlayer().getInventory(), inventoryListView);
 
     Button pickUpButton = new ButtonPickUp(map,inventoryBoxDisplayer );
     StatusLine status = new StatusLine("Let's start the game!");
@@ -124,30 +121,27 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
-                map.getPlayer().move(0, -1);
-                changeLevel();
-//                moveMonsters();
-                refresh();
+                react(Direction.UP);
                 break;
             case DOWN:
-                map.getPlayer().move(0, 1);
-                changeLevel();
-//                moveMonsters();
-                refresh();
+                react(Direction.DOWN);
                 break;
             case LEFT:
-                map.getPlayer().move(-1, 0);
-                changeLevel();
-//                moveMonsters();
-                refresh();
+                react(Direction.LEFT);
                 break;
             case RIGHT:
-                map.getPlayer().move(1,0);
-                changeLevel();
-//                moveMonsters();
-                refresh();
+                react(Direction.RIGHT);
                 break;
         }
+
+    }
+
+    private void react(Direction direction){
+        map.getPlayer().move(direction.getX(), direction.getY());
+        changeLevel();
+        moveMonsters();
+        refresh();
+
     }
 
     private void moveMonsters() {
