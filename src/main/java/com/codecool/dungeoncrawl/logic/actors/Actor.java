@@ -27,13 +27,10 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-        } else if(nextCell.getType().equals(CellType.FLOOR) && nextCell.getActor() != null){
-            fight(dx, dy);
         }
-        else {
-            throw new IllegalStateException("You shall not pass !");
-        }
-
+//        else {
+//            throw new IllegalStateException("You shall not pass !");
+//        }
     }
 
     public void fight(int dx, int dy) {
@@ -44,11 +41,34 @@ public abstract class Actor implements Drawable {
 
         int monsterHp = monster.getHealth();
         monster.setHealth(monsterHp - player.getStrength());
-        System.out.println("hit " + player.getStrength());
-        System.out.println("monsterHP " + monsterHp);
+        player.counterAttack();
+
+//        uncomment below to testing in command line:
+
+//        System.out.println("hit " + player.getStrength());
+//        System.out.println("monsterHP " + monsterHp);
+//
+//        System.out.println("armor " + player.getArmor());
+//        System.out.println("playerHP " + player.getHealth());
 
         if (monsterHp <= 0) {
             nextCell.setActor(null);
+        }
+    }
+
+    public void counterAttack() {
+        Cell cell = getCell();
+        Actor player = cell.getActor();
+        int playerHp = player.getHealth();
+        int playerArmor = player.getArmor();
+
+        if (playerArmor >= 2) {
+            player.setArmor(playerArmor - 2);
+        } else if (playerArmor == 1) {
+            player.setArmor(0);
+            player.setHealth(playerHp - 1);
+        }  else {
+            player.setHealth(playerHp - 2);
         }
     }
 
@@ -124,5 +144,9 @@ public abstract class Actor implements Drawable {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
     }
 }

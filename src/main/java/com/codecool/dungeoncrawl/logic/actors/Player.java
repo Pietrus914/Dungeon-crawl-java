@@ -83,10 +83,8 @@ public class Player extends Actor {
             nextCell.setActor(this);
             cell = nextCell;
             setCell(cell);
-        } else if(nextCell.getType().equals(CellType.FLOOR) && nextCell.getActor() != null){
+        } else if(nextCell.getType().equals(CellType.FLOOR) && nextCell.getActor() != null) {
             fight(dx, dy);
-        } else {
-            throw new IllegalStateException("You shall not pass !");
         }
     }
 
