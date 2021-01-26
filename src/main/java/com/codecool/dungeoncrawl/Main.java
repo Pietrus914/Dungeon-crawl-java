@@ -45,7 +45,7 @@ public class Main extends Application {
     InventoryBoxDisplayer inventoryBoxDisplayer =
             new InventoryBoxDisplayer(map.getPlayer().getInventory(), inventoryListView);
 
-    Button pickUpButton = new ButtonPickUp(map,inventoryBoxDisplayer );
+    Button pickUpButton = new ButtonPickUp(map, inventoryBoxDisplayer);
     StatusLine status = new StatusLine("Let's start the game!");
     HBox infoBox = new HBox(status);
     HBox inventoryHBox = new HBox(inventoryListView);
@@ -84,7 +84,7 @@ public class Main extends Application {
         nameLabel.setStyle("-fx-font-weight: bold;");
         healthLabel.setText("" + map.getPlayer().getHealth());
         strengthLabel.setText("" + map.getPlayer().getStrength());
-        armorLabel.setText(""+ map.getPlayer().getArmor());
+        armorLabel.setText("" + map.getPlayer().getArmor());
 
         BorderPane borderPane = new BorderPane();
 
@@ -101,7 +101,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void uiAddElements(GridPane ui){
+    private void uiAddElements(GridPane ui) {
         ui.add(new Label("Player: "), 0, 0);
         ui.add(nameLabel, 1, 0);
         ui.add(new Label("Health: "), 0, 1);
@@ -111,11 +111,11 @@ public class Main extends Application {
         ui.add(new Label("Armor: "), 0, 3);
         ui.add(armorLabel, 1, 3);
 
-        ui.add(new Label("Inventory: "),0,4);
-        ui.add(inventoryHBox,0,5,2,1);
-        ui.add(hbox, 0,6, 2,1);
+        ui.add(new Label("Inventory: "), 0, 4);
+        ui.add(inventoryHBox, 0, 5, 2, 1);
+        ui.add(hbox, 0, 6, 2, 1);
         ui.add(new Label("Status: "), 0, 7);
-        ui.add(infoBox,0,8,2,1);
+        ui.add(infoBox, 0, 8, 2, 1);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -136,7 +136,7 @@ public class Main extends Application {
 
     }
 
-    private void react(Direction direction){
+    private void react(Direction direction) {
         map.getPlayer().move(direction.getX(), direction.getY());
         changeLevel();
         moveMonsters();
@@ -145,12 +145,16 @@ public class Main extends Application {
     }
 
     private void moveMonsters() {
-        for (GameMap gameMap: mapList){
-            for (Actor monster: gameMap.getMonsterPlacer().getMonsters()){
-                try {
-                    monster.move(RandomProvider.getRandomNumberOfRange(-1,2), RandomProvider.getRandomNumberOfRange(-1,2));
-                } catch(IllegalStateException | ArrayIndexOutOfBoundsException e) {
+        for (GameMap gameMap : mapList) {
+            for (Actor monster : gameMap.getMonsterPlacer().getMonsters()) {
+                if (monster.getHealth() > 0) {
+                    try {
+                        monster.move(RandomProvider.getRandomNumberOfRange(-1, 2), RandomProvider.getRandomNumberOfRange(-1, 2));
+                    } catch (IllegalStateException | ArrayIndexOutOfBoundsException e) {
 
+                    }
+                } else {
+                    mapList.remove(monster);
                 }
             }
         }
@@ -192,13 +196,13 @@ public class Main extends Application {
             levels.add(newMap);
             int mapNumber = 0;
             try {
-                mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length()-5)));
-            } catch (Exception e){
+                mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length() - 5)));
+            } catch (Exception e) {
                 mapNumber = 1;
             }
 
-            ItemsPlacer newItemPlacer = new ItemsPlacer(newMap,mapNumber );
-            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap,mapNumber);
+            ItemsPlacer newItemPlacer = new ItemsPlacer(newMap, mapNumber);
+            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap, mapNumber);
             newMap.setMonsterPlacer(monsterPlacer);
             newItemPlacer.addItemsRandomly();
             monsterPlacer.addAllMonsters();
