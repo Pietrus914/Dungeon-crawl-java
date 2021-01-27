@@ -17,6 +17,8 @@ public class Player extends Actor {
 
         super(cell);
         this.inventory = new Inventory();
+        this.setHealth(50);
+        this.setStrength(3);
     }
 
     public String getTileName() {
