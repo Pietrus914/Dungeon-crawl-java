@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.gui.EndPopUp;
 import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.gui.StatusLine;
 import com.codecool.dungeoncrawl.logic.*;
@@ -161,6 +162,9 @@ public class Main extends Application {
     }
 
     private void refresh() {
+        if (isDead()){
+            EndPopUp.display();
+        }
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gameCamera.centerOnEntity(map.getPlayer());
@@ -228,5 +232,10 @@ public class Main extends Application {
                 CurrentStatus.getInstance().setStatus("Level " + (mapList.indexOf(map) + 1));
             }
         }
+    }
+
+    private boolean isDead() {
+        int playerHealth =  map.getPlayer().getHealth();
+        return playerHealth <= 0;
     }
 }

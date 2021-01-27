@@ -28,9 +28,6 @@ public abstract class Actor implements Drawable {
             nextCell.setActor(this);
             cell = nextCell;
         }
-//        else {
-//            throw new IllegalStateException("You shall not pass !");
-//        }
     }
 
     public void fight(int dx, int dy) {
@@ -43,7 +40,7 @@ public abstract class Actor implements Drawable {
         monster.setHealth(monsterHp - player.getStrength());
         player.counterAttack();
 
-//        uncomment below to testing in command line:
+//        uncomment below for testing in command line:
 
 //        System.out.println("hit " + player.getStrength());
 //        System.out.println("monsterHP " + monsterHp);
@@ -108,6 +105,11 @@ public abstract class Actor implements Drawable {
     public int getStrength() {
         return strength;
     }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
 
     public int getArmor() {
         return armor;
