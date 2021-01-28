@@ -62,6 +62,7 @@ public class Player extends Actor {
     public void move(int dx, int dy) {
         Cell cell = getCell();
         Cell nextCell = cell.getNeighbor(dx, dy);
+
         if (nextCell.getType().equals(CellType.FLOOR) && nextCell.getBuilding() != null
                 && nextCell.getBuilding().getTileName().equals("close door")) {
             if (getInventoryItemsNames().contains("key")) {
@@ -80,15 +81,30 @@ public class Player extends Actor {
                 DevelopersNames.getDevelopersNames().contains(this.getName()) && (
                         nextCell.getType().equals(CellType.EMPTY) || nextCell.getType().equals(CellType.WALL))
                 )) {
-            cell.setActor(null);
-            setCell(cell);
-            nextCell.setActor(this);
-            cell = nextCell;
-            setCell(cell);
+            setPlayerOnNextCell(cell, nextCell);
         } else if(nextCell.getType().equals(CellType.FLOOR) && nextCell.getActor() != null) {
             fight(dx, dy);
+        } else {
+           setPlayerOnNextCell(cell, cell);
         }
     }
 
+    public boolean neighborOutOfMap(int dx, int dy){
+        Cell cell = getCell();
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        if ((nextCell.getX() >= cell.getMapHeight()) || (nextCell.getY() >= cell.getMapHeight())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void setPlayerOnNextCell(Cell cell, Cell nextCell) {
+        cell.setActor(null);
+        setCell(cell);
+        nextCell.setActor(this);
+        cell = nextCell;
+        setCell(cell);
+    }
 
 }

@@ -11,6 +11,8 @@ public class Cell implements Drawable {
     private int x, y;
     private Item item;
     private Building building;
+    private int mapWidth = gameMap.getWidth();
+    private int mapHeight = gameMap.getHeight();
 
     Cell(GameMap gameMap, int x, int y, CellType type) {
         this.gameMap = gameMap;
@@ -69,4 +71,13 @@ public class Cell implements Drawable {
     public void setBuilding(Building building) {
         this.building = building;
     }
+
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
 }
