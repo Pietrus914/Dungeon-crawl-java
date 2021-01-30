@@ -6,17 +6,6 @@ CREATE TABLE public.game_state (
     player_id integer NOT NULL
 );
 
-DROP TABLE IF EXISTS public.player;
-CREATE TABLE public.player (
-    id serial NOT NULL PRIMARY KEY,
-    player_name text NOT NULL,
-    hp integer NOT NULL,
-    armor integer NOT NULL ,
-    strength integer not null ,
-    x integer NOT NULL,
-    y integer NOT NULL
-);
-
 DROP TABLE IF EXISTS public.inventory;
 CREATE TABLE public.inventory (
     id serial NOT NULL PRIMARY KEY ,
@@ -41,6 +30,18 @@ CREATE TABLE public.monsters (
     x integer NOT NULL,
     y integer NOT NULL ,
     player_id integer NOT NULL
+);
+
+DROP TABLE IF EXISTS public.player;
+CREATE TABLE public.player (
+    id serial NOT NULL PRIMARY KEY,
+    save_name text NOT NULL,
+    player_name text NOT NULL,
+    hp integer NOT NULL,
+    armor integer NOT NULL ,
+    strength integer not null ,
+    x integer NOT NULL,
+    y integer NOT NULL
 );
 
 ALTER TABLE ONLY public.game_state

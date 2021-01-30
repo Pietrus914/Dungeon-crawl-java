@@ -15,8 +15,8 @@ public class GameDatabaseManager {
         playerDao = new PlayerDaoJdbc(dataSource);
     }
 
-    public void savePlayer(Player player) {
-        PlayerModel model = new PlayerModel(player);
+    public void savePlayer(Player player, String saveName) {
+        PlayerModel model = new PlayerModel(player, saveName);
         playerDao.add(model);
     }
 
@@ -25,11 +25,11 @@ public class GameDatabaseManager {
 
 
         // update for your data base
-        String serverName = "localhost";
+        String serverName = System.getenv("LOCAL_HOST");
         int portNumber = 5432;
-        String dbName = "DungeonCrawl";
-        String user = "postgres";
-        String password = "Dominik123";
+        String dbName = System.getenv("PSQL_DB_NAME");
+        String user = System.getenv("PSQL_USER_NAME");
+        String password = System.getenv("PSQL_PASSWORD");
 
         dataSource.setServerName(serverName);
         dataSource.setPortNumber(portNumber);
