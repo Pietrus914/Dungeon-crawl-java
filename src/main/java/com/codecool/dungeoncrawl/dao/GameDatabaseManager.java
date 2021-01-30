@@ -22,10 +22,17 @@ public class GameDatabaseManager {
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        String dbName = "test";
-        String user = "test";
-        String password = "test";
 
+
+        // update for your data base
+        String serverName = "localhost";
+        int portNumber = 5432;
+        String dbName = "DungeonCrawl";
+        String user = "postgres";
+        String password = "Dominik123";
+
+        dataSource.setServerName(serverName);
+        dataSource.setPortNumber(portNumber);
         dataSource.setDatabaseName(dbName);
         dataSource.setUser(user);
         dataSource.setPassword(password);
