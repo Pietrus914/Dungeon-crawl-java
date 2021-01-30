@@ -35,18 +35,19 @@ public abstract class Actor implements Drawable {
         Cell nextCell = cell.getNeighbor(dx, dy);
         Actor player = cell.getActor();
         Actor monster = nextCell.getActor();
+        int hit = player.getStrength();
 
         int monsterHp = monster.getHealth();
-        monster.setHealth(monsterHp - player.getStrength());
+        monster.setHealth(monsterHp - hit);
         player.counterAttack();
 
 //        uncomment below for testing in command line:
 
-//        System.out.println("hit " + player.getStrength());
-//        System.out.println("monsterHP " + monsterHp);
-//
-//        System.out.println("armor " + player.getArmor());
-//        System.out.println("playerHP " + player.getHealth());
+        System.out.println("hit " + player.getStrength());
+        System.out.println("monsterHP " + monsterHp);
+
+        System.out.println("armor " + player.getArmor());
+        System.out.println("playerHP " + player.getHealth());
 
         if (monsterHp <= 0) {
             nextCell.setActor(null);
@@ -60,12 +61,16 @@ public abstract class Actor implements Drawable {
         int playerArmor = player.getArmor();
 
         if (playerArmor >= 2) {
-            player.setArmor(playerArmor - 2);
+//            player.setArmor(playerArmor - 2);
+            player.decreaseArmor(2);
         } else if (playerArmor == 1) {
-            player.setArmor(0);
-            player.setHealth(playerHp - 1);
+//            player.setArmor(0);
+//            player.setHealth(playerHp - 1);
+            player.decreaseArmor(1);
+            player.decreaseHealth(1);
         }  else {
-            player.setHealth(playerHp - 2);
+//            player.setHealth(playerHp - 2);
+            player.decreaseHealth(2);
         }
     }
 
@@ -75,6 +80,13 @@ public abstract class Actor implements Drawable {
 
     public void increaseHealth(int points) {
         this.health += points;
+        if (this.onHealthChange != null){
+            this.onHealthChange.accept(this.health);
+        }
+    }
+
+    public void decreaseHealth(int points) {
+        this.health -= points;
         if (this.onHealthChange != null){
             this.onHealthChange.accept(this.health);
         }
@@ -97,6 +109,13 @@ public abstract class Actor implements Drawable {
 
     public void increaseArmor(int points) {
         this.armor += points;
+        if (this.onArmorChange != null){
+            this.onArmorChange.accept(this.armor);
+        }
+    }
+
+    public void decreaseArmor(int points) {
+        this.armor -= points;
         if (this.onArmorChange != null){
             this.onArmorChange.accept(this.armor);
         }
