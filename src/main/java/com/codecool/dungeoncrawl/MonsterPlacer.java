@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Demon;
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
+import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 
 import java.util.ArrayList;
@@ -16,18 +17,24 @@ public class MonsterPlacer {
     private int mapNumber;
     private int ghostCounter;
     private int demonCounter;
+    private int skeletonCounter;
     private final int ghostNumber;
     private final int demonNumber;
+    private final int skeletonNumber;
     private List<Actor> monsters = new ArrayList<>();
+    private int id;
 
 
-    public MonsterPlacer(GameMap map, int mapNumber) {
+    public MonsterPlacer(GameMap map, int mapNumber, int id) {
         this.map = map;
         this.mapNumber = setMapNumber(mapNumber);
         this.ghostCounter = 0;
         this.demonCounter = 0;
         this.ghostNumber = 4;
         this.demonNumber = 2;
+        this.skeletonCounter = 0;
+        this.skeletonNumber = 3;
+        this.id = id;
     }
 
     private int setMapNumber(int mapNumber) {
@@ -53,6 +60,10 @@ public class MonsterPlacer {
         return demonCounter >= demonNumber;
     }
 
+    private boolean enoughSkeleton() {
+        return skeletonCounter >= skeletonNumber;
+    }
+
     public void addGhostRandomly() {
         boolean cellFoundGhost = false;
         while (!cellFoundGhost) {
@@ -62,6 +73,8 @@ public class MonsterPlacer {
             if (cell.canAddItem()) {
                 Ghost ghost = new Ghost(cell);
                 cellFoundGhost = true;
+                ghost.setId(id);
+                id++;
                 monsters.add(ghost);
             }
         }
@@ -76,7 +89,25 @@ public class MonsterPlacer {
             if (cell.canAddItem()) {
                 Demon demon = new Demon(cell);
                 cellFoundDemon = true;
+                demon.setId(id);
+                id++;
                 monsters.add(demon);
+            }
+        }
+    }
+
+    public void addSkeletonRandomly() {
+        boolean cellSkeletonDemon = false;
+        while (!cellSkeletonDemon) {
+            int x = RandomProvider.getRandomNumberOfRange(1, map.getWidth() - 1);
+            int y = RandomProvider.getRandomNumberOfRange(1, map.getHeight() - 1);
+            Cell cell = map.getCell(x, y);
+            if (cell.canAddItem()) {
+                Skeleton skeleton = new Skeleton(cell);
+                cellSkeletonDemon = true;
+                skeleton.setId(id);
+                id++;
+                monsters.add(skeleton);
             }
         }
     }
@@ -90,9 +121,22 @@ public class MonsterPlacer {
             addDemonRandomly();
             demonCounter++;
         }
+
+        while (!enoughSkeleton()) {
+            addSkeletonRandomly();
+            skeletonCounter++;
+        }
     }
 
     public List<Actor> getMonsters() {
         return monsters;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

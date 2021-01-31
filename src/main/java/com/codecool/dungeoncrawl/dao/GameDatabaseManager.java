@@ -1,23 +1,44 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.MonstersModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
+    private GameStateDao gameStateDao;
+    private MonstersDao monstersDao;
+    private PlayerModel model;
 
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
+        gameStateDao = new GameStateDaoJdbc(dataSource);
+        monstersDao = new MonsterDaoJdbc(dataSource);
     }
 
     public void savePlayer(Player player, String saveName) {
-        PlayerModel model = new PlayerModel(player, saveName);
+        model = new PlayerModel(player, saveName);
         playerDao.add(model);
+    }
+
+    public void savaGameState(String currentMap) {
+        GameState gameState = new GameState(currentMap, new Timestamp(System.currentTimeMillis()), model);
+        gameStateDao.add(gameState);
+    }
+
+    public void saveMonsters(Actor actor, int mapNumber) {
+        MonstersModel monstersModel = new MonstersModel(actor, mapNumber, model);
+        monstersModel.setId(actor.getId());
+        monstersDao.add(monstersModel);
+
     }
 
     private DataSource connect() throws SQLException {

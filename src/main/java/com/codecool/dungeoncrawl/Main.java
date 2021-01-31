@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.io.File;
+import java.util.Date;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -157,7 +158,7 @@ public class Main extends Application {
     private void moveMonsters() {
         for (GameMap gameMap : mapList) {
             for (Actor monster : gameMap.getMonsterPlacer().getMonsters()) {
-                if (monster.getHealth() > 0) {
+                if (monster.getHealth() > 0 && !monster.getTileName().equals("skeleton")) {
                     try {
                         monster.move(RandomProvider.getRandomNumberOfRange(-1, 2), RandomProvider.getRandomNumberOfRange(-1, 2));
                     } catch (IllegalStateException | ArrayIndexOutOfBoundsException e) {
@@ -203,6 +204,7 @@ public class Main extends Application {
         ArrayList<GameMap> levels = new ArrayList<>();
         File folder = new File("src/main/resources/levels");
         File[] listOfFiles = folder.listFiles();
+        int id = 1;
         for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
             String fileName = listOfFile.getName();
             GameMap newMap = MapLoader.loadMap("/levels/" + fileName);
@@ -215,10 +217,11 @@ public class Main extends Application {
             }
 
             ItemsPlacer newItemPlacer = new ItemsPlacer(newMap, mapNumber);
-            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap, mapNumber);
+            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap, mapNumber, id);
             newMap.setMonsterPlacer(monsterPlacer);
             newItemPlacer.addItemsRandomly();
             monsterPlacer.addAllMonsters();
+            id = monsterPlacer.getId();
         }
         return levels;
     }
@@ -259,6 +262,17 @@ public class Main extends Application {
         } else if (saveCombination.match(keyEvent)) {
             SavePopUp.display();
             dbManager.savePlayer(map.getPlayer(), SavePopUp.getPlayerName());
+            dbManager.savaGameState(String.format("map%s", mapList.indexOf(map)));
+            for (GameMap map : mapList) {
+                for (int x = 0; x < map.getWidth(); x++) {
+                    for (int y = 0; y < map.getHeight(); y++) {
+                        Cell cell = map.getCell(x, y);
+                        if (cell.getActor() != null && !cell.getActor().getTileName().equals("player")) {
+                            dbManager.saveMonsters(cell.getActor(), mapList.indexOf(map));
+                        }
+                    }
+                }
+            }
         }
     }
 

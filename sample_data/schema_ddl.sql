@@ -19,17 +19,19 @@ CREATE TABLE public.items (
     item_name text NOT NULL ,
     x integer NOT NULL ,
     y integer NOT NULL ,
-    player_id integer NOT NULL
+    player_id integer NOT NULL,
+    map_number integer NOT NULL
 );
 
 DROP TABLE IF EXISTS public.monsters;
 CREATE TABLE public.monsters (
-    id serial NOT NULL PRIMARY KEY ,
+    id integer NOT NULL ,
     monster_name text NOT NULL ,
     hp integer NOT NULL,
     x integer NOT NULL,
     y integer NOT NULL ,
-    player_id integer NOT NULL
+    player_id integer NOT NULL,
+    map_number integer NOT NULL
 );
 
 DROP TABLE IF EXISTS public.player;
