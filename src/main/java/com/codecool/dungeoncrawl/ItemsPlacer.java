@@ -22,9 +22,9 @@ public class ItemsPlacer {
 
     private int mapNumber;
 
-    public ItemsPlacer(GameMap map, int mapNumber) {
+    public ItemsPlacer(GameMap map) {
         this.map = map;
-        this.mapNumber = setMapNumber(mapNumber);
+        this.mapNumber = setMapNumber(map.getMapNumber());
     }
 
     private int setMapNumber(int mapNumber) {

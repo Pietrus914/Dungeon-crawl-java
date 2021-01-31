@@ -21,9 +21,9 @@ public class MonsterPlacer {
     private List<Actor> monsters = new ArrayList<>();
 
 
-    public MonsterPlacer(GameMap map, int mapNumber) {
+    public MonsterPlacer(GameMap map) {
         this.map = map;
-        this.mapNumber = setMapNumber(mapNumber);
+        this.mapNumber = setMapNumber(map.getMapNumber());
         this.ghostCounter = 0;
         this.demonCounter = 0;
         this.ghostNumber = 4;
