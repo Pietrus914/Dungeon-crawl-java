@@ -12,6 +12,7 @@ import java.sql.SQLException;
 public class GameDatabaseManager {
     private PlayerDao playerDao;
     private ItemDao itemDao;
+
     private PlayerModel model;
 
     public void setup() throws SQLException {
