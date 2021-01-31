@@ -28,6 +28,7 @@ public class GameDatabaseManager {
     }
 
     public void saveItem(Item item){
+
         ItemModel itemModel = new ItemModel(item,model.getId() );
     }
 

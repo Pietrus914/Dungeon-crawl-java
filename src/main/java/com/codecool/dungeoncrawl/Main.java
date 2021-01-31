@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.EndPopUp;
 import com.codecool.dungeoncrawl.gui.SavePopUp;
 import com.codecool.dungeoncrawl.gui.StartPopUp;
@@ -9,6 +10,8 @@ import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -32,6 +35,7 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -57,6 +61,8 @@ public class Main extends Application {
     HBox infoBox = new HBox(status);
     HBox inventoryHBox = new HBox(inventoryListView);
     GameDatabaseManager dbManager;
+    GameJsonManager jsonManager;
+    List<Item> itemList = ItemsFactory.getItems();
 
 
     public static void main(String[] args) {
@@ -66,6 +72,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         setupDbManager();
+        setupJsonManager();
 
         StartPopUp.display();
         map.getPlayer().setName(StartPopUp.getPlayerName());
@@ -255,6 +262,8 @@ public class Main extends Application {
         } else if (saveCombination.match(keyEvent)) {
             SavePopUp.display();
             dbManager.savePlayer(map.getPlayer(), SavePopUp.getPlayerName());
+            jsonManager.setUp(map.getPlayer(),SavePopUp.getPlayerName(), itemList );
+
         }
     }
 
@@ -265,6 +274,10 @@ public class Main extends Application {
         } catch (SQLException ex) {
             System.out.println("Cannot connect to database.");
         }
+    }
+
+    private void setupJsonManager(){
+        jsonManager = new GameJsonManager();
     }
 
     private void exit() {

@@ -2,8 +2,12 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemsFactory {
 
+    private static List<Item> items = new ArrayList<>();
 
     public static Item createItem(Cell cell, ItemNames itemName, int mapNumber ){
         Item newItem = null;
@@ -32,9 +36,11 @@ public class ItemsFactory {
             default:
                 throw new IllegalArgumentException("itemName not available");
         }
-
+        items.add(newItem);
         return newItem;
     }
 
-
+    public static List<Item> getItems() {
+        return items;
+    }
 }
