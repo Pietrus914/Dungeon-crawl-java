@@ -13,13 +13,13 @@ public class ItemModel extends BaseModel {
     private int y;
     private int points;
 
-    public ItemModel(Item item){
+    public ItemModel(Item item , int playerId){
         this.name = item.getName();
         this.message = item.getMessage();
         this.x = item.getX();
         this.y = item.getY();
         this.points = item.getPoints();
-        this.playerId = item.getPlayerId();
+        this.playerId = playerId;
         this.mapNumber = item.getMapNumber();
     }
 
