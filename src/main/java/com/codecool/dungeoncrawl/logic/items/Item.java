@@ -8,11 +8,15 @@ public abstract class Item implements Drawable {
     protected String message;
     private Cell cell;
     protected int points;
+    private int playerId;
+    private int mapNumber;
 
     public Item(Cell cell, ItemNames itemName){
         this.cell = cell;
         this.cell.setItem(this);
         this.itemName = itemName;
+//        this.playerId = 5;
+//        this.mapNumber = 5;
 
     }
 
@@ -35,7 +39,35 @@ public abstract class Item implements Drawable {
 
     public String getMessage(){
         return message;
-    };
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public int getMapNumber() {
+        return mapNumber;
+    }
+
+    public void setMapNumber(int mapNumber) {
+        this.mapNumber = mapNumber;
+    }
 
     public void getImpactOnPlayer(){};
 }

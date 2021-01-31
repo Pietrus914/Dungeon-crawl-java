@@ -16,10 +16,14 @@ CREATE TABLE public.inventory (
 DROP TABLE IF EXISTS public.items;
 CREATE TABLE public.items (
     id serial NOT NULL PRIMARY KEY ,
+    player_id integer NOT NULL,
+    map_number integer NOT NULL,
     item_name text NOT NULL ,
+    message text NOT NULL,
     x integer NOT NULL ,
     y integer NOT NULL ,
-    player_id integer NOT NULL
+    points integer NOT NULL
+
 );
 
 DROP TABLE IF EXISTS public.monsters;
