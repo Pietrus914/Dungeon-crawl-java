@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.CurrentStatus;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
 import java.util.function.Consumer;
@@ -43,14 +44,23 @@ public abstract class Actor implements Drawable {
 
 //        uncomment below for testing in command line:
 
-        System.out.println("hit " + player.getStrength());
-        System.out.println("monsterHP " + monsterHp);
+//        System.out.println("hit " + player.getStrength());
+//        System.out.println("monsterHP " + monsterHp);
+//
+//        System.out.println("armor " + player.getArmor());
+//        System.out.println("playerHP " + player.getHealth());
+        StringBuilder currentFightStatus = new StringBuilder();
+        currentFightStatus.append("hit " + player.getStrength() + "\n");
+        currentFightStatus.append("monsterHP " + monsterHp + "\n");
+        currentFightStatus.append("armor " + player.getArmor() + "\n");
+        currentFightStatus.append("playerHP " + player.getHealth());
 
-        System.out.println("armor " + player.getArmor());
-        System.out.println("playerHP " + player.getHealth());
+        CurrentStatus.getInstance().setStatus(currentFightStatus.toString());
 
         if (monsterHp <= 0) {
             nextCell.setActor(null);
+            CurrentStatus.getInstance().setStatus("You win the fight with "
+                    + monster.getClass().getSimpleName() + " !");
         }
     }
 
