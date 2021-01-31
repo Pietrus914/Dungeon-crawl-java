@@ -11,12 +11,12 @@ public abstract class Item implements Drawable {
     private int playerId;
     private int mapNumber;
 
-    public Item(Cell cell, ItemNames itemName){
+    public Item(Cell cell, ItemNames itemName, int mapNumber){
         this.cell = cell;
         this.cell.setItem(this);
         this.itemName = itemName;
 //        this.playerId = 5;
-//        this.mapNumber = 5;
+        this.mapNumber = mapNumber;
 
     }
 

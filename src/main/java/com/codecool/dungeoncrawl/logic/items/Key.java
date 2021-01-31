@@ -4,8 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Key extends Item {
 
-    public Key(Cell cell){
-        super(cell, ItemNames.KEY );
+    public Key(Cell cell, int mapNumber){
+        super(cell, ItemNames.KEY,mapNumber );
         super.message = "Key to secret door added to inventory";
 
     }

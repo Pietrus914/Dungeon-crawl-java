@@ -5,29 +5,29 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class ItemsFactory {
 
 
-    public static Item createItem(Cell cell, ItemNames itemName ){
+    public static Item createItem(Cell cell, ItemNames itemName, int mapNumber ){
         Item newItem = null;
         switch (itemName){
             case KEY:
-                newItem = new Key(cell);
+                newItem = new Key(cell, mapNumber);
                 break;
             case SWORD:
-                newItem = new Sword(cell);
+                newItem = new Sword(cell, mapNumber);
                 break;
             case HELMET:
-                newItem = new Helmet(cell);
+                newItem = new Helmet(cell, mapNumber);
                 break;
             case SHIELD:
-                newItem = new Shield(cell);
+                newItem = new Shield(cell, mapNumber);
                 break;
             case MEAT:
-                newItem = new Meat(cell);
+                newItem = new Meat(cell, mapNumber);
                 break;
             case GLOVES:
-                newItem = new Gloves(cell);
+                newItem = new Gloves(cell, mapNumber);
                 break;
             case MEDICINE:
-                newItem = new Medicine(cell);
+                newItem = new Medicine(cell, mapNumber);
                 break;
             default:
                 throw new IllegalArgumentException("itemName not available");

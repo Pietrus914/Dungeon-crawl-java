@@ -3,8 +3,8 @@ package com.codecool.dungeoncrawl.logic.items;
 import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Sword extends Item{
-    public Sword(Cell cell) {
-        super(cell, ItemNames.SWORD);
+    public Sword(Cell cell, int mapNumber) {
+        super(cell, ItemNames.SWORD,mapNumber);
         super.points = 4;
         super.message = "New sword added to inventory \n +" + this.points +" to strength !";
     }
