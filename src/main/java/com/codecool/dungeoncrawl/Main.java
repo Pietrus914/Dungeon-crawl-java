@@ -209,11 +209,6 @@ public class Main extends Application {
             levels.add(newMap);
             int mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length() - 5)));
             newMap.setMapNumber(mapNumber);
-//            try {
-//                mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length() - 5)));
-//            } catch (Exception e) {
-//                mapNumber = 1;
-//            }
 
             ItemsPlacer newItemPlacer = new ItemsPlacer(newMap);
             MonsterPlacer monsterPlacer = new MonsterPlacer(newMap);
