@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.MonsterPlacer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class GameMap {
+    private int mapNumber;
     private int width;
     private int height;
     private Cell[][] cells;
@@ -84,5 +85,13 @@ public class GameMap {
 
     public void setMonsterPlacer(MonsterPlacer monsterPlacer) {
         this.monsterPlacer = monsterPlacer;
+    }
+
+    public int getMapNumber() {
+        return mapNumber;
+    }
+
+    public void setMapNumber(int mapNumber) {
+        this.mapNumber = mapNumber;
     }
 }

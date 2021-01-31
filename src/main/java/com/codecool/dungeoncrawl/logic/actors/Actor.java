@@ -59,7 +59,7 @@ public abstract class Actor implements Drawable {
 
         if (monsterHp <= 0) {
             nextCell.setActor(null);
-            CurrentStatus.getInstance().setStatus("You win the fight with "
+            CurrentStatus.getInstance().setStatus("You have won the fight with "
                     + monster.getClass().getSimpleName() + " !");
         }
     }
