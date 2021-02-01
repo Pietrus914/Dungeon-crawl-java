@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsFactory {
+    private static int maxid = 0;
 
     private static List<Item> items = new ArrayList<>();
 
@@ -36,10 +37,14 @@ public class ItemsFactory {
             default:
                 throw new IllegalArgumentException("itemName not available");
         }
+        newItem.setId(generateId());
         items.add(newItem);
         return newItem;
     }
 
+    private static int generateId(){
+        return ++maxid;
+    }
     public static List<Item> getItems() {
         return items;
     }

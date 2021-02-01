@@ -16,19 +16,17 @@ public abstract class Item implements Drawable {
         this.cell = cell;
         this.cell.setItem(this);
         this.itemName = itemName;
-//        this.playerId = 5;
         this.mapNumber = mapNumber;
-        setId();
+
 
     }
+
+    public void setId(int id){
+        this.id = id;
+    };
 
     public int getId() {
         return id;
-    }
-
-    public void setId() {
-        //TODO
-        this.id = 2;
     }
 
     public ItemNames getItemName() {
