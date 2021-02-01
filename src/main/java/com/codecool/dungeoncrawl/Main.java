@@ -262,7 +262,7 @@ public class Main extends Application {
         } else if (saveCombination.match(keyEvent)) {
             SavePopUp.display();
             dbManager.savePlayer(map.getPlayer(), SavePopUp.getPlayerName());
-            jsonManager.setUp(map.getPlayer(),SavePopUp.getPlayerName(), itemList );
+            jsonManager.setUp(SavePopUp.getPlayerName(), itemList );
 
         }
     }
@@ -277,7 +277,7 @@ public class Main extends Application {
     }
 
     private void setupJsonManager(){
-        jsonManager = new GameJsonManager();
+        jsonManager = new GameJsonManager(map.getPlayer());
     }
 
     private void exit() {

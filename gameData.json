@@ -1,92 +1,103 @@
-[
-  {
-    "playerId": 22222,
-    "mapNumber": 1,
-    "name": "sword",
-    "message": "New sword added to inventory \n +4 to strength !",
-    "x": 7,
-    "y": 3,
-    "points": 4
-  },
-  {
-    "playerId": 22222,
-    "mapNumber": 1,
-    "name": "helmet",
-    "message": "New helmet added to inventory \n +4 to armor !",
-    "x": 9,
-    "y": 2,
-    "points": 4
-  },
-  {
-    "playerId": 22222,
-    "mapNumber": 1,
-    "name": "meat",
-    "message": "Your health increased by 7 !",
-    "x": 5,
-    "y": 6,
-    "points": 7
-  },
-  {
-    "playerId": 22222,
-    "mapNumber": 2,
-    "name": "meat",
-    "message": "Your health increased by 7 !",
-    "x": 294,
-    "y": 5,
-    "points": 7
-  },
-  {
-    "playerId": 22222,
-    "mapNumber": 2,
-    "name": "gloves",
-    "message": "New gloves added to inventory \n +4 to strength !",
-    "x": 322,
-    "y": 5,
-    "points": 4
-  },
-  {
-    "playerId": 22222,
-    "mapNumber": 2,
-    "name": "shield",
-    "message": "New shield added to inventory \n +4 to armor !",
-    "x": 99,
-    "y": 6,
-    "points": 4
-  },
-  {
-    "playerId": 22222,
-    "mapNumber": 3,
-    "name": "medicine",
-    "message": "Your health increased by 6 !",
-    "x": 8,
-    "y": 5,
-    "points": 6
-  },
-  {
-    "playerId": 22222,
-    "mapNumber": 3,
-    "name": "helmet",
-    "message": "New helmet added to inventory \n +4 to armor !",
-    "x": 20,
-    "y": 17,
-    "points": 4
-  },
-  {
-    "playerId": 22222,
-    "mapNumber": 3,
-    "name": "sword",
-    "message": "New sword added to inventory \n +4 to strength !",
-    "x": 8,
-    "y": 6,
-    "points": 4
-  }
-]
 {
-  "playerName": "saf",
-  "hp": 50,
-  "x": 5,
-  "y": 12,
-  "armor": 0,
-  "strength": 3,
-  "saveName": "ss"
+  "playerModel": {
+    "playerName": "kk",
+    "hp": 50,
+    "x": 5,
+    "y": 13,
+    "armor": 0,
+    "strength": 3,
+    "saveName": "g"
+  },
+  "floorItemModels": [
+    {
+      "playerId": 22222,
+      "mapNumber": 1,
+      "name": "sword",
+      "message": "New sword added to inventory \n +4 to strength !",
+      "x": 9,
+      "y": 1,
+      "points": 4,
+      "inInventory": false
+    },
+    {
+      "playerId": 22222,
+      "mapNumber": 1,
+      "name": "helmet",
+      "message": "New helmet added to inventory \n +4 to armor !",
+      "x": 5,
+      "y": 2,
+      "points": 4,
+      "inInventory": false
+    },
+    {
+      "playerId": 22222,
+      "mapNumber": 1,
+      "name": "meat",
+      "message": "Your health increased by 7 !",
+      "x": 6,
+      "y": 8,
+      "points": 7,
+      "inInventory": false
+    },
+    {
+      "playerId": 22222,
+      "mapNumber": 2,
+      "name": "meat",
+      "message": "Your health increased by 7 !",
+      "x": 125,
+      "y": 4,
+      "points": 7,
+      "inInventory": false
+    },
+    {
+      "playerId": 22222,
+      "mapNumber": 2,
+      "name": "gloves",
+      "message": "New gloves added to inventory \n +4 to strength !",
+      "x": 142,
+      "y": 2,
+      "points": 4,
+      "inInventory": false
+    },
+    {
+      "playerId": 22222,
+      "mapNumber": 2,
+      "name": "shield",
+      "message": "New shield added to inventory \n +4 to armor !",
+      "x": 110,
+      "y": 3,
+      "points": 4,
+      "inInventory": false
+    },
+    {
+      "playerId": 22222,
+      "mapNumber": 3,
+      "name": "medicine",
+      "message": "Your health increased by 6 !",
+      "x": 5,
+      "y": 16,
+      "points": 6,
+      "inInventory": false
+    },
+    {
+      "playerId": 22222,
+      "mapNumber": 3,
+      "name": "helmet",
+      "message": "New helmet added to inventory \n +4 to armor !",
+      "x": 6,
+      "y": 15,
+      "points": 4,
+      "inInventory": false
+    },
+    {
+      "playerId": 22222,
+      "mapNumber": 3,
+      "name": "sword",
+      "message": "New sword added to inventory \n +4 to strength !",
+      "x": 19,
+      "y": 3,
+      "points": 4,
+      "inInventory": false
+    }
+  ]
 }

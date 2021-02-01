@@ -17,7 +17,7 @@ public class ItemDaoJdbc implements ItemDao {
 
     @Override
     public void add(ItemModel item) {
-        String sql = "INSERT INTO items (player_id, map_number, item_name, message, x, y, points) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO items (player_id, map_number, item_name, message, x, y, points, inventory) VALUES (?,?,?,?,?)";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
@@ -28,6 +28,7 @@ public class ItemDaoJdbc implements ItemDao {
             statement.setInt(5,item.getX());
             statement.setInt(6,item.getY());
             statement.setInt(7,item.getPoints());
+            statement.setBoolean(8,item.isInInventory());
         } catch (SQLException e){
             throw new RuntimeException(e);
         }
@@ -57,7 +58,8 @@ public class ItemDaoJdbc implements ItemDao {
                                                 rs.getString("message"),
                                                 rs.getInt("x"),
                                                 rs.getInt("y"),
-                                                rs.getInt("points"));
+                                                rs.getInt("points"),
+                                                rs.getBoolean("inventory"));
                 }
 
             }

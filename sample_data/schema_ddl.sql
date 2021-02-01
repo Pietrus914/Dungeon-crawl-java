@@ -22,7 +22,8 @@ CREATE TABLE public.items (
     message text NOT NULL,
     x integer NOT NULL ,
     y integer NOT NULL ,
-    points integer NOT NULL
+    points integer NOT NULL,
+    inventory boolean NOT NULL
 
 );
 

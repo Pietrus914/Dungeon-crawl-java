@@ -27,9 +27,9 @@ public class GameDatabaseManager {
         playerDao.add(model);
     }
 
-    public void saveItem(Item item){
+    public void saveItem(Item item, Player player){
 
-        ItemModel itemModel = new ItemModel(item,model.getId() );
+        ItemModel itemModel = new ItemModel(item,model.getId(), player );
     }
 
     private DataSource connect() throws SQLException {

@@ -1,6 +1,10 @@
 package com.codecool.dungeoncrawl.model;
 
+import com.codecool.dungeoncrawl.logic.Inventory;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
+
+import java.util.List;
 
 public class ItemModel extends BaseModel {
 
@@ -12,8 +16,9 @@ public class ItemModel extends BaseModel {
     private int x;
     private int y;
     private int points;
+    boolean inInventory;
 
-    public ItemModel(Item item , int playerId){
+    public ItemModel(Item item , int playerId, Player player){
         this.name = item.getName();
         this.message = item.getMessage();
         this.x = item.getX();
@@ -21,10 +26,11 @@ public class ItemModel extends BaseModel {
         this.points = item.getPoints();
         this.playerId = playerId;
         this.mapNumber = item.getMapNumber();
+        this.inInventory = checkInventory(player.getInventory().getItems(), item);
     }
 
     public ItemModel(int playerId, int mapNumber, String name, String message,
-                     int x, int y, int points){
+                     int x, int y, int points, boolean inInventory){
         this.playerId = playerId;
         this.mapNumber = mapNumber;
         this.name = name;
@@ -32,6 +38,14 @@ public class ItemModel extends BaseModel {
         this.x = x;
         this.y = y;
         this.points = points;
+        this.inInventory = inInventory;
+    }
+
+    private boolean checkInventory(List<Item> itemList, Item item){
+        if (itemList.contains(item)){
+            return true;
+        }
+        return false;
     }
 
     public String getName() {
@@ -88,5 +102,13 @@ public class ItemModel extends BaseModel {
 
     public void setMapNumber(int mapNumber) {
         this.mapNumber = mapNumber;
+    }
+
+    public boolean isInInventory() {
+        return inInventory;
+    }
+
+    public void setInInventory(boolean inInventory) {
+        this.inInventory = inInventory;
     }
 }

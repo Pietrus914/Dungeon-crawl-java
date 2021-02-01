@@ -2,7 +2,6 @@ package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
-import com.codecool.dungeoncrawl.model.BaseModel;
 import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import com.google.gson.Gson;
@@ -17,73 +16,65 @@ import java.util.stream.Collectors;
 
 public class GameJsonManager {
 
-    private PlayerDao playerDao;
-    private ItemDao itemDao;
+    transient private Player player;
 
-    private PlayerModel model;
-    private ItemModel itemModel;
-    List<ItemModel> floorItemModels;
+    private PlayerModel playerModel;
+    List<ItemModel> itemModels;
 
-    private String Json;
 
-    public void setUp(Player player, String saveName, List<Item> items){
+    public GameJsonManager(Player player){
+        this.player = player;
+    }
+
+
+    public void setUp(String saveName, List<Item> items){
         preparePlayerModel(player, saveName);
-        prepareFloorItemModels(items, model.getId());
-        getItemsJson();
+        prepareFloorItemModels(items, playerModel.getId());
+        String serializedJson = getItemsJson();
+        try {
+            writeToJsonFile(serializedJson);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void preparePlayerModel(Player player, String saveName){
-        model = new PlayerModel(player, saveName);
+        playerModel = new PlayerModel(player, saveName);
 
     }
 
-    public ItemModel prepareItemModel(Item item, int playerId){
-        return new ItemModel(item,playerId);
+    public ItemModel prepareItemModel(Item item, int playerId, Player player){
+        return new ItemModel(item,playerId, player);
     }
 
     public void prepareFloorItemModels(List<Item> items, int playerId){
-        floorItemModels = new ArrayList<>();
-        floorItemModels = items.stream()
-                .map(item -> prepareItemModel(item, playerId ))
+        itemModels = new ArrayList<>();
+        itemModels = items.stream()
+                .map(item -> prepareItemModel(item, playerId,player ))
                 .collect(Collectors.toList());
     }
 
 
 
 
-    public void getItemsJson(){
+    public String getItemsJson(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String serializedGson = gson.toJson(floorItemModels);
-        serializedGson += gson.toJson(model);
+        String serializedGson = gson.toJson(this);
+
         System.out.println(serializedGson);
+        return serializedGson;
 
-        try {
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter("gameData.json"));
-            writer.write(serializedGson);
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("writing failed");
-        }
 
     }
 
-
-
-
-
-    public void makeGson(ItemModel baseModel) {
-        String serializedGson = new Gson().toJson(baseModel);
-//        System.out.println(serializedGson);
-
-        try {
+    private void writeToJsonFile(String jsonString) throws IOException {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("gameData.json"));
-            writer.write(serializedGson);
+            writer.write(jsonString);
             writer.close();
-        } catch (IOException e) {
-            System.out.println("writing failed");
-        }
+
+
     }
+
 
 }
