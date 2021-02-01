@@ -4,28 +4,31 @@ import com.codecool.dungeoncrawl.logic.items.Item;
 
 public class ItemModel extends BaseModel {
 
-    private int playerId;
-    private int mapNumber;
 
+    private int id;
     private String name;
     private String message;
     private int x;
     private int y;
     private int points;
+    private int game_state_id;
+    private int mapNumber;
 
-    public ItemModel(Item item , int playerId){
+    public ItemModel(Item item , int game_state_id){
+        this.id = item.getId();
         this.name = item.getName();
         this.message = item.getMessage();
         this.x = item.getX();
         this.y = item.getY();
         this.points = item.getPoints();
-        this.playerId = playerId;
+        this.game_state_id = game_state_id;
         this.mapNumber = item.getMapNumber();
     }
 
-    public ItemModel(int playerId, int mapNumber, String name, String message,
+    public ItemModel(int id, int game_state_id, int mapNumber, String name, String message,
                      int x, int y, int points){
-        this.playerId = playerId;
+        this.id = id;
+        this.game_state_id = game_state_id;
         this.mapNumber = mapNumber;
         this.name = name;
         this.message = message;
@@ -74,12 +77,22 @@ public class ItemModel extends BaseModel {
         this.points = points;
     }
 
-    public int getPlayerId() {
-        return playerId;
+    @Override
+    public int getId() {
+        return id;
     }
 
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getGame_state_id() {
+        return game_state_id;
+    }
+
+    public void setGame_state_id(int game_state_id) {
+        this.game_state_id = game_state_id;
     }
 
     public int getMapNumber() {

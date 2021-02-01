@@ -8,15 +8,15 @@ CREATE TABLE public.game_state (
 DROP TABLE IF EXISTS public.items;
 CREATE TABLE public.items (
 
-                              id serial NOT NULL PRIMARY KEY ,
-                              game_state_id integer NOT NULL,
-                              map_number integer NOT NULL,
+                              id integer NOT NULL ,
                               item_name text NOT NULL ,
                               message text NOT NULL,
                               x integer NOT NULL ,
                               y integer NOT NULL ,
                               points integer NOT NULL,
                               inventory boolean NOT NULL
+                              game_state_id integer NOT NULL,
+                              map_number integer NOT NULL,
 
 );
 

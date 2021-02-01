@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
 public abstract class Item implements Drawable {
+    private int id;
     private final ItemNames itemName;
     protected String message;
     private Cell cell;
@@ -17,9 +18,22 @@ public abstract class Item implements Drawable {
         this.itemName = itemName;
 //        this.playerId = 5;
         this.mapNumber = mapNumber;
+        setId();
 
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId() {
+        //TODO
+        this.id = 2;
+    }
+
+    public ItemNames getItemName() {
+        return itemName;
+    }
 
     public Cell getCell() {
         return cell;

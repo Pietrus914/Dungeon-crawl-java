@@ -13,7 +13,6 @@ public class GameDatabaseManager {
     private PlayerDao playerDao;
     private ItemDao itemDao;
 
-    private PlayerModel model;
 
     public void setup() throws SQLException {
         DataSource dataSource = connect();
@@ -23,13 +22,10 @@ public class GameDatabaseManager {
 
     public void savePlayer(Player player, String saveName) {
         PlayerModel model = new PlayerModel(player, saveName);
-        this.model = model;
         playerDao.add(model);
     }
 
     public void saveItem(Item item){
-
-        ItemModel itemModel = new ItemModel(item,model.getId() );
     }
 
     private DataSource connect() throws SQLException {
