@@ -19,17 +19,19 @@ CREATE TABLE public.items (
 
 );
 
+
 DROP TABLE IF EXISTS public.monsters;
 CREATE TABLE public.monsters (
-                                 id serial NOT NULL PRIMARY KEY ,
+                                 id integer NOT NULL ,
                                  monster_name text NOT NULL ,
                                  hp integer NOT NULL,
                                  x integer NOT NULL,
                                  y integer NOT NULL ,
-                                 game_state_id integer NOT NULL
+                                 game_state_id integer NOT NULL,
+                                 map_number integer NOT NULL
 );
 
-DROP TABLE IF EXISTS public.player CASCADE ;
+DROP TABLE IF EXISTS public.player;
 CREATE TABLE public.player (
                                id serial NOT NULL PRIMARY KEY,
                                save_name text NOT NULL,
