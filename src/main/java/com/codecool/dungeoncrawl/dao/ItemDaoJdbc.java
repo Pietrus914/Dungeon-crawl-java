@@ -17,17 +17,20 @@ public class ItemDaoJdbc implements ItemDao {
 
     @Override
     public void add(ItemModel item) {
-        String sql = "INSERT INTO items (player_id, map_number, item_name, message, x, y, points) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO items (id, item_name, message, x, y, points, " +
+                "inventory, game_state_id, map_number) VALUES (?,?,?,?,?,?,?,?,?)";
 
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            statement.setInt(1,item.getPlayerId());
-            statement.setInt(2, item.getMapNumber());
-            statement.setString(3,item.getName());
-            statement.setString(4,item.getMessage());
-            statement.setInt(5,item.getX());
-            statement.setInt(6,item.getY());
-            statement.setInt(7,item.getPoints());
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setInt(1,item.getId());
+            statement.setString(2,item.getName());
+            statement.setString(3,item.getMessage());
+            statement.setInt(4,item.getX());
+            statement.setInt(5,item.getY());
+            statement.setInt(6,item.getPoints());
+            statement.setBoolean(7, item.isInInventory());
+            statement.setInt(8, item.getGameStateId());
+            statement.setInt(9, item.getMapNumber());
         } catch (SQLException e){
             throw new RuntimeException(e);
         }
@@ -41,7 +44,8 @@ public class ItemDaoJdbc implements ItemDao {
 
     @Override
     public ItemModel get(int id) {
-        String sql = "SELECT id,player_id, map_number, item_name, message, x, y, points  FROM items WHERE id = ?";
+        String sql = "SELECT id, item_name, message, x, y, points, " +
+                "inventory, game_state_id, map_number  FROM items WHERE id = ?";
         ItemModel itemModel = null;
 
         try (Connection conn = dataSource.getConnection();
@@ -51,17 +55,17 @@ public class ItemDaoJdbc implements ItemDao {
 
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()){
-                    itemModel = new ItemModel(rs.getInt("player_id"),
-                                                rs.getInt("map_number"),
+                    itemModel = new ItemModel(rs.getInt("id"),
                                                 rs.getString("item_name"),
                                                 rs.getString("message"),
                                                 rs.getInt("x"),
                                                 rs.getInt("y"),
-                                                rs.getInt("points"));
+                                                rs.getInt("points"),
+                                                rs.getBoolean("inventory"),
+                                                rs.getInt("game_state_id"),
+                                                rs.getInt("map_number"));
                 }
-
             }
-
         } catch (SQLException e){
             throw new RuntimeException(e);
         }

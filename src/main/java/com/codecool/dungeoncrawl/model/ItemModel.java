@@ -11,31 +11,39 @@ public class ItemModel extends BaseModel {
     private int x;
     private int y;
     private int points;
-    private int game_state_id;
+    private boolean inInventory;
+    private int gameStateId;
     private int mapNumber;
 
-    public ItemModel(Item item , int game_state_id){
+    public ItemModel(Item item , int gameStateId){
         this.id = item.getId();
         this.name = item.getName();
         this.message = item.getMessage();
         this.x = item.getX();
         this.y = item.getY();
         this.points = item.getPoints();
-        this.game_state_id = game_state_id;
+        this.inInventory = checkInInventory();
+        this.gameStateId = gameStateId;
         this.mapNumber = item.getMapNumber();
     }
 
-    public ItemModel(int id, int game_state_id, int mapNumber, String name, String message,
-                     int x, int y, int points){
+    public ItemModel(int id, String name, String message,int x, int y,
+                      int points, boolean inInventory,int game_state_id, int mapNumber ){
         this.id = id;
-        this.game_state_id = game_state_id;
-        this.mapNumber = mapNumber;
         this.name = name;
         this.message = message;
         this.x = x;
         this.y = y;
         this.points = points;
+        this.inInventory = inInventory;
+        this.gameStateId = game_state_id;
+        this.mapNumber = mapNumber;
     }
+
+    private boolean checkInInventory(){
+        //TODO
+        return false;
+    };
 
     public String getName() {
         return name;
@@ -77,6 +85,14 @@ public class ItemModel extends BaseModel {
         this.points = points;
     }
 
+    public void setInInventory(boolean inInventory) {
+        this.inInventory = inInventory;
+    }
+
+    public boolean isInInventory() {
+        return inInventory;
+    }
+
     @Override
     public int getId() {
         return id;
@@ -87,12 +103,12 @@ public class ItemModel extends BaseModel {
         this.id = id;
     }
 
-    public int getGame_state_id() {
-        return game_state_id;
+    public int getGameStateId() {
+        return gameStateId;
     }
 
-    public void setGame_state_id(int game_state_id) {
-        this.game_state_id = game_state_id;
+    public void setGameStateId(int gameStateId) {
+        this.gameStateId = gameStateId;
     }
 
     public int getMapNumber() {
