@@ -7,10 +7,10 @@ import java.util.List;
 public interface ItemDao {
 
     void add(ItemModel item);
-    void update(ItemModel item , int gameStateId);
-    ItemModel get(int id);
-    List<ItemModel> getAll();
-    List<ItemModel> getAllForInventory();
-    List<ItemModel> getAllOnFloor();
+    void update(ItemModel item);
+    ItemModel get(int id, int gameStatusID, int mapNumber);
+    List<ItemModel> getAll(int gameStateId);
+    List<ItemModel> getAllForInventory(int gameStateId);
+    List<ItemModel> getAllOnFloor(int gameStateId);
 
 }

@@ -1,9 +1,11 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.model.ItemModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDaoJdbc implements ItemDao {
@@ -40,7 +42,7 @@ public class ItemDaoJdbc implements ItemDao {
     }
 
     @Override
-    public void update(ItemModel item, int gameStateId) {
+    public void update(ItemModel item) {
         String sql = "UPDATE items SET  inventory = ? " +
                 "WHERE id = ? AND game_state_id = ? AND map_number = ?";
 
@@ -58,14 +60,18 @@ public class ItemDaoJdbc implements ItemDao {
     }
 
     @Override
-    public ItemModel get(int id) {
+    public ItemModel get(int id, int gameStateId, int mapNumber) {
         String sql = "SELECT id, item_name, message, x, y, points, " +
-                "inventory, game_state_id, map_number  FROM items WHERE id = ?";
+                "inventory, game_state_id, map_number  FROM items " +
+                "WHERE id = ? AND game_state_id = ? AND map_number = ?";
+
         ItemModel itemModel = null;
 
         try (Connection conn = dataSource.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql)){
             statement.setInt(1,id);
+            statement.setInt(2, gameStateId);
+            statement.setInt(3, mapNumber);
 
 
             try (ResultSet rs = statement.executeQuery()) {
@@ -88,17 +94,103 @@ public class ItemDaoJdbc implements ItemDao {
         return itemModel;
     }
 
-    public List<ItemModel> getAll() {
-        return null;
+    public List<ItemModel> getAll(int gameStateId) {
+        String sql = "SELECT id, item_name, message, x, y, points, " +
+                "inventory, game_state_id, map_number  FROM items " +
+                "WHERE game_state_id = ?";
+
+        List<ItemModel> itemsModels = new ArrayList<>();
+
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setInt(1, gameStateId);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()){
+                    ItemModel itemModel = new ItemModel(rs.getInt("id"),
+                            rs.getString("item_name"),
+                            rs.getString("message"),
+                            rs.getInt("x"),
+                            rs.getInt("y"),
+                            rs.getInt("points"),
+                            rs.getBoolean("inventory"),
+                            rs.getInt("game_state_id"),
+                            rs.getInt("map_number"));
+                    itemsModels.add(itemModel);
+                }
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return itemsModels;
     }
 
     @Override
-    public List<ItemModel> getAllForInventory() {
-        return null;
+    public List<ItemModel> getAllForInventory(int gameStateId) {
+        String sql = "SELECT id, item_name, message, x, y, points, " +
+                "inventory, game_state_id, map_number  FROM items " +
+                "WHERE game_state_id = ? AND inventory = ?";
+
+        List<ItemModel> itemsModels = new ArrayList<>();
+
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setInt(1, gameStateId);
+            statement.setBoolean(2, true);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()){
+                    ItemModel itemModel = new ItemModel(rs.getInt("id"),
+                            rs.getString("item_name"),
+                            rs.getString("message"),
+                            rs.getInt("x"),
+                            rs.getInt("y"),
+                            rs.getInt("points"),
+                            rs.getBoolean("inventory"),
+                            rs.getInt("game_state_id"),
+                            rs.getInt("map_number"));
+                    itemsModels.add(itemModel);
+                }
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return itemsModels;
     }
 
     @Override
-    public List<ItemModel> getAllOnFloor() {
-        return null;
+    public List<ItemModel> getAllOnFloor(int gameStateId) {
+        String sql = "SELECT id, item_name, message, x, y, points, " +
+                "inventory, game_state_id, map_number  FROM items " +
+                "WHERE game_state_id = ? AND inventory = ?";
+
+        List<ItemModel> itemsModels = new ArrayList<>();
+
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setInt(1, gameStateId);
+            statement.setBoolean(2,false);
+
+            try (ResultSet rs = statement.executeQuery()){
+                while (rs.next()){
+                    ItemModel itemModel = new ItemModel(rs.getInt("id"),
+                            rs.getString("item_name"),
+                            rs.getString("message"),
+                            rs.getInt("x"),
+                            rs.getInt("y"),
+                            rs.getInt("points"),
+                            rs.getBoolean("inventory"),
+                            rs.getInt("game_state_id"),
+                            rs.getInt("map_number"));
+                    itemsModels.add(itemModel);
+                }
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return itemsModels;
     }
 }

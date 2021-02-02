@@ -8,6 +8,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameDatabaseManager {
@@ -29,7 +30,8 @@ public class GameDatabaseManager {
 
     private ItemModel getItemModel(Item item){
         // TODO : pass the right gameStateId
-        ItemModel itemModel = new ItemModel(item, 8888888);
+        int gameStateId = 8888888;
+        ItemModel itemModel = new ItemModel(item, gameStateId);
         return itemModel;
     }
 
@@ -43,13 +45,25 @@ public class GameDatabaseManager {
     public void updateItems(List<Item> itemList){
         for (Item item : itemList){
             ItemModel itemModel = getItemModel(item);
-            // TODO : pass the right gameStateId
-            int gameStateId = 8888888;
-            itemDao.update(itemModel, gameStateId);
+            itemDao.update(itemModel);
         }
     }
 
+    public ItemModel getItemModel(int id,int gameStatusId, int mapNumber ){
+        return itemDao.get(id, gameStatusId, mapNumber);
+    }
 
+    public List<ItemModel> getItemModelsForInventory(int gameStatusId){
+        return itemDao.getAllForInventory(gameStatusId);
+    }
+
+    public List<ItemModel> getItemModelsForFloor(int gameStatusId){
+        return itemDao.getAllOnFloor(gameStatusId);
+    }
+
+    public List<ItemModel> getAllItemModels(int gameStatusId){
+        return itemDao.getAll(gameStatusId);
+    }
 
 
 
