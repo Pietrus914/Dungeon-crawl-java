@@ -1,10 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
-import com.codecool.dungeoncrawl.gui.EndPopUp;
-import com.codecool.dungeoncrawl.gui.SavePopUp;
-import com.codecool.dungeoncrawl.gui.StartPopUp;
-import com.codecool.dungeoncrawl.gui.StatusLine;
+import com.codecool.dungeoncrawl.gui.*;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
@@ -73,7 +70,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         setupDbManager();
 
-        StartPopUp.display();
+        NewGameLoadGamePopup.display();
+        //StartPopUp.display();
         map.getPlayer().setName(StartPopUp.getPlayerName());
 
         GridPane ui = new GridPane();
