@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
+    List<Actor> monsterList = new ArrayList<>();
     ArrayList<GameMap> mapList = getLevels();
     GameMap map = mapList.get(0);
     GameCamera gameCamera = new GameCamera(map, 0, 0);
@@ -162,7 +163,7 @@ public class Main extends Application {
     private void moveMonsters() {
         for (GameMap gameMap : mapList) {
             for (Actor monster : gameMap.getMonsterPlacer().getMonsters()) {
-                if (monster.getHealth() > 0) {
+                if (monster.getHealth() > 0 && !monster.getTileName().equals("skeleton")) {
                     try {
                         monster.move(RandomProvider.getRandomNumberOfRange(-1, 2), RandomProvider.getRandomNumberOfRange(-1, 2));
                     } catch (IllegalStateException | ArrayIndexOutOfBoundsException e) {
@@ -208,6 +209,7 @@ public class Main extends Application {
         ArrayList<GameMap> levels = new ArrayList<>();
         File folder = new File("src/main/resources/levels");
         File[] listOfFiles = folder.listFiles();
+        int id = 1;
         for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
             String fileName = listOfFile.getName();
             GameMap newMap = MapLoader.loadMap("/levels/" + fileName);
@@ -216,10 +218,12 @@ public class Main extends Application {
             newMap.setMapNumber(mapNumber);
 
             ItemsPlacer newItemPlacer = new ItemsPlacer(newMap);
-            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap);
+            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap, id);
             newMap.setMonsterPlacer(monsterPlacer);
             newItemPlacer.addItemsRandomly();
             monsterPlacer.addAllMonsters();
+            id = monsterPlacer.getId();
+            monsterList.addAll(monsterPlacer.getMonsters());
         }
         return levels;
     }
@@ -259,9 +263,11 @@ public class Main extends Application {
             exit();
         } else if (saveCombination.match(keyEvent)) {
             SavePopUp.display();
-            dbManager.savePlayer(map.getPlayer(), SavePopUp.getPlayerName());
+            dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
+            dbManager.savePlayer(map.getPlayer());
             itemsList = ItemsFactory.getItems();
-//            dbManager.saveItems(itemsList);
+            dbManager.saveItems(itemsList, map.getPlayer().getId());
+            dbManager.saveMonsters(monsterList, map.getPlayer().getId());
         }
     }
 
