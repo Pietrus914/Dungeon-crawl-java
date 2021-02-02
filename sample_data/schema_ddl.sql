@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS public.game_state CASCADE;
 CREATE TABLE public.game_state (
                                    id serial NOT NULL PRIMARY KEY,
+                                   save_name text NOT NULL,
                                    current_map text NOT NULL,
                                    saved_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -32,10 +33,9 @@ CREATE TABLE public.monsters (
                                  map_number integer NOT NULL
 );
 
-DROP TABLE IF EXISTS public.player;
+DROP TABLE IF EXISTS  public.player CASCADE ;
 CREATE TABLE public.player (
                                id serial NOT NULL PRIMARY KEY,
-                               save_name text NOT NULL,
                                player_name text NOT NULL,
                                hp integer NOT NULL,
                                armor integer NOT NULL ,

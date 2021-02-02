@@ -16,6 +16,8 @@ public abstract class Actor implements Drawable {
     private Consumer<Integer> onHealthChange = null;
     private Consumer<Integer> onStrengthChange = null;
     private Consumer<Integer> onArmorChange = null;
+    private int id;
+    private int mapNumber;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -179,5 +181,21 @@ public abstract class Actor implements Drawable {
 
     public void setArmor(int armor) {
         this.armor = armor;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getMapNumber() {
+        return mapNumber;
+    }
+
+    public void setMapNumber(int mapNumber) {
+        this.mapNumber = mapNumber;
     }
 }
