@@ -10,7 +10,7 @@ public class BaseModel {
 //        return id;
 //    }
     public int getId() {
-        return 22222;
+        return id;
     }
 
     public void setId(int id) {

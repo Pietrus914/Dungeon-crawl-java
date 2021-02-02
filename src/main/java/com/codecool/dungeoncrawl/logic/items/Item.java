@@ -9,7 +9,7 @@ public abstract class Item implements Drawable {
     protected String message;
     private Cell cell;
     protected int points;
-//    private int playerId;
+    private boolean inInventory;
     private int mapNumber;
 
     public Item(Cell cell, ItemNames itemName, int mapNumber){
@@ -17,6 +17,7 @@ public abstract class Item implements Drawable {
         this.cell.setItem(this);
         this.itemName = itemName;
         this.mapNumber = mapNumber;
+        this.inInventory = false;
 
 
     }
@@ -36,6 +37,8 @@ public abstract class Item implements Drawable {
     public Cell getCell() {
         return cell;
     }
+
+
 
     public int getX() {
         return cell.getX();
@@ -64,6 +67,10 @@ public abstract class Item implements Drawable {
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public boolean isInInventory() {return inInventory;    }
+
+    public void setInInventory(boolean in) { this.inInventory = in;    }
 
     public int getMapNumber() {
         return mapNumber;

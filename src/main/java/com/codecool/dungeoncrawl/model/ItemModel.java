@@ -22,7 +22,7 @@ public class ItemModel extends BaseModel {
         this.x = item.getX();
         this.y = item.getY();
         this.points = item.getPoints();
-        this.inInventory = checkInInventory();
+        this.inInventory = item.isInInventory();
         this.gameStateId = gameStateId;
         this.mapNumber = item.getMapNumber();
     }
@@ -39,11 +39,6 @@ public class ItemModel extends BaseModel {
         this.gameStateId = game_state_id;
         this.mapNumber = mapNumber;
     }
-
-    private boolean checkInInventory(){
-        //TODO
-        return false;
-    };
 
     public String getName() {
         return name;

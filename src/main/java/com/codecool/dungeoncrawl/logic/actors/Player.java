@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.buildings.BuildingsName;
 import com.codecool.dungeoncrawl.logic.buildings.OpenDoor;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.ItemNames;
+import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
 
 import java.util.ArrayList;
 
@@ -28,10 +29,12 @@ public class Player extends Actor {
     public void addToInventory(Item item){
         if (!item.getName().equals(ItemNames.MEAT.getItemName())){
             inventory.add(item);
+            item.setInInventory(true);
+
+        } else {
+            ItemsFactory.getItems().remove(item);
         }
         item.getImpactOnPlayer();
-
-
     }
 
     public ArrayList<String> getInventoryItemsNames(){
