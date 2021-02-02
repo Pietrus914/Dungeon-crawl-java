@@ -3,8 +3,8 @@ package com.codecool.dungeoncrawl.logic.items;
 import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Helmet extends Item {
-    public Helmet(Cell cell){
-        super(cell, ItemNames.HELMET);
+    public Helmet(Cell cell, int mapNumber){
+        super(cell, ItemNames.HELMET, mapNumber);
         super.points = 4;
         super.message = "New helmet added to inventory \n +" + points + " to armor !";
 

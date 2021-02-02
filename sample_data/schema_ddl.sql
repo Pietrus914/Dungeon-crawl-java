@@ -16,7 +16,7 @@ CREATE TABLE public.items (
                               points integer NOT NULL,
                               inventory boolean NOT NULL,
                               game_state_id integer NOT NULL,
-                              map_number integer NOT NULL,
+                              map_number integer NOT NULL
 
 );
 

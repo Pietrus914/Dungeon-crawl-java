@@ -51,7 +51,7 @@ public class ItemsPlacer {
                 int y = RandomProvider.getRandomNumberOfRange(1,map.getHeight() -1);
                 Cell cell = map.getCell(x,y);
                 if (cell.canAddItem()){
-                    ItemsFactory.createItem(cell, name);
+                    ItemsFactory.createItem(cell, name, mapNumber);
                     cellFound = true;
                 }
             }
