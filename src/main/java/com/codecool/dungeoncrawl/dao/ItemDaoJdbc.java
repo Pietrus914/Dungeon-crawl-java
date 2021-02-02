@@ -76,6 +76,7 @@ public class ItemDaoJdbc implements ItemDao {
 
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()){
+//                    itemModel = createItemModel(rs);
                     itemModel = new ItemModel(rs.getInt("id"),
                                                 rs.getString("item_name"),
                                                 rs.getString("message"),
@@ -192,5 +193,24 @@ public class ItemDaoJdbc implements ItemDao {
             throw new RuntimeException(e);
         }
         return itemsModels;
+    }
+
+
+    // prepared for refactoring queries:
+    private ItemModel createItemModel(ResultSet rs) throws SQLException {
+        ItemModel itemModel = null;
+        while (rs.next()){
+            itemModel = new ItemModel(rs.getInt("id"),
+                    rs.getString("item_name"),
+                    rs.getString("message"),
+                    rs.getInt("x"),
+                    rs.getInt("y"),
+                    rs.getInt("points"),
+                    rs.getBoolean("inventory"),
+                    rs.getInt("game_state_id"),
+                    rs.getInt("map_number"));
+
+        }
+        return itemModel;
     }
 }
