@@ -10,9 +10,9 @@ public class ItemDaoJdbc implements ItemDao {
     private DataSource dataSource;
     private PlayerDao playerDao;
 
-    public ItemDaoJdbc(DataSource dataSource, PlayerDao playerDao){
+    public ItemDaoJdbc(DataSource dataSource){
         this.dataSource = dataSource;
-        this.playerDao = playerDao;
+//        this.playerDao = playerDao;
     }
 
     @Override
@@ -31,6 +31,8 @@ public class ItemDaoJdbc implements ItemDao {
             statement.setBoolean(7, item.isInInventory());
             statement.setInt(8, item.getGameStateId());
             statement.setInt(9, item.getMapNumber());
+
+            statement.executeUpdate();
         } catch (SQLException e){
             throw new RuntimeException(e);
         }

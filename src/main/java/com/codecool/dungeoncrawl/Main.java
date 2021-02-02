@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
-import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.EndPopUp;
 import com.codecool.dungeoncrawl.gui.SavePopUp;
 import com.codecool.dungeoncrawl.gui.StartPopUp;
@@ -60,9 +59,9 @@ public class Main extends Application {
     StatusLine status = new StatusLine("Let's start the game!");
     HBox infoBox = new HBox(status);
     HBox inventoryHBox = new HBox(inventoryListView);
+    List<Item> itemsList;
     GameDatabaseManager dbManager;
-    GameJsonManager jsonManager;
-    List<Item> itemList = ItemsFactory.getItems();
+
 
 
     public static void main(String[] args) {
@@ -70,9 +69,8 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         setupDbManager();
-        setupJsonManager();
 
         StartPopUp.display();
         map.getPlayer().setName(StartPopUp.getPlayerName());
@@ -262,8 +260,8 @@ public class Main extends Application {
         } else if (saveCombination.match(keyEvent)) {
             SavePopUp.display();
             dbManager.savePlayer(map.getPlayer(), SavePopUp.getPlayerName());
-            jsonManager.setUp(map.getPlayer(),SavePopUp.getPlayerName(), itemList );
-
+            itemsList = ItemsFactory.getItems();
+            dbManager.saveItems(itemsList);
         }
     }
 
@@ -274,10 +272,6 @@ public class Main extends Application {
         } catch (SQLException ex) {
             System.out.println("Cannot connect to database.");
         }
-    }
-
-    private void setupJsonManager(){
-        jsonManager = new GameJsonManager();
     }
 
     private void exit() {

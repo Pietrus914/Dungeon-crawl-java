@@ -8,6 +8,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.List;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -17,7 +18,7 @@ public class GameDatabaseManager {
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
-        itemDao = new ItemDaoJdbc(dataSource, playerDao);
+        itemDao = new ItemDaoJdbc(dataSource);
     }
 
     public void savePlayer(Player player, String saveName) {
@@ -25,7 +26,17 @@ public class GameDatabaseManager {
         playerDao.add(model);
     }
 
-    public void saveItem(Item item){
+    private ItemModel getItemModel(Item item){
+        // TODO : pass the right gameStateId
+        ItemModel itemModel = new ItemModel(item, 8888888);
+        return itemModel;
+    }
+
+    public void saveItems(List<Item> itemList){
+        for (Item item : itemList){
+            ItemModel itemModel = getItemModel(item);
+            itemDao.add(itemModel);
+        }
     }
 
     private DataSource connect() throws SQLException {
