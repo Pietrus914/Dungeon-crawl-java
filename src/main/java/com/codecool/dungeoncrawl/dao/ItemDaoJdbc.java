@@ -40,8 +40,21 @@ public class ItemDaoJdbc implements ItemDao {
     }
 
     @Override
-    public void update(ItemModel item) {
+    public void update(ItemModel item, int gameStateId) {
+        String sql = "UPDATE items SET  inventory = ? " +
+                "WHERE id = ? AND game_state_id = ? AND map_number = ?";
 
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setBoolean(1,item.isInInventory());
+            statement.setInt(2, item.getId());
+            statement.setInt(3,item.getGameStateId());
+            statement.setInt(4, item.getMapNumber());
+
+            statement.executeUpdate();
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -73,6 +86,10 @@ public class ItemDaoJdbc implements ItemDao {
         }
 
         return itemModel;
+    }
+
+    public List<ItemModel> getAll() {
+        return null;
     }
 
     @Override

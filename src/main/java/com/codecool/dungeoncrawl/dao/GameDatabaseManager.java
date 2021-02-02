@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class GameDatabaseManager {
+
     private PlayerDao playerDao;
     private ItemDao itemDao;
 
@@ -38,6 +39,19 @@ public class GameDatabaseManager {
             itemDao.add(itemModel);
         }
     }
+
+    public void updateItems(List<Item> itemList){
+        for (Item item : itemList){
+            ItemModel itemModel = getItemModel(item);
+            // TODO : pass the right gameStateId
+            int gameStateId = 8888888;
+            itemDao.update(itemModel, gameStateId);
+        }
+    }
+
+
+
+
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();

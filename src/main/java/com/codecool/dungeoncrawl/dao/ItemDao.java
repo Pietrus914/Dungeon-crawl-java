@@ -7,8 +7,9 @@ import java.util.List;
 public interface ItemDao {
 
     void add(ItemModel item);
-    void update(ItemModel item);
+    void update(ItemModel item , int gameStateId);
     ItemModel get(int id);
+    List<ItemModel> getAll();
     List<ItemModel> getAllForInventory();
     List<ItemModel> getAllOnFloor();
 
