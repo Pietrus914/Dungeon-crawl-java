@@ -46,16 +46,6 @@ public class ItemConverter {
         recoveredItem.setInInventory(itemModel.isInInventory());
         recoveredItem.setMapNumber(itemModel.getMapNumber());
 
-
-/**
-         bedziemy musieli mieć jakies defaultowe gameStateId na początku, hm?,
-        i jak zapisujemy, to sprawdzamy, czy takie istnieje, i jeśli nie, to wtedy db tworzy nowe
-        każdy obiekt będzie musiał miec pole gameStateId, bo inaczej to zgubimy chyba?
-
-        recoveredItem.setGameStateId(itemModel.getGameStateId());
- **/
-
-
 // updating list of all items in ItemFactory
         ItemsFactory.getItems().add(recoveredItem);
 
