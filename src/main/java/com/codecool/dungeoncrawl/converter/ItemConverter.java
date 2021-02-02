@@ -55,6 +55,8 @@ public class ItemConverter {
         recoveredItem.setGameStateId(itemModel.getGameStateId());
  **/
 
+
+// updating list of all items in ItemFactory
         ItemsFactory.getItems().add(recoveredItem);
 
         return recoveredItem;
