@@ -1,13 +1,17 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.ItemModel;
+import com.codecool.dungeoncrawl.model.MonsterModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,36 +19,44 @@ public class GameDatabaseManager {
 
     private PlayerDao playerDao;
     private ItemDao itemDao;
+    private GameStateDao gameStateDao;
+    private MonsterDao monsterDao;
 
 
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
         itemDao = new ItemDaoJdbc(dataSource);
+        gameStateDao = new GameStateDaoJdbc(dataSource);
+        monsterDao = new MonsterDaoJdbc(dataSource);
     }
 
-    public void savePlayer(Player player, String saveName) {
-        PlayerModel model = new PlayerModel(player, saveName);
+    public void saveGameState(String currentMap, String saveName, Player player) {
+        GameState gameState = new GameState(currentMap, new Timestamp(System.currentTimeMillis()), saveName);
+        gameStateDao.add(gameState);
+        player.setId(gameState.getId());
+    }
+
+    public void savePlayer(Player player) {
+        PlayerModel model = new PlayerModel(player);
         playerDao.add(model);
     }
 
-    private ItemModel getItemModel(Item item){
-        // TODO : pass the right gameStateId
-        int gameStateId = 8888888;
+    private ItemModel getItemModel(Item item, int gameStateId){
         ItemModel itemModel = new ItemModel(item, gameStateId);
         return itemModel;
     }
 
-    public void saveItems(List<Item> itemList){
+    public void saveItems(List<Item> itemList, int gameStateId){
         for (Item item : itemList){
-            ItemModel itemModel = getItemModel(item);
+            ItemModel itemModel = getItemModel(item, gameStateId);
             itemDao.add(itemModel);
         }
     }
 
-    public void updateItems(List<Item> itemList){
+    public void updateItems(List<Item> itemList, int gameStateId){
         for (Item item : itemList){
-            ItemModel itemModel = getItemModel(item);
+            ItemModel itemModel = getItemModel(item, gameStateId);
             itemDao.update(itemModel);
         }
     }
@@ -63,6 +75,20 @@ public class GameDatabaseManager {
 
     public List<ItemModel> getAllItemModels(int gameStatusId){
         return itemDao.getAll(gameStatusId);
+    }
+
+    private MonsterModel getMonsterModel(Actor actor, int gameStateId){
+        MonsterModel monsterModel = new MonsterModel(actor, gameStateId);
+        monsterModel.setId(actor.getId());
+        return monsterModel;
+    }
+
+    public void saveMonsters(List<Actor> monsterList, int gameStateId) {
+        for (Actor actor : monsterList) {
+            MonsterModel monsterModel = getMonsterModel(actor, gameStateId);
+            monsterDao.add(monsterModel);
+        }
+
     }
 
 
