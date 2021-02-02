@@ -261,7 +261,7 @@ public class Main extends Application {
             SavePopUp.display();
             dbManager.savePlayer(map.getPlayer(), SavePopUp.getPlayerName());
             itemsList = ItemsFactory.getItems();
-            dbManager.saveItems(itemsList);
+//            dbManager.saveItems(itemsList);
         }
     }
 
