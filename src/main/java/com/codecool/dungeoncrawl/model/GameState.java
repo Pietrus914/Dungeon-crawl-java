@@ -15,6 +15,7 @@ public class GameState extends BaseModel {
         this.currentMap = currentMap;
         this.savedAt = savedAt;
         this.saveName = saveName;
+//        super.id = 888888888;    trzeba setować idiki , ktore są w BaseModel jako parent
 
     }
 

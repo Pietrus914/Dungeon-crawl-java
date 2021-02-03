@@ -160,7 +160,7 @@ public class Main extends Application {
 //            SavePopUp.display();
             itemsList = ItemsFactory.getItems();
             jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList);
+                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
 //            jsonManager.saveToProjectFile();
             SavePopUp.display(jsonManager);
 

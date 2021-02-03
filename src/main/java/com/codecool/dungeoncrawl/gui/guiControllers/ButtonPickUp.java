@@ -14,9 +14,13 @@ public class ButtonPickUp extends Button {
     private Player player;
 
 
+//<<<<<<< HEAD
 
 
     public ButtonPickUp(Player player, InventoryBoxDisplayer inventoryBoxDisplayer){
+//=======
+//    public ButtonPickUp(GameMap map, InventoryBoxDisplayer inventoryBoxDisplayer){
+//>>>>>>> development
         super("Add to inventory");
         this.player = player;
         this.setTooltip(new Tooltip("Add item to your inventory"));

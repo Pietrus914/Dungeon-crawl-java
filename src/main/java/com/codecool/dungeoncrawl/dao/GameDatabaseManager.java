@@ -79,7 +79,7 @@ public class GameDatabaseManager {
 
     private MonsterModel getMonsterModel(Actor actor, int gameStateId){
         MonsterModel monsterModel = new MonsterModel(actor, gameStateId);
-        monsterModel.setId(actor.getId());
+//        monsterModel.setId(actor.getId());
         return monsterModel;
     }
 
