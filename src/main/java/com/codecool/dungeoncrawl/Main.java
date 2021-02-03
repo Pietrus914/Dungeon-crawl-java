@@ -39,14 +39,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
-    List<Actor> monsterList = new ArrayList<>();
-    ArrayList<GameMap> mapList = getLevels();
-    GameMap map = mapList.get(0);
-    GameCamera gameCamera = new GameCamera(map, 0, 0);
-    Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
-    GraphicsContext context = canvas.getGraphicsContext2D();
+    GameWorld gameWorld = new GameWorld();
+    GameMap map;
+    GameCamera gameCamera;
+    Canvas canvas;
+    GraphicsContext context;
     Label nameLabel = new Label();
     Label healthLabel = new Label();
     Label strengthLabel = new Label();
@@ -54,10 +51,9 @@ public class Main extends Application {
     HBox hbox = new HBox();
     ListView<String> inventoryListView = new ListView<>();
 
-    InventoryBoxDisplayer inventoryBoxDisplayer =
-            new InventoryBoxDisplayer(map.getPlayer().getInventory(), inventoryListView);
+    InventoryBoxDisplayer inventoryBoxDisplayer;
 
-    Button pickUpButton = new ButtonPickUp(map, inventoryBoxDisplayer);
+    Button pickUpButton;
     StatusLine status = new StatusLine("Let's start the game!");
     HBox infoBox = new HBox(status);
     HBox inventoryHBox = new HBox(inventoryListView);
@@ -70,13 +66,27 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
     @Override
     public void start(Stage primaryStage) {
         setupDbManager();
+        gameWorld.createLevels();
+
+        map = gameWorld.getCurrentMap();
+
+        canvas = new Canvas(
+                map.getWidth() * Tiles.TILE_WIDTH,
+                map.getHeight() * Tiles.TILE_WIDTH);
+        context = canvas.getGraphicsContext2D();
+
+        gameCamera = new GameCamera(map, 0, 0);
 
         StartPopUp.display();
         map.getPlayer().setName(StartPopUp.getPlayerName());
+
+        inventoryBoxDisplayer =
+                new InventoryBoxDisplayer(map.getPlayer().getInventory(), inventoryListView);
+
+        pickUpButton = new ButtonPickUp(map, inventoryBoxDisplayer);
 
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
@@ -156,26 +166,12 @@ public class Main extends Application {
 
     private void react(Direction direction) {
         map.getPlayer().move(direction.getX(), direction.getY());
-        changeLevel();
-        moveMonsters();
+        gameWorld.changeLevel();
+        map = gameWorld.getCurrentMap();
+        gameWorld.moveMonsters();
+        System.out.println(gameWorld.getItemList());
         refresh();
 
-    }
-
-    private void moveMonsters() {
-        for (GameMap gameMap : mapList) {
-            for (Actor monster : gameMap.getMonsterPlacer().getMonsters()) {
-                if (monster.getHealth() > 0 && !monster.getTileName().equals("skeleton")) {
-                    try {
-                        monster.move(RandomProvider.getRandomNumberOfRange(-1, 2), RandomProvider.getRandomNumberOfRange(-1, 2));
-                    } catch (IllegalStateException | ArrayIndexOutOfBoundsException e) {
-
-                    }
-                } else {
-                    mapList.remove(monster);
-                }
-            }
-        }
     }
 
     private void refresh() {
@@ -207,49 +203,6 @@ public class Main extends Application {
         pickUpButton.setDisable(!cell.getActor().getTileName().equals("player") || cell.getItem() == null);
     }
 
-    private ArrayList<GameMap> getLevels() {
-        ArrayList<GameMap> levels = new ArrayList<>();
-        File folder = new File("src/main/resources/levels");
-        File[] listOfFiles = folder.listFiles();
-        int id = 1;
-        for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
-            String fileName = listOfFile.getName();
-            GameMap newMap = MapLoader.loadMap("/levels/" + fileName);
-            levels.add(newMap);
-            int mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length() - 5)));
-            newMap.setMapNumber(mapNumber);
-
-            ItemsPlacer newItemPlacer = new ItemsPlacer(newMap);
-            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap, id);
-            newMap.setMonsterPlacer(monsterPlacer);
-            newItemPlacer.addItemsRandomly();
-            monsterPlacer.addAllMonsters();
-            id = monsterPlacer.getId();
-            monsterList.addAll(monsterPlacer.getMonsters());
-        }
-        return levels;
-    }
-
-    private void changeLevel() {
-        if (map.getPlayer().getCell().getBuilding() != null) {
-            if (map.getPlayer().getCell().getBuilding().getTileName().equals("ladder up")) {
-                Player samePlayer = map.getPlayer();
-                map = mapList.get(mapList.indexOf(map) + 1);
-                map.setPlayer(samePlayer);
-                map.getCell(map.getGoDownX(), map.getGoDownY()).setActor(samePlayer);
-                samePlayer.setCellForActor(map.getCell(map.getGoDownX(), map.getGoDownY()));
-                CurrentStatus.getInstance().setStatus("Level " + (mapList.indexOf(map) + 1));
-            } else if (map.getPlayer().getCell().getBuilding().getTileName().equals("ladder down")) {
-                Player samePlayer = map.getPlayer();
-                map = mapList.get(mapList.indexOf(map) - 1);
-                map.setPlayer(samePlayer);
-                map.getCell(map.getGoUpX(), map.getGoUpY()).setActor(samePlayer);
-                samePlayer.setCellForActor(map.getCell(map.getGoUpX(), map.getGoUpY()));
-                CurrentStatus.getInstance().setStatus("Level " + (mapList.indexOf(map) + 1));
-            }
-        }
-    }
-
     private boolean isDead() {
         int playerHealth =  map.getPlayer().getHealth();
         return playerHealth <= 0;
@@ -274,7 +227,7 @@ public class Main extends Application {
             dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
             dbManager.savePlayer(map.getPlayer());
             dbManager.saveItems(itemsList, map.getPlayer().getId());
-            dbManager.saveMonsters(monsterList, map.getPlayer().getId());
+            dbManager.saveMonsters(gameWorld.getMonsterList(), map.getPlayer().getId());
 
 
 
