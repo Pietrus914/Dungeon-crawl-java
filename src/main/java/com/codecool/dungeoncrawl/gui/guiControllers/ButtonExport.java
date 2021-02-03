@@ -8,23 +8,23 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class ButtonImport extends Button {
+public class ButtonExport extends Button {
 
-    public ButtonImport(FileChooser fileChooser, Stage primaryStage){
-        super("Import");
+    public ButtonExport(FileChooser fileChooser, Stage primaryStage){
+        super("Export");
 //        this.player = map.getPlayer();
-        this.setTooltip(new Tooltip("Choose the file to import"));
+        this.setTooltip(new Tooltip("Choose where to save game"));
         this.setMinWidth(100);
         this.setFocusTraversable(false);
         this.setOnAction(e -> {
-            System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button Import pressed");
+            System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button Export pressed");
             fileChooser.setInitialDirectory(new File("C:\\DATA"));
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
             fileChooser.getExtensionFilters().add(extFilter);
+            fileChooser.setInitialFileName("dungeon_crawl.txt");
+            File selectedFile = fileChooser.showSaveDialog(primaryStage);
+            System.out.println(selectedFile.getAbsolutePath());
 
-            File selectedDirectory = fileChooser.showOpenDialog(primaryStage);
-                System.out.println(selectedDirectory.getAbsolutePath());
-            });
+        });
     }
-
 }

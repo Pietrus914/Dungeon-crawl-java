@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.gui;
 
+import com.codecool.dungeoncrawl.gui.guiControllers.ButtonExport;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonImport;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -60,6 +61,7 @@ public class SavePopUp {
         });
 
         Button importButton = new ButtonImport(fileChooser, window);
+        Button exportButton = new ButtonExport(fileChooser,window);
 
         Button cancelButton = new Button("Cancel");
         cancelButton.setOnAction(e -> window.close());
@@ -72,7 +74,7 @@ public class SavePopUp {
 
 
         VBox layout = new VBox(10);
-        buttonNode.getChildren().addAll(saveButton, importButton, cancelButton);
+        buttonNode.getChildren().addAll(saveButton, importButton, exportButton, cancelButton);
         layout.getChildren().addAll(label, nameField, buttonNode);
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setPadding(new Insets(25,25,25,25));
