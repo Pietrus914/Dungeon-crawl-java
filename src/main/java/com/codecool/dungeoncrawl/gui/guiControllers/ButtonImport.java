@@ -18,12 +18,16 @@ public class ButtonImport extends Button {
         this.setFocusTraversable(false);
         this.setOnAction(e -> {
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button Import pressed");
-            fileChooser.setInitialDirectory(new File("C:\\DATA"));
+//            String current = System.getProperty("user.dir");
+//            fileChooser.setInitialDirectory(new File("C:\\Users\\" + current + "\\Documents"));
+//            fileChooser.setInitialDirectory(new File("C:\\DATA"));
+            fileChooser.setInitialDirectory(new File("C:"));
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
             fileChooser.getExtensionFilters().add(extFilter);
 
             File selectedDirectory = fileChooser.showOpenDialog(primaryStage);
-                System.out.println(selectedDirectory.getAbsolutePath());
+//                System.out.println(selectedDirectory.getAbsolutePath());
+//            primaryStage.close();
             });
     }
 

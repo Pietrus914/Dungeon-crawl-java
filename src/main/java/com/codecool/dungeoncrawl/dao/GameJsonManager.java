@@ -10,10 +10,7 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,10 +81,10 @@ public class GameJsonManager {
 
 
 
-    public void saveToProjectFile(){
+    public void saveToProjectFile(File file){
         String serializedJson = serialize();
         try {
-            writeToJsonFile(serializedJson);
+            writeToJsonFile(serializedJson, file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,9 +93,9 @@ public class GameJsonManager {
         getDeserializedModels();
     }
 
-    private void writeToJsonFile(String jsonString) throws IOException {
+    private void writeToJsonFile(String jsonString, File file) throws IOException {
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter("gameData.json"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
         writer.write(jsonString);
         writer.close();
     }

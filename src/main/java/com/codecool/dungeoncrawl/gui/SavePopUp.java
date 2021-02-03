@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.gui;
 
+import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonExport;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonImport;
 import javafx.application.Platform;
@@ -23,15 +24,12 @@ public class SavePopUp {
     private static String title = "Save Game";
     private static String playerName;
 
-    public static void display(){
+    public static void display(GameJsonManager manager){
 
         Stage window = new Stage();
         window.setOnCloseRequest(windowEvent -> {
             Platform.exit();
         });
-
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File("C:\\DATA"));
         FileChooser fileChooser = new FileChooser();
 
 
@@ -61,7 +59,7 @@ public class SavePopUp {
         });
 
         Button importButton = new ButtonImport(fileChooser, window);
-        Button exportButton = new ButtonExport(fileChooser,window);
+        Button exportButton = new ButtonExport(fileChooser,window, manager);
 
         Button cancelButton = new Button("Cancel");
         cancelButton.setOnAction(e -> window.close());
