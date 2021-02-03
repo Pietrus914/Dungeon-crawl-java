@@ -5,7 +5,7 @@ import com.codecool.dungeoncrawl.logic.items.Item;
 public class ItemModel extends BaseModel {
 
 
-    private int id;
+//    private int id;
     private String name;
     private String message;
     private int x;
@@ -16,7 +16,7 @@ public class ItemModel extends BaseModel {
     private int mapNumber;
 
     public ItemModel(Item item , int gameStateId){
-        this.id = item.getId();
+        super.id = item.getId();
         this.name = item.getName();
         this.message = item.getMessage();
         this.x = item.getX();
@@ -89,9 +89,7 @@ public class ItemModel extends BaseModel {
     }
 
     @Override
-    public int getId() {
-        return id;
-    }
+    public int getId() {  return id; }
 
     @Override
     public void setId(int id) {

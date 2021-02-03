@@ -13,11 +13,12 @@ public abstract class Actor implements Drawable {
     private int health = 10;
     private int strength = 1;
     private int armor = 0;
-    private Consumer<Integer> onHealthChange = null;
-    private Consumer<Integer> onStrengthChange = null;
-    private Consumer<Integer> onArmorChange = null;
+    private static Consumer<Integer> onHealthChange = null;
+    private static Consumer<Integer> onStrengthChange = null;
+    private static Consumer<Integer> onArmorChange = null;
     private int id;
     private int mapNumber;
+
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -45,12 +46,6 @@ public abstract class Actor implements Drawable {
         player.counterAttack();
 
 //        uncomment below for testing in command line:
-
-//        System.out.println("hit " + player.getStrength());
-//        System.out.println("monsterHP " + monsterHp);
-//
-//        System.out.println("armor " + player.getArmor());
-//        System.out.println("playerHP " + player.getHealth());
         StringBuilder currentFightStatus = new StringBuilder();
         currentFightStatus.append("hit " + player.getStrength() + "\n");
         currentFightStatus.append("monsterHP " + monsterHp + "\n");

@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.*;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
@@ -59,6 +60,7 @@ public class Main extends Application {
     HBox inventoryHBox = new HBox(inventoryListView);
     List<Item> itemsList;
     GameDatabaseManager dbManager;
+    GameJsonManager jsonManager;
 
 
 
@@ -260,12 +262,20 @@ public class Main extends Application {
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } else if (saveCombination.match(keyEvent)) {
-            SavePopUp.display();
+//            SavePopUp.display();
+            itemsList = ItemsFactory.getItems();
+            jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
+                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList);
+//            jsonManager.saveToProjectFile();
+            SavePopUp.display(jsonManager);
+
             dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
             dbManager.savePlayer(map.getPlayer());
-            itemsList = ItemsFactory.getItems();
             dbManager.saveItems(itemsList, map.getPlayer().getId());
             dbManager.saveMonsters(monsterList, map.getPlayer().getId());
+
+
+
         }
     }
 
