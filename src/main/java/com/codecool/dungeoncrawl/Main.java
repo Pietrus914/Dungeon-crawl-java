@@ -2,10 +2,7 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.dao.GameJsonManager;
-import com.codecool.dungeoncrawl.gui.EndPopUp;
-import com.codecool.dungeoncrawl.gui.SavePopUp;
-import com.codecool.dungeoncrawl.gui.StartPopUp;
-import com.codecool.dungeoncrawl.gui.StatusLine;
+import com.codecool.dungeoncrawl.gui.*;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
@@ -39,24 +36,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
-    GameWorld gameWorld = new GameWorld();
-    GameMap map;
-    GameCamera gameCamera;
-    Canvas canvas;
+    private final GameWorld gameWorld = new GameWorld();
+    private GameCamera gameCamera;
+    private Canvas canvas;
     GraphicsContext context;
-    Label nameLabel = new Label();
-    Label healthLabel = new Label();
-    Label strengthLabel = new Label();
-    Label armorLabel = new Label();
-    HBox hbox = new HBox();
-    ListView<String> inventoryListView = new ListView<>();
+    private GameMenu gameMenu;
 
-    InventoryBoxDisplayer inventoryBoxDisplayer;
-
-    Button pickUpButton;
-    StatusLine status = new StatusLine("Let's start the game!");
-    HBox infoBox = new HBox(status);
-    HBox inventoryHBox = new HBox(inventoryListView);
     List<Item> itemsList;
     GameDatabaseManager dbManager;
     GameJsonManager jsonManager;
@@ -71,7 +56,7 @@ public class Main extends Application {
         setupDbManager();
         gameWorld.createLevels();
 
-        map = gameWorld.getCurrentMap();
+        GameMap map = gameWorld.getCurrentMap();
 
         canvas = new Canvas(
                 map.getWidth() * Tiles.TILE_WIDTH,
@@ -83,40 +68,19 @@ public class Main extends Application {
         StartPopUp.display();
         map.getPlayer().setName(StartPopUp.getPlayerName());
 
-        inventoryBoxDisplayer =
-                new InventoryBoxDisplayer(map.getPlayer().getInventory(), inventoryListView);
-
-        pickUpButton = new ButtonPickUp(map, inventoryBoxDisplayer);
-
-        GridPane ui = new GridPane();
-        ui.setPrefWidth(200);
-        ui.setPadding(new Insets(10));
-
-        inventoryListView.setPrefHeight(240);
-        inventoryListView.setFocusTraversable(false);
+        gameMenu = new GameMenu(map.getPlayer());
 
 
-        hbox.getChildren().add(pickUpButton);
-        hbox.setPadding(new Insets(35, 0, 35, 0));
-        hbox.setAlignment(Pos.CENTER);
+        CurrentStatus.getInstance().bind(gameMenu.getStatus()::setMessage);
+        map.getPlayer().setOnHealthChange((Integer health) -> gameMenu.getHealthLabel().setText("" + health));
+        map.getPlayer().setOnStrengthChange((Integer strength) -> gameMenu.getStrengthLabel().setText("" + strength));
+        map.getPlayer().setOnArmorChange((Integer armor) -> gameMenu.getArmorLabel().setText("" + armor));
 
-        CurrentStatus.getInstance().bind(status::setMessage);
-        map.getPlayer().setOnHealthChange((Integer health) -> healthLabel.setText("" + health));
-        map.getPlayer().setOnStrengthChange((Integer strength) -> strengthLabel.setText("" + strength));
-        map.getPlayer().setOnArmorChange((Integer armor) -> armorLabel.setText("" + armor));
-
-
-        uiAddElements(ui);
-        nameLabel.setText(map.getPlayer().getName());
-        nameLabel.setStyle("-fx-font-weight: bold;");
-        healthLabel.setText("" + map.getPlayer().getHealth());
-        strengthLabel.setText("" + map.getPlayer().getStrength());
-        armorLabel.setText("" + map.getPlayer().getArmor());
 
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
-        borderPane.setRight(ui);
+        borderPane.setRight(gameMenu);
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
@@ -129,22 +93,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void uiAddElements(GridPane ui) {
-        ui.add(new Label("Player: "), 0, 0);
-        ui.add(nameLabel, 1, 0);
-        ui.add(new Label("Health: "), 0, 1);
-        ui.add(healthLabel, 1, 1);
-        ui.add(new Label("Strength: "), 0, 2);
-        ui.add(strengthLabel, 1, 2);
-        ui.add(new Label("Armor: "), 0, 3);
-        ui.add(armorLabel, 1, 3);
-
-        ui.add(new Label("Inventory: "), 0, 4);
-        ui.add(inventoryHBox, 0, 5, 2, 1);
-        ui.add(hbox, 0, 6, 2, 1);
-        ui.add(new Label("Status: "), 0, 7);
-        ui.add(infoBox, 0, 8, 2, 1);
-    }
 
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
@@ -165,23 +113,22 @@ public class Main extends Application {
     }
 
     private void react(Direction direction) {
-        map.getPlayer().move(direction.getX(), direction.getY());
+        gameWorld.getCurrentMap().getPlayer().move(direction.getX(), direction.getY());
         gameWorld.changeLevel();
-        map = gameWorld.getCurrentMap();
         gameWorld.moveMonsters();
-        System.out.println(gameWorld.getItemList());
         refresh();
 
     }
 
     private void refresh() {
-        if (isDead()){
+        GameMap map = gameWorld.getCurrentMap();
+        if (map.getPlayer().isDead()){
             EndPopUp.display();
         }
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gameCamera.centerOnEntity(map.getPlayer());
-        inventoryBoxDisplayer.refresh();
+        gameMenu.getInventoryBoxDisplayer().refresh();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
@@ -196,19 +143,12 @@ public class Main extends Application {
                 }
             }
         }
-        setButtonDisable(map.getPlayer().getCell());
+        gameMenu.getPickUpButton().setButtonDisable(map.getPlayer().getCell());
     }
 
-    private void setButtonDisable(Cell cell) {
-        pickUpButton.setDisable(!cell.getActor().getTileName().equals("player") || cell.getItem() == null);
-    }
-
-    private boolean isDead() {
-        int playerHealth =  map.getPlayer().getHealth();
-        return playerHealth <= 0;
-    }
 
     private void onKeyReleased(KeyEvent keyEvent) {
+        GameMap map = gameWorld.getCurrentMap();
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
         KeyCombination saveCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);

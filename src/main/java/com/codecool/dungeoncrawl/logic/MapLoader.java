@@ -44,18 +44,6 @@ public class MapLoader {
                         case '.':
                             cell.setType(CellType.FLOOR);
                             break;
-                        case 's':
-                            cell.setType(CellType.FLOOR);
-                            new Skeleton(cell);
-                            break;
-                        case 'g':
-                            cell.setType(CellType.FLOOR);
-                            new Ghost(cell);
-                            break;
-                        case 'm':
-                            cell.setType(CellType.FLOOR);
-                            new Demon(cell);
-                            break;
                         case '@':
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
@@ -64,14 +52,6 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Key(cell, 1);
                             break;
-//                        case 'h':
-//                            cell.setType(CellType.FLOOR);
-//                            new Helmet(cell, mapNumber);
-//                            break;
-//                        case 'r':
-//                            cell.setType(CellType.FLOOR);
-//                            new Sword(cell, mapNumber);
-//                            break;
                         case 'u':
                             cell.setType(CellType.FLOOR);
                             new LadderUp(cell, BuildingsName.UP);

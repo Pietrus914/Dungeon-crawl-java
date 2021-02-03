@@ -14,21 +14,26 @@ import java.util.List;
 import java.util.Objects;
 
 public class GameWorld {
-    private List<Actor> monsterList;
-    private ArrayList<GameMap> levels;
-    private File folder = new File("src/main/resources/levels");
-    private File[] listOfFiles;
+    private List<GameMap> levels;
     private GameMap currentMap;
+    private List<Actor> monsterList;
     private List<Item> itemList;
 
+    public GameWorld(List<GameMap> levels, GameMap currentMap, List<Actor> monsterList, List<Item> itemList) {
+        this.levels = levels;
+        this.currentMap = currentMap;
+        this.monsterList = monsterList;
+        this.itemList = itemList;
+    }
+
     public GameWorld() {
-        File folder = new File("src/main/resources/levels");
         this.monsterList = new ArrayList<>();
         this.levels = new ArrayList<>();
-        this.listOfFiles = folder.listFiles();
     }
 
     public void createLevels() {
+        File folder = new File("src/main/resources/levels");
+        File[] listOfFiles = folder.listFiles();
         int id = 1;
         for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
             String fileName = listOfFile.getName();
@@ -88,28 +93,12 @@ public class GameWorld {
         this.monsterList = monsterList;
     }
 
-    public ArrayList<GameMap> getLevels() {
+    public List<GameMap> getLevels() {
         return levels;
     }
 
     public void setLevels(ArrayList<GameMap> levels) {
         this.levels = levels;
-    }
-
-    public File getFolder() {
-        return folder;
-    }
-
-    public void setFolder(File folder) {
-        this.folder = folder;
-    }
-
-    public File[] getListOfFiles() {
-        return listOfFiles;
-    }
-
-    public void setListOfFiles(File[] listOfFiles) {
-        this.listOfFiles = listOfFiles;
     }
 
     public GameMap getCurrentMap() {
