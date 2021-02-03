@@ -25,11 +25,21 @@ public class GameJsonManager {
     private PlayerModel playerModel;
     private List<ItemModel> itemModels;
 
+    private GameStateDaoJson gameDao;
+
 
     public GameJsonManager(String currentMap, String saveName, Player player, List<Item> items ){
         this.gameState = prepareGameState(currentMap, saveName);
         this.playerModel = preparePlayerModel(player);
         this.itemModels = prepareItemModels(items);
+
+        this.gameDao = new GameStateDaoJson();
+    }
+
+
+    public void saveGame(){
+
+//        gameDao.add();
     }
 
 

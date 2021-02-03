@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.gui;
 
+import com.codecool.dungeoncrawl.gui.guiControllers.ButtonImport;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,8 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.VLineTo;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class SavePopUp {
     private static String title = "Save Game";
@@ -23,6 +28,13 @@ public class SavePopUp {
         window.setOnCloseRequest(windowEvent -> {
             Platform.exit();
         });
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(new File("C:\\DATA"));
+        FileChooser fileChooser = new FileChooser();
+
+
+
 
         /**
          * it blocks other windows and get focus to this window
@@ -47,6 +59,8 @@ public class SavePopUp {
             window.close();
         });
 
+        Button importButton = new ButtonImport(fileChooser, window);
+
         Button cancelButton = new Button("Cancel");
         cancelButton.setOnAction(e -> window.close());
 
@@ -58,7 +72,7 @@ public class SavePopUp {
 
 
         VBox layout = new VBox(10);
-        buttonNode.getChildren().addAll(saveButton, cancelButton);
+        buttonNode.getChildren().addAll(saveButton, importButton, cancelButton);
         layout.getChildren().addAll(label, nameField, buttonNode);
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setPadding(new Insets(25,25,25,25));
