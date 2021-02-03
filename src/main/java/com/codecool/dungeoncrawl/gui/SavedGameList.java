@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.gui;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
 import com.codecool.dungeoncrawl.model.GameState;
 import javafx.application.Platform;
@@ -20,12 +21,20 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class SavedGameList {
+
+
     public static void display(){
 
 
+        List<GameState> result;
+
+        System.out.println();
         Stage window = new Stage();
         window.setOnCloseRequest(windowEvent -> {
             Platform.exit();

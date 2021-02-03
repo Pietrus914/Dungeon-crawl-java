@@ -12,7 +12,6 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameDatabaseManager {
@@ -35,6 +34,13 @@ public class GameDatabaseManager {
         GameState gameState = new GameState(currentMap, new Timestamp(System.currentTimeMillis()), saveName);
         gameStateDao.add(gameState);
         player.setId(gameState.getId());
+
+        System.out.println(gameStateDao.getAll());
+    }
+
+    public List<GameState> loadGame() {
+
+        return gameStateDao.getAll();
     }
 
     public void savePlayer(Player player) {

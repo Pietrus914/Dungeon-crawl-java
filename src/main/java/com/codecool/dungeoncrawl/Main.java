@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.dao.GameJsonManager;
+import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
 import com.codecool.dungeoncrawl.gui.*;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonPickUp;
@@ -10,6 +11,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
+import com.codecool.dungeoncrawl.model.GameState;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -61,6 +63,7 @@ public class Main extends Application {
     List<Item> itemsList;
     GameDatabaseManager dbManager;
     GameJsonManager jsonManager;
+    //List<GameState> loadList = dbManager.loadGame();
 
 
 
@@ -73,7 +76,6 @@ public class Main extends Application {
         setupDbManager();
 
         NewGameLoadGamePopup.display();
-        //StartPopUp.display();
         map.getPlayer().setName(StartPopUp.getPlayerName());
 
         GridPane ui = new GridPane();
@@ -274,7 +276,7 @@ public class Main extends Application {
             dbManager.saveItems(itemsList, map.getPlayer().getId());
             dbManager.saveMonsters(monsterList, map.getPlayer().getId());
 
-
+            //System.out.println(loadList);
 
         }
     }

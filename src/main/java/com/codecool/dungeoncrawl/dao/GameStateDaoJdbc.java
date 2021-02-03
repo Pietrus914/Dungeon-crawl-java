@@ -66,8 +66,8 @@ public class GameStateDaoJdbc implements GameStateDao {
             ResultSet resultSet = statement.executeQuery();
             List<GameState> result = new ArrayList<>();
             while (resultSet.next()) {
-                GameState gameState = new GameState(resultSet.getString(1), resultSet.getTimestamp(2),
-                        resultSet.getString(3));
+                GameState gameState = new GameState(resultSet.getString("current_map"), resultSet.getTimestamp("saved_at"),
+                        resultSet.getString("save_name"));
                 gameState.setId(resultSet.getInt(1));
                 result.add(gameState);
 
