@@ -193,4 +193,8 @@ public abstract class Actor implements Drawable {
     public void setMapNumber(int mapNumber) {
         this.mapNumber = mapNumber;
     }
+
+    public boolean isDead() {
+        return health <= 0;
+    }
 }
