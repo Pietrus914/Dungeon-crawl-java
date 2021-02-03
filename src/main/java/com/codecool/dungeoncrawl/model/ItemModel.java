@@ -5,7 +5,7 @@ import com.codecool.dungeoncrawl.logic.items.Item;
 public class ItemModel extends BaseModel {
 
 
-//    private int id;
+//    private int id;  it's is in BaseModel
     private String name;
     private String message;
     private int x;

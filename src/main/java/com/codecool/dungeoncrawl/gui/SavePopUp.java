@@ -58,7 +58,7 @@ public class SavePopUp {
             window.close();
         });
 
-        Button importButton = new ButtonImport(fileChooser, window);
+        Button importButton = new ButtonImport(fileChooser, window, manager);
         Button exportButton = new ButtonExport(fileChooser,window, manager);
 
         Button cancelButton = new Button("Cancel");
