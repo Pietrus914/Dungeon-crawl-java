@@ -264,17 +264,19 @@ public class Main extends Application {
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } else if (saveCombination.match(keyEvent)) {
-            SavePopUp.display();
+//            SavePopUp.display();
             itemsList = ItemsFactory.getItems();
+            jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
+                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList);
+//            jsonManager.saveToProjectFile();
+            SavePopUp.display(jsonManager);
 
             dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
             dbManager.savePlayer(map.getPlayer());
             dbManager.saveItems(itemsList, map.getPlayer().getId());
             dbManager.saveMonsters(monsterList, map.getPlayer().getId());
 
-            jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList);
-            jsonManager.saveToProjectFile();
+
 
         }
     }
