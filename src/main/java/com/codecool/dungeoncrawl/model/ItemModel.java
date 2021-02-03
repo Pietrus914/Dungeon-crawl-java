@@ -29,7 +29,7 @@ public class ItemModel extends BaseModel {
 
     public ItemModel(int id, String name, String message,int x, int y,
                       int points, boolean inInventory,int game_state_id, int mapNumber ){
-        this.id = id;
+        super.id = id;
         this.name = name;
         this.message = message;
         this.x = x;

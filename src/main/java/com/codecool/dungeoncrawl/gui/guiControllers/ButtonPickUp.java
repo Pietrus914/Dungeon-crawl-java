@@ -14,8 +14,6 @@ public class ButtonPickUp extends Button {
     private Player player;
 
 
-
-
     public ButtonPickUp(GameMap map, InventoryBoxDisplayer inventoryBoxDisplayer){
         super("Add to inventory");
         this.player = map.getPlayer();

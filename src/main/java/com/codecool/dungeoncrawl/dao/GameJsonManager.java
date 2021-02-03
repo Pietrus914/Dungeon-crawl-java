@@ -1,9 +1,11 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.ItemModel;
+import com.codecool.dungeoncrawl.model.MonsterModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,12 +21,15 @@ public class GameJsonManager {
     private GameState gameState;
     private PlayerModel playerModel;
     private List<ItemModel> itemModels;
+    private List<MonsterModel> monsterModels;
 
 
-    public GameJsonManager(String currentMap, String saveName, Player player, List<Item> items ){
+    public GameJsonManager(String currentMap, String saveName, Player player,
+                           List<Item> items,List<Actor> monsters ){
         this.gameState = prepareGameState(currentMap, saveName);
         this.playerModel = preparePlayerModel(player);
         this.itemModels = prepareItemModels(items);
+        this.monsterModels = prepareMonsterModels(monsters);
 
     }
 
@@ -50,6 +55,18 @@ public class GameJsonManager {
         return itemModels;
     }
 
+    private MonsterModel prepareMonsterModel(Actor monster){
+        return new MonsterModel(monster,0);
+    }
+
+    private List<MonsterModel> prepareMonsterModels(List<Actor> monsters){
+        monsterModels = new ArrayList<>();
+        monsterModels = monsters.stream()
+                .map(monster -> prepareMonsterModel(monster))
+                .collect(Collectors.toList());
+        return monsterModels;
+    }
+
 
     private String serialize(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -66,6 +83,7 @@ public class GameJsonManager {
         this.playerModel = deserializedOutput.getPlayerModel();
         this.itemModels = deserializedOutput.getItemModels();
         this.gameState = deserializedOutput.getGameState();
+        this.monsterModels = deserializedOutput.getMonsterModels();
     }
 
 
@@ -142,5 +160,9 @@ public class GameJsonManager {
 
     public List<ItemModel> getItemModels() {
         return itemModels;
+    }
+
+    public List<MonsterModel> getMonsterModels() {
+        return monsterModels;
     }
 }
