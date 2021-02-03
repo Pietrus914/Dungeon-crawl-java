@@ -30,9 +30,7 @@ public class SavedGameList {
 
 
     public static void display(){
-
-
-        List<GameState> result;
+        
 
         System.out.println();
         Stage window = new Stage();

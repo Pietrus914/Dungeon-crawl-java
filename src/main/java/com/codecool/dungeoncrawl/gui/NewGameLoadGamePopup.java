@@ -1,5 +1,7 @@
 package com.codecool.dungeoncrawl.gui;
 
+import com.codecool.dungeoncrawl.dao.GameJsonManager;
+import com.codecool.dungeoncrawl.gui.guiControllers.ButtonImport;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,17 +12,19 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class NewGameLoadGamePopup {
 
-    public static void display(){
+    public static void display(GameJsonManager manager){
 
         Stage window = new Stage();
         window.setOnCloseRequest(windowEvent -> {
             Platform.exit();
         });
+        FileChooser fileChooser = new FileChooser();
 
         window.initModality(Modality.APPLICATION_MODAL);
         String title = "Hello in Dungeon Crawl!";
@@ -29,22 +33,24 @@ public class NewGameLoadGamePopup {
         window.setMinHeight(300);
 
 
-        Button NewGameButton = new Button("New Game");
-        NewGameButton.setPrefSize(200, 50);
-        NewGameButton.setOnAction(e -> {
+        Button newGameButton = new Button("New Game");
+        newGameButton.setPrefSize(200, 50);
+        newGameButton.setOnAction(e -> {
             StartPopUp.display();
             window.close();
         });
 
-        Button LoadGameButton = new Button("Load Game");
-        LoadGameButton.setPrefSize(200, 50);
-        LoadGameButton.setOnAction(e -> {
+        Button loadGameButton = new Button("Load Game");
+        loadGameButton.setPrefSize(200, 50);
+        loadGameButton.setOnAction(e -> {
             SavedGameList.display();
             window.close();
         });
 
+        Button importButton = new ButtonImport(fileChooser, window, manager);
+
         VBox layout = new VBox(50);
-        layout.getChildren().addAll(NewGameButton, LoadGameButton);
+        layout.getChildren().addAll(newGameButton, loadGameButton, importButton);
         layout.setAlignment(Pos.CENTER);
         layout.setBackground(new Background(new BackgroundFill(Color.rgb(121,77,96), CornerRadii.EMPTY, Insets.EMPTY)));
 

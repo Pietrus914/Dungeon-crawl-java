@@ -65,7 +65,12 @@ public class Main extends Application {
 
         gameCamera = new GameCamera(map, 0, 0);
 
-        StartPopUp.display();
+        //TODO żeby odczytać jsona na początku gry potrzebowałem skopiować dwie poniższe linijki żeby nie było błędu. Jakiś pomysł na refactor bez kopiowania?
+        itemsList = ItemsFactory.getItems();
+        jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
+                SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
+        NewGameLoadGamePopup.display(jsonManager);
+        //StartPopUp.display();
         map.getPlayer().setName(StartPopUp.getPlayerName());
 
         gameMenu = new GameMenu(map.getPlayer());
