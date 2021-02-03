@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.model.ItemModel;
 
 public abstract class Item implements Drawable {
     private int id;
@@ -22,6 +23,7 @@ public abstract class Item implements Drawable {
 
     }
 
+
     public void setId(int id){
         this.id = id;
     };
@@ -38,7 +40,9 @@ public abstract class Item implements Drawable {
         return cell;
     }
 
-
+    public void setCell(Cell cell) {
+        this.cell = cell;
+    }
 
     public int getX() {
         return cell.getX();
