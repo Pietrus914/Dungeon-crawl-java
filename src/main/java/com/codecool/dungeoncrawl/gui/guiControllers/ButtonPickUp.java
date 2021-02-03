@@ -14,11 +14,15 @@ public class ButtonPickUp extends Button {
     private Player player;
 
 
+//<<<<<<< HEAD
 
 
-    public ButtonPickUp(GameMap map, InventoryBoxDisplayer inventoryBoxDisplayer){
+    public ButtonPickUp(Player player, InventoryBoxDisplayer inventoryBoxDisplayer){
+//=======
+//    public ButtonPickUp(GameMap map, InventoryBoxDisplayer inventoryBoxDisplayer){
+//>>>>>>> development
         super("Add to inventory");
-        this.player = map.getPlayer();
+        this.player = player;
         this.setTooltip(new Tooltip("Add item to your inventory"));
         this.setFocusTraversable(false);
         this.setOnAction(ignoreEvent -> {
@@ -35,5 +39,9 @@ public class ButtonPickUp extends Button {
         currentPlayerCell.setItem(null);
         CurrentStatus.getInstance().setStatus(itemToGet.getMessage());
         player.addToInventory(itemToGet);
+    }
+
+    public void setButtonDisable(Cell cell) {
+        this.setDisable(!cell.getActor().getTileName().equals("player") || cell.getItem() == null);
     }
 }

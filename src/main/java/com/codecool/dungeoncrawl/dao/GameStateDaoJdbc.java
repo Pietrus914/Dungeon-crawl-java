@@ -29,6 +29,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             state.setId(resultSet.getInt(1));
 
         } catch (SQLException e) {
+            System.out.println(e.getStackTrace());
             throw new RuntimeException();
         }
     }

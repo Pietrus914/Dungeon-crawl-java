@@ -93,5 +93,7 @@ public class Player extends Actor {
         }
     }
 
-
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
 }
