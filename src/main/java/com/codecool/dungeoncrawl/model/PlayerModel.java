@@ -11,10 +11,15 @@ public class PlayerModel extends BaseModel {
     private int strength;
     private int gameStateId;
 
-    public PlayerModel(String playerName, int x, int y) {
+    public PlayerModel(String playerName,int hp, int armor, int strength,
+                       int x, int y, int gameStateId) {
         this.playerName = playerName;
+        this.hp = hp;
+        this.armor = armor;
+        this.strength = strength;
         this.x = x;
         this.y = y;
+        this.gameStateId = gameStateId;
     }
 
     public PlayerModel(Player player) {
