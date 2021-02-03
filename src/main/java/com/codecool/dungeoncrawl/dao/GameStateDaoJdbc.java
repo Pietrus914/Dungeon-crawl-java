@@ -17,7 +17,7 @@ public class GameStateDaoJdbc implements GameStateDao {
 
     @Override
     public void add(GameState state) {
-        try (Connection conn = dataSource.getConnection()){
+        try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO  game_state (save_name, current_map, saved_at) VALUES (?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, state.getSaveName());
@@ -40,11 +40,41 @@ public class GameStateDaoJdbc implements GameStateDao {
 
     @Override
     public GameState get(int id) {
+        String sql = "SELECT save_name, current_map, saved_at FROM game_state WHERE id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return null;
+            }
+            GameState gameState = new GameState(resultSet.getString(1), resultSet.getTimestamp(2), resultSet.getString(3));
+            gameState.setId(id);
+            return gameState;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public List<GameState> getAll() {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT * FROM game_state";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            List<GameState> result = new ArrayList<>();
+            while (resultSet.next()) {
+                GameState gameState = new GameState(resultSet.getString(1), resultSet.getTimestamp(2),
+                        resultSet.getString(3));
+                gameState.setId(resultSet.getInt(1));
+                result.add(gameState);
+
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all resultSet", e);
+        }
     }
 }
