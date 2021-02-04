@@ -13,7 +13,8 @@ public class ButtonImport extends Button {
     public ButtonImport(FileChooser fileChooser, Stage primaryStage, GameJsonManager manager){
         super("Import");
         this.setTooltip(new Tooltip("Choose the file to import"));
-        this.setMinWidth(100);
+//        this.setMinWidth(100);
+        this.setPrefSize(200, 50);
         this.setFocusTraversable(false);
         this.setOnAction(e -> {
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button Import pressed");
