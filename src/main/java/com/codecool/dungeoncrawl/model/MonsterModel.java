@@ -11,6 +11,7 @@ public class MonsterModel extends BaseModel{
     private int gameStateId;
 
     public MonsterModel(Actor actor, int gameStateId) {
+        super.id = actor.getId();
         this.monsterName = actor.getTileName();
         this.hp = actor.getHealth();
         this.x = actor.getX();
@@ -20,17 +21,16 @@ public class MonsterModel extends BaseModel{
         super.id = actor.getId();
     }
 
-    public MonsterModel(int id, String monsterName, int hp, int x, int y,
-                        int mapNumber, int gameStateId){
-        super.setId(id);
-        this.setMonsterName(monsterName);
-        this.setHp(hp);
-        this.setX(x);
-        this.setY(y);
-        this.setMapNumber(mapNumber);
-        this.setGameStateId(gameStateId);
-    }
 
+    public MonsterModel(int id, String monsterName, int hp, int x, int y, int gameStateId, int mapNumber) {
+        this.id = id;
+        this.monsterName = monsterName;
+        this.hp = hp;
+        this.x = x;
+        this.y = y;
+        this.mapNumber = mapNumber;
+        this.gameStateId = gameStateId;
+    }
 
 
     public String getMonsterName() {
