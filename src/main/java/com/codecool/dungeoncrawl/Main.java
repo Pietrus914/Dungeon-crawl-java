@@ -9,6 +9,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
+import com.codecool.dungeoncrawl.logic.utils.GameWorldFactory;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -36,7 +37,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
-    private final GameWorld gameWorld = new GameWorld();
+//    private final GameWorld gameWorld = new GameWorld();
+    private final GameWorld gameWorld = GameWorldFactory.create();
     private GameCamera gameCamera;
     private Canvas canvas;
     GraphicsContext context;
@@ -54,7 +56,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         setupDbManager();
-        gameWorld.createLevels();
+//        gameWorld.createLevels();
 
         GameMap map = gameWorld.getCurrentMap();
 
