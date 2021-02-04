@@ -71,6 +71,10 @@ public class GameMenu extends GridPane {
         this.add(infoBox, 0, 8, 2, 1);
     }
 
+    public void setNameLabel(String name){
+        nameLabel.setText(name);
+    }
+
     public Label getHealthLabel() {
         return healthLabel;
     }

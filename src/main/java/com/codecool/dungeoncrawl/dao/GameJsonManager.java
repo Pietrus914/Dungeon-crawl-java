@@ -33,6 +33,10 @@ public class GameJsonManager {
 
     }
 
+    public GameJsonManager(){
+
+    }
+
 
     private GameState prepareGameState(String currentMap, String saveName){
         GameState gameState = new GameState(currentMap, new Timestamp(System.currentTimeMillis()), saveName);

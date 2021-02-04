@@ -10,6 +10,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
 import com.codecool.dungeoncrawl.logic.utils.GameWorldFactory;
+import com.codecool.dungeoncrawl.logic.utils.LoadManager;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -34,11 +35,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Main extends Application {
-//    private final GameWorld gameWorld = new GameWorld();
-    private final GameWorld gameWorld = GameWorldFactory.create();
+    private  GameWorld gameWorld = GameWorldFactory.create();
+//    private  GameWorld gameWorld;
     private GameCamera gameCamera;
     private Canvas canvas;
     GraphicsContext context;
@@ -47,6 +49,7 @@ public class Main extends Application {
     List<Item> itemsList;
     GameDatabaseManager dbManager;
     GameJsonManager jsonManager;
+    private LoadManager loadManager;
 
 
 
@@ -55,8 +58,9 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
-        setupDbManager();
-//        gameWorld.createLevels();
+        LoadManager loadManager = createLoadManager();
+        NewGameLoadGamePopup.display(loadManager);
+        setupDbManager();  // sprawdzic, czy jtu jest porzebny
 
         GameMap map = gameWorld.getCurrentMap();
 
@@ -66,14 +70,6 @@ public class Main extends Application {
         context = canvas.getGraphicsContext2D();
 
         gameCamera = new GameCamera(map, 0, 0);
-
-        //TODO żeby odczytać jsona na początku gry potrzebowałem skopiować dwie poniższe linijki żeby nie było błędu. Jakiś pomysł na refactor bez kopiowania?
-        itemsList = ItemsFactory.getItems();
-        jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
-        NewGameLoadGamePopup.display(jsonManager);
-        //StartPopUp.display();
-        map.getPlayer().setName(StartPopUp.getPlayerName());
 
         gameMenu = new GameMenu(map.getPlayer());
 
@@ -98,6 +94,24 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+    }
+
+    private LoadManager createLoadManager(){
+
+        dbManager = new GameDatabaseManager();
+        try {
+            dbManager.setup();
+        } catch (SQLException ex) {
+            System.out.println("Cannot connect to database.");
+        }
+
+        jsonManager = new GameJsonManager();
+//        jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
+//        SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
+
+
+        return  new LoadManager(dbManager, jsonManager, gameWorld);
+
     }
 
 
@@ -164,10 +178,10 @@ public class Main extends Application {
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } else if (saveCombination.match(keyEvent)) {
-//            SavePopUp.display();
-            itemsList = ItemsFactory.getItems();
+//            SavePopUp.display(loadManager);
+//            itemsList = ItemsFactory.getItems();
             jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
+                    SavePopUp.getPlayerName(), map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
 //            jsonManager.saveToProjectFile();
             SavePopUp.display(jsonManager);
 
