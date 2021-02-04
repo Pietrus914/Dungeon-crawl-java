@@ -63,12 +63,14 @@ public class ItemsPlacer {
     }
 
     public void addRecoveredItems(List<ItemModel> models){
+//        ItemsFactory.getItems().clear();
         for (ItemModel model : models){
             Item item = ItemConverter.recoverItem(model,map);
             // updating list of all items in ItemFactory
             if (item.isInInventory()) {
                 item.getCell().setItem(null);
             }
+
             ItemsFactory.getItems().add(item);
         }
 

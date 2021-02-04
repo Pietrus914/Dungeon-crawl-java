@@ -10,7 +10,7 @@ import java.io.File;
 
 public class ButtonExport extends Button {
 
-    public ButtonExport(FileChooser fileChooser, Stage primaryStage, GameJsonManager manager){
+    public ButtonExport(Stage primaryStage, GameJsonManager manager){
         super("Export");
         this.setTooltip(new Tooltip("Choose where to save game"));
         this.setMinWidth(100);
@@ -20,6 +20,7 @@ public class ButtonExport extends Button {
 //            String current = System.getProperty("user.name");
 //            fileChooser.setInitialDirectory(new File("C:\\Users\\" + current + "\\Documents"));
 //            fileChooser.setInitialDirectory(new File("C:\\DATA"));
+            FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File("C:"));
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
             fileChooser.getExtensionFilters().add(extFilter);

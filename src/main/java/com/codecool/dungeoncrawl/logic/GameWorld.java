@@ -88,4 +88,11 @@ public class GameWorld {
     public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
     }
+
+    public void importWorld(GameWorld importedGame) {
+        this.levels = importedGame.levels;
+        this.currentMap = importedGame.currentMap;
+        this.itemList = importedGame.itemList;
+        this.monsterList = importedGame.monsterList;
+    }
 }

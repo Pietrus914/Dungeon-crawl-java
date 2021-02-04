@@ -24,6 +24,7 @@ public class PlayerConverter {
         recoveredPlayer.setHealth(playerModel.getHp());
         recoveredPlayer.setArmor(playerModel.getArmor());
         recoveredPlayer.setInventory(recoverInventory(items));
+        map.setPlayer(recoveredPlayer);
 
         return  recoveredPlayer;
     }

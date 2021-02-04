@@ -43,13 +43,20 @@ public class GameWorldFactory {
             monsterList.addAll(monsterPlacer.getMonsters());
         }
         createPlayer(levels.get(0), 8, 14);
+
+
+
         return new GameWorld(levels, levels.get(0), monsterList, ItemsFactory.getItems());
     }
 
     public static GameWorld importGame(GameState gameState, List<ItemModel> itemModels, List<MonsterModel> monsterModels, PlayerModel playerModel){
         int id = 1;
+//        player = null;
+        levels.clear();
+        ItemsFactory.getItems().clear();
+
         for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
-            GameMap newMap =  createLevel(listOfFile.getName());
+            GameMap newMap = createLevel(listOfFile.getName());
 
             ItemsPlacer newItemPlacer = new ItemsPlacer(newMap);
             newItemPlacer.addRecoveredItems(getItemsForLevel(itemModels, newMap.getMapNumber()));
@@ -60,12 +67,13 @@ public class GameWorldFactory {
             id = monsterPlacer.getId();
             monsterList.addAll(monsterPlacer.getMonsters());
         }
-        GameMap currentMap = levels.get(gameState.getCurrentMap().charAt(gameState.getCurrentMap().length() - 5));
+        int index = Integer.parseInt(gameState.getCurrentMap().substring(3));
+        GameMap currentMap = levels.get(index-1);
         PlayerConverter.recoveredPlayer(playerModel, currentMap, ItemsFactory.getItems());
         return new GameWorld(levels, currentMap, monsterList, ItemsFactory.getItems());
     }
 
-    private static GameMap createLevel(String mapName) {
+    public static GameMap createLevel(String mapName) {
         GameMap newMap = MapLoader.loadMap("/levels/" + mapName);
         levels.add(newMap);
         int mapNumber = Integer.parseInt(String.valueOf(mapName.charAt(mapName.length() - 5)));

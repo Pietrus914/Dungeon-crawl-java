@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.gui.guiControllers;
 
 import com.codecool.dungeoncrawl.dao.GameJsonManager;
+import com.codecool.dungeoncrawl.logic.utils.LoadManager;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.stage.FileChooser;
@@ -10,13 +11,15 @@ import java.io.File;
 
 public class ButtonImport extends Button {
 
-    public ButtonImport(FileChooser fileChooser, Stage primaryStage, GameJsonManager manager){
+    public ButtonImport(FileChooser fileChooser, Stage primaryStage, LoadManager manager){
         super("Import");
         this.setTooltip(new Tooltip("Choose the file to import"));
 //        this.setMinWidth(100);
         this.setPrefSize(200, 50);
         this.setFocusTraversable(false);
         this.setOnAction(e -> {
+
+
             System.out.println("\n" + ">>>>>>>>>>>>>>>>>>>>Button Import pressed");
 //            String current = System.getProperty("user.name");
 //            fileChooser.setInitialDirectory(new File("C:\\Users\\" + current + "\\Documents"));
@@ -27,9 +30,10 @@ public class ButtonImport extends Button {
             fileChooser.getExtensionFilters().add(extFilter);
 
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            manager.importProject(selectedFile);
+            manager.setFile(selectedFile);
+            manager.chooseOption();
 
-//            primaryStage.close();
+            primaryStage.close();
             });
     }
 

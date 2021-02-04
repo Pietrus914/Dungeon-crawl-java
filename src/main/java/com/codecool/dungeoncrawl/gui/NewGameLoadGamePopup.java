@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.gui;
 
 import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonImport;
+import com.codecool.dungeoncrawl.logic.utils.LoadManager;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,7 +19,7 @@ import javafx.stage.Stage;
 
 public class NewGameLoadGamePopup {
 
-    public static void display(GameJsonManager manager){
+    public static void display(LoadManager manager){
 
         Stage window = new Stage();
         window.setOnCloseRequest(windowEvent -> {
