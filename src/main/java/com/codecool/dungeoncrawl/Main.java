@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
-//    private final GameWorld gameWorld = new GameWorld();
     private final GameWorld gameWorld = GameWorldFactory.create();
     private GameCamera gameCamera;
     private Canvas canvas;
@@ -56,7 +55,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         setupDbManager();
-//        gameWorld.createLevels();
 
         GameMap map = gameWorld.getCurrentMap();
 
