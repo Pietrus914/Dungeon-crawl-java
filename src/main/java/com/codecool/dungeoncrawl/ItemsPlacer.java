@@ -1,12 +1,16 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.converter.ItemConverter;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
+import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.ItemNames;
 import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
+import com.codecool.dungeoncrawl.model.ItemModel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ItemsPlacer {
@@ -14,7 +18,7 @@ public class ItemsPlacer {
     private static Map<Integer, ItemNames[]> itemsContainer = new HashMap<>();
     static {
         itemsContainer.put(1, new ItemNames[]{ItemNames.SWORD, ItemNames.HELMET, ItemNames.MEAT});
-        itemsContainer.put(2,new ItemNames[]{ItemNames.MEAT, ItemNames.GLOVES, ItemNames.SHIELD});
+        itemsContainer.put(2,new ItemNames[]{ItemNames.MEAT, ItemNames.GLOVES, ItemNames.SHIELD,ItemNames.SWORD, ItemNames.HELMET});
         itemsContainer.put(3, new ItemNames[]{ItemNames.MEDICINE,ItemNames.HELMET, ItemNames.SWORD});
     }
 
@@ -56,5 +60,14 @@ public class ItemsPlacer {
                 }
             }
         }
+    }
+
+    public void addRecoveredItems(List<ItemModel> models){
+        for (ItemModel model : models){
+            Item item = ItemConverter.recoverItem(model,map);
+            // updating list of all items in ItemFactory
+            ItemsFactory.getItems().add(item);
+        }
+
     }
 }

@@ -47,7 +47,7 @@ public class GameWorld {
             newMap.setMonsterPlacer(monsterPlacer);
             newItemPlacer.addItemsRandomly();
             monsterPlacer.addAllMonsters();
-            id = monsterPlacer.getId();
+            id = monsterPlacer.getId();   // po co to?
             monsterList.addAll(monsterPlacer.getMonsters());
         }
         itemList = ItemsFactory.getItems();
