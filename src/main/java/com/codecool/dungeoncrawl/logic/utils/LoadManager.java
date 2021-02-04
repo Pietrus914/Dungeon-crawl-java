@@ -2,6 +2,8 @@ package com.codecool.dungeoncrawl.logic.utils;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.dao.GameJsonManager;
+import com.codecool.dungeoncrawl.gui.GameMenu;
+import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.logic.GameWorld;
 
 import java.io.File;
@@ -33,9 +35,13 @@ public class LoadManager {
             gameWorld.importWorld(GameWorldFactory.importGame(jsonManager.getGameState(),
                     jsonManager.getItemModels(), jsonManager.getMonsterModels(),
                     jsonManager.getPlayerModel()));
-
+//            gameWorld.getCurrentMap().getPlayer().getName()
 
         } else if (this.gameSaveName != null){
+
+        } else {
+            StartPopUp.display();
+            gameWorld.getCurrentMap().getPlayer().setName(StartPopUp.getPlayerName());
 
         }
     }

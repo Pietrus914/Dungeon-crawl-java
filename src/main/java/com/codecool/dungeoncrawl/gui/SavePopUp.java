@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.gui;
 import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonExport;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonImport;
+import com.codecool.dungeoncrawl.logic.utils.LoadManager;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -69,7 +70,7 @@ public class SavePopUp {
 
 
         VBox layout = new VBox(10);
-//        buttonNode.getChildren().addAll(saveButton, importButton, exportButton, cancelButton);
+        buttonNode.getChildren().addAll(saveButton, exportButton, cancelButton);
         layout.getChildren().addAll(label, nameField, buttonNode);
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setPadding(new Insets(25,25,25,25));

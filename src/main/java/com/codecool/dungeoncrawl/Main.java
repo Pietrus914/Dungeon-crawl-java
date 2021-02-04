@@ -71,11 +71,6 @@ public class Main extends Application {
 
         gameCamera = new GameCamera(map, 0, 0);
 
-        map.getPlayer().setName("Aleks");
-        // TODO pobrac imie od gracza przy nowej grze, na potrzeby testowania importa jest wpisane na szytwno
-
-//        map.getPlayer().setName(StartPopUp.getPlayerName());
-
         gameMenu = new GameMenu(map.getPlayer());
 
 
@@ -183,10 +178,10 @@ public class Main extends Application {
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } else if (saveCombination.match(keyEvent)) {
-//            SavePopUp.display();
-            itemsList = ItemsFactory.getItems();
+//            SavePopUp.display(loadManager);
+//            itemsList = ItemsFactory.getItems();
             jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
+                    SavePopUp.getPlayerName(), map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
 //            jsonManager.saveToProjectFile();
             SavePopUp.display(jsonManager);
 
