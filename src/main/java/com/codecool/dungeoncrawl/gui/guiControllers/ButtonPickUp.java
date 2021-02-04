@@ -13,9 +13,6 @@ import javafx.scene.control.Tooltip;
 public class ButtonPickUp extends Button {
     private Player player;
 
-
-
-
     public ButtonPickUp(Player player, InventoryBoxDisplayer inventoryBoxDisplayer){
         super("Add to inventory");
         this.player = player;

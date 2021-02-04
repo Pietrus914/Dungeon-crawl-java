@@ -46,8 +46,7 @@ public class ItemConverter {
         recoveredItem.setInInventory(itemModel.isInInventory());
         recoveredItem.setMapNumber(itemModel.getMapNumber());
 
-// updating list of all items in ItemFactory
-        ItemsFactory.getItems().add(recoveredItem);
+
 
         return recoveredItem;
     }

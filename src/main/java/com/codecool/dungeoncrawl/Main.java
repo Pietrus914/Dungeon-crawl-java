@@ -9,6 +9,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
+import com.codecool.dungeoncrawl.logic.utils.GameWorldFactory;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -36,7 +37,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
-    private final GameWorld gameWorld = new GameWorld();
+//    private final GameWorld gameWorld = new GameWorld();
+    private final GameWorld gameWorld = GameWorldFactory.create();
     private GameCamera gameCamera;
     private Canvas canvas;
     GraphicsContext context;
@@ -54,7 +56,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         setupDbManager();
-        gameWorld.createLevels();
+//        gameWorld.createLevels();
 
         GameMap map = gameWorld.getCurrentMap();
 
@@ -65,7 +67,12 @@ public class Main extends Application {
 
         gameCamera = new GameCamera(map, 0, 0);
 
-        StartPopUp.display();
+        //TODO żeby odczytać jsona na początku gry potrzebowałem skopiować dwie poniższe linijki żeby nie było błędu. Jakiś pomysł na refactor bez kopiowania?
+        itemsList = ItemsFactory.getItems();
+        jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
+                SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
+        NewGameLoadGamePopup.display(jsonManager);
+        //StartPopUp.display();
         map.getPlayer().setName(StartPopUp.getPlayerName());
 
         gameMenu = new GameMenu(map.getPlayer());
@@ -160,7 +167,7 @@ public class Main extends Application {
 //            SavePopUp.display();
             itemsList = ItemsFactory.getItems();
             jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList);
+                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
 //            jsonManager.saveToProjectFile();
             SavePopUp.display(jsonManager);
 
