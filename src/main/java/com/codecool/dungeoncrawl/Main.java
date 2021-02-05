@@ -165,7 +165,7 @@ public class Main extends Application {
 
 
     private void onKeyReleased(KeyEvent keyEvent) {
-        GameMap map = gameWorld.getCurrentMap();
+//        GameMap map = gameWorld.getCurrentMap();
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
         KeyCombination saveCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
@@ -174,9 +174,6 @@ public class Main extends Application {
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } else if (saveCombination.match(keyEvent)) {
-            jsonManager.update(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(),
-                    map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
-
             SavePopUp.display(loadManager);
         }
     }
