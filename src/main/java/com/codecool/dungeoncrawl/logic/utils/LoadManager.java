@@ -2,12 +2,9 @@ package com.codecool.dungeoncrawl.logic.utils;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.dao.GameJsonManager;
-import com.codecool.dungeoncrawl.gui.GameMenu;
 import com.codecool.dungeoncrawl.gui.SavePopUp;
 import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.logic.GameWorld;
-import com.codecool.dungeoncrawl.logic.actors.Actor;
-import com.codecool.dungeoncrawl.logic.actors.Demon;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.MonsterModel;
