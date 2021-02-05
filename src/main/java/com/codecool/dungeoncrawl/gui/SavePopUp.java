@@ -53,6 +53,8 @@ public class SavePopUp {
         Button saveButton = new Button(title);
         saveButton.setOnAction(e -> {
             playerName = nameField.getText();
+            manager.setGameSaveName(playerName);
+            manager.chooseSaveOption();
             window.close();
         });
 

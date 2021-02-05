@@ -29,7 +29,7 @@ public class ButtonExport extends Button {
             File savingFile = fileChooser.showSaveDialog(primaryStage);
             manager.setSavingFile(savingFile);
             manager.chooseSaveOption();
-//            primaryStage.close();
+            primaryStage.close();
 
         });
     }

@@ -39,17 +39,15 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class Main extends Application {
-    private  GameWorld gameWorld = GameWorldFactory.create();
-//    private  GameWorld gameWorld;
+    private final GameWorld gameWorld = GameWorldFactory.create();
     private GameCamera gameCamera;
     private Canvas canvas;
     GraphicsContext context;
     private GameMenu gameMenu;
 
-    List<Item> itemsList;
+
     GameDatabaseManager dbManager;
     GameJsonManager jsonManager;
-    GameJsonManager jsonSaveManager;
     private LoadManager loadManager;
 
 
@@ -107,10 +105,6 @@ public class Main extends Application {
         }
 
         jsonManager = new GameJsonManager();
-
-//        jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-//        SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
-
 
         return  new LoadManager(dbManager, jsonManager, gameWorld);
 
@@ -183,18 +177,7 @@ public class Main extends Application {
             jsonManager.update(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(),
                     map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
 
-//            jsonSaveManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-//                    SavePopUp.getPlayerName(), map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
-//            loadManager.setJsonSaveManager(jsonManager);
             SavePopUp.display(loadManager);
-
-            dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
-            dbManager.savePlayer(map.getPlayer());
-            dbManager.saveItems(gameWorld.getItemList(), map.getPlayer().getId());
-            dbManager.saveMonsters(gameWorld.getMonsterList(), map.getPlayer().getId());
-
-
-
         }
     }
 
