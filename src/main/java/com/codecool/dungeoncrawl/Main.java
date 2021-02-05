@@ -49,6 +49,7 @@ public class Main extends Application {
     List<Item> itemsList;
     GameDatabaseManager dbManager;
     GameJsonManager jsonManager;
+    GameJsonManager jsonSaveManager;
     private LoadManager loadManager;
 
 
@@ -58,7 +59,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
-        LoadManager loadManager = createLoadManager();
+        loadManager = createLoadManager();
         NewGameLoadGamePopup.display(loadManager);
         setupDbManager();  // sprawdzic, czy jtu jest porzebny
 
@@ -106,6 +107,7 @@ public class Main extends Application {
         }
 
         jsonManager = new GameJsonManager();
+
 //        jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
 //        SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
 
@@ -178,12 +180,13 @@ public class Main extends Application {
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } else if (saveCombination.match(keyEvent)) {
-//            SavePopUp.display(loadManager);
-//            itemsList = ItemsFactory.getItems();
-            GameJsonManager jsonManagerSave = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                    SavePopUp.getPlayerName(), map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
-//            jsonManager.saveToProjectFile();
-            SavePopUp.display(jsonManagerSave);
+            jsonManager.update(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(),
+                    map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
+
+//            jsonSaveManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
+//                    SavePopUp.getPlayerName(), map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
+//            loadManager.setJsonSaveManager(jsonManager);
+            SavePopUp.display(loadManager);
 
             dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
             dbManager.savePlayer(map.getPlayer());
