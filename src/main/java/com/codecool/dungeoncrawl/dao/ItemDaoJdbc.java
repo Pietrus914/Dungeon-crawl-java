@@ -14,7 +14,7 @@ public class ItemDaoJdbc implements ItemDao {
 
     public ItemDaoJdbc(DataSource dataSource){
         this.dataSource = dataSource;
-//        this.playerDao = playerDao;
+
     }
 
     @Override

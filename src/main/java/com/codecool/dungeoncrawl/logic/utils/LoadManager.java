@@ -8,6 +8,7 @@ import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.logic.GameWorld;
 
 import java.io.File;
+import java.util.List;
 
 public class LoadManager {
 
@@ -49,20 +50,31 @@ public class LoadManager {
         }
     }
 
-    public void chooseSaveOption(){
+    public void chooseSaveOption() throws WrongNameException {
         if (savingFile != null){
             jsonManager.update(String.format("map%s", gameWorld.getCurrentMap().getMapNumber()), SavePopUp.getPlayerName(),
                     gameWorld.getCurrentMap().getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
             jsonManager.saveToProjectFile(savingFile);
             savingFile = null;
         } else if (gameSaveName != null){
-            dbManager.saveGameState(String.format("map%s", gameWorld.getCurrentMap().getMapNumber()), SavePopUp.getPlayerName(), gameWorld.getCurrentMap().getPlayer());
-            dbManager.savePlayer(gameWorld.getCurrentMap().getPlayer());
-            dbManager.saveItems(gameWorld.getItemList(), gameWorld.getCurrentMap().getPlayer().getId());
-            dbManager.saveMonsters(gameWorld.getMonsterList(), gameWorld.getCurrentMap().getPlayer().getId());
-            gameSaveName = null;
+            if (nameIsAvailabe(gameSaveName)){
+                dbManager.saveGameState(String.format("map%s", gameWorld.getCurrentMap().getMapNumber()), SavePopUp.getPlayerName(), gameWorld.getCurrentMap().getPlayer());
+                dbManager.savePlayer(gameWorld.getCurrentMap().getPlayer());
+                dbManager.saveItems(gameWorld.getItemList(), gameWorld.getCurrentMap().getPlayer().getId());
+                dbManager.saveMonsters(gameWorld.getMonsterList(), gameWorld.getCurrentMap().getPlayer().getId());
+                gameSaveName = null;
+            } else {
+                throw new WrongNameException("wrong name");
+            }
+
+
         }
 
+    }
+
+    private boolean nameIsAvailabe(String gameSaveName) {
+        List<String> savedNames = dbManager.getAllSavedNames();
+        return  !(savedNames.contains(gameSaveName));
     }
 
     public void setFile(File file) {

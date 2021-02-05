@@ -38,9 +38,8 @@ public class GameDatabaseManager {
         System.out.println(gameStateDao.getAll());
     }
 
-    public List<GameState> loadGame() {
-
-        return gameStateDao.getAll();
+    public List<String> getAllSavedNames() {
+        return gameStateDao.getAllSavedNames();
     }
 
     public void savePlayer(Player player) {

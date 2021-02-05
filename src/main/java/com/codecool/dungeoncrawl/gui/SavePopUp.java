@@ -1,9 +1,8 @@
 package com.codecool.dungeoncrawl.gui;
 
-import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonExport;
-import com.codecool.dungeoncrawl.gui.guiControllers.ButtonImport;
 import com.codecool.dungeoncrawl.logic.utils.LoadManager;
+import com.codecool.dungeoncrawl.logic.utils.WrongNameException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,17 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.VLineTo;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-
 public class SavePopUp {
     private static String title = "Save Game";
-    private static String playerName;
+    private static String saveName;
 
     public static void display(LoadManager manager){
 
@@ -52,10 +46,14 @@ public class SavePopUp {
 
         Button saveButton = new Button(title);
         saveButton.setOnAction(e -> {
-            playerName = nameField.getText();
-            manager.setGameSaveName(playerName);
-            manager.chooseSaveOption();
-            window.close();
+            saveName = nameField.getText();
+            manager.setGameSaveName(saveName);
+            try {
+                manager.chooseSaveOption();
+                window.close();
+            } catch (WrongNameException wne){
+                label.setText("This name is not availabe. Choose another one: ");
+            }
         });
 
 
@@ -86,6 +84,8 @@ public class SavePopUp {
     }
 
     public static String getPlayerName() {
-        return playerName;
+        return saveName;
     }
+
 }
+

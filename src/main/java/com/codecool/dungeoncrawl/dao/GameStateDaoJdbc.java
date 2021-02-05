@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
@@ -76,6 +77,28 @@ public class GameStateDaoJdbc implements GameStateDao {
             return result;
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all resultSet", e);
+        }
+    }
+
+
+    @Override
+    public List<String> getAllSavedNames(){
+        String sql = "SELECT save_name  FROM game_state";
+
+        List<String> savedNames = new ArrayList<>();
+
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()){
+                    savedNames.add(rs.getString("save_name"));
+                }
+                return savedNames;
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
         }
     }
 }

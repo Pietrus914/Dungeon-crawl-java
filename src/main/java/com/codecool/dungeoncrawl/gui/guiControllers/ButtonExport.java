@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.gui.guiControllers;
 
 import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.logic.utils.LoadManager;
+import com.codecool.dungeoncrawl.logic.utils.WrongNameException;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.stage.FileChooser;
@@ -28,7 +29,11 @@ public class ButtonExport extends Button {
             fileChooser.setInitialFileName("dungeon_crawl.json");
             File savingFile = fileChooser.showSaveDialog(primaryStage);
             manager.setSavingFile(savingFile);
-            manager.chooseSaveOption();
+            try {
+                manager.chooseSaveOption();
+            } catch (WrongNameException wrongNameException) {
+                wrongNameException.printStackTrace();
+            }
             primaryStage.close();
 
         });
