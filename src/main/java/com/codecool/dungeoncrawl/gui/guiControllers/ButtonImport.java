@@ -31,7 +31,7 @@ public class ButtonImport extends Button {
 
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             manager.setFile(selectedFile);
-            manager.chooseOption();
+            manager.chooseLoadOption();
 
             primaryStage.close();
             });

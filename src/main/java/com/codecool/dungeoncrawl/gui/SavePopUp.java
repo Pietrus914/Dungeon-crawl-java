@@ -25,7 +25,7 @@ public class SavePopUp {
     private static String title = "Save Game";
     private static String playerName;
 
-    public static void display(GameJsonManager manager){
+    public static void display(LoadManager manager){
 
         Stage window = new Stage();
         window.setOnCloseRequest(windowEvent -> {
@@ -53,6 +53,8 @@ public class SavePopUp {
         Button saveButton = new Button(title);
         saveButton.setOnAction(e -> {
             playerName = nameField.getText();
+            manager.setGameSaveName(playerName);
+            manager.chooseSaveOption();
             window.close();
         });
 

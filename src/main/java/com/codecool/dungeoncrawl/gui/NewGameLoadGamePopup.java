@@ -38,7 +38,7 @@ public class NewGameLoadGamePopup {
         newGameButton.setPrefSize(200, 50);
         newGameButton.setOnAction(e -> {
 //            StartPopUp.display();
-            manager.chooseOption();
+            manager.chooseLoadOption();
             window.close();
         });
 

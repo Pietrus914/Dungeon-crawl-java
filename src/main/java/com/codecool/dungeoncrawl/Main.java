@@ -39,14 +39,13 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class Main extends Application {
-    private  GameWorld gameWorld = GameWorldFactory.create();
-//    private  GameWorld gameWorld;
+    private final GameWorld gameWorld = GameWorldFactory.create();
     private GameCamera gameCamera;
     private Canvas canvas;
     GraphicsContext context;
     private GameMenu gameMenu;
 
-    List<Item> itemsList;
+
     GameDatabaseManager dbManager;
     GameJsonManager jsonManager;
     private LoadManager loadManager;
@@ -58,7 +57,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
-        LoadManager loadManager = createLoadManager();
+        loadManager = createLoadManager();
         NewGameLoadGamePopup.display(loadManager);
         setupDbManager();  // sprawdzic, czy jtu jest porzebny
 
@@ -106,9 +105,6 @@ public class Main extends Application {
         }
 
         jsonManager = new GameJsonManager();
-//        jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-//        SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
-
 
         return  new LoadManager(dbManager, jsonManager, gameWorld);
 
@@ -178,20 +174,10 @@ public class Main extends Application {
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } else if (saveCombination.match(keyEvent)) {
-//            SavePopUp.display(loadManager);
-//            itemsList = ItemsFactory.getItems();
-            GameJsonManager jsonManagerSave = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                    SavePopUp.getPlayerName(), map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
-//            jsonManager.saveToProjectFile();
-            SavePopUp.display(jsonManagerSave);
+            jsonManager.update(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(),
+                    map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
 
-            dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
-            dbManager.savePlayer(map.getPlayer());
-            dbManager.saveItems(gameWorld.getItemList(), map.getPlayer().getId());
-            dbManager.saveMonsters(gameWorld.getMonsterList(), map.getPlayer().getId());
-
-
-
+            SavePopUp.display(loadManager);
         }
     }
 
