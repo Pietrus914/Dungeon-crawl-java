@@ -42,9 +42,21 @@ public class GameDatabaseManager {
         return gameStateDao.getAllSavedNames();
     }
 
+    public int getIdForSaveName(String saveName){
+        return gameStateDao.getGameId(saveName);
+    }
+
+    public GameState getGameState(int gameStateId){
+        return gameStateDao.get(gameStateId);
+    }
+
     public void savePlayer(Player player) {
         PlayerModel model = new PlayerModel(player);
         playerDao.add(model);
+    }
+
+    public PlayerModel getPlayerModel(int gameStateId){
+        return playerDao.get(gameStateId);
     }
 
     private ItemModel getItemModel(Item item, int gameStateId){
@@ -70,13 +82,13 @@ public class GameDatabaseManager {
         return itemDao.get(id, gameStatusId, mapNumber);
     }
 
-    public List<ItemModel> getItemModelsForInventory(int gameStatusId){
-        return itemDao.getAllForInventory(gameStatusId);
-    }
-
-    public List<ItemModel> getItemModelsForFloor(int gameStatusId){
-        return itemDao.getAllOnFloor(gameStatusId);
-    }
+//    public List<ItemModel> getItemModelsForInventory(int gameStatusId){
+//        return itemDao.getAllForInventory(gameStatusId);
+//    }
+//
+//    public List<ItemModel> getItemModelsForFloor(int gameStatusId){
+//        return itemDao.getAllOnFloor(gameStatusId);
+//    }
 
     public List<ItemModel> getAllItemModels(int gameStatusId){
         return itemDao.getAll(gameStatusId);

@@ -6,14 +6,22 @@ import com.codecool.dungeoncrawl.gui.GameMenu;
 import com.codecool.dungeoncrawl.gui.SavePopUp;
 import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.logic.GameWorld;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Demon;
+import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.ItemModel;
+import com.codecool.dungeoncrawl.model.MonsterModel;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoadManager {
 
     private File file;
     private File savingFile;
+    private String gameSavedName;
     private String gameSaveName;
 
     private GameJsonManager jsonManager;
@@ -26,6 +34,7 @@ public class LoadManager {
                         GameWorld gameWorld){
         this.file = null;
         this.savingFile = null;
+        this.gameSavedName = null;
         this.gameSaveName = null;
         this.jsonManager = jsonManager;
         this.dbManager = dbManager;
@@ -41,8 +50,17 @@ public class LoadManager {
                     jsonManager.getItemModels(), jsonManager.getMonsterModels(),
                     jsonManager.getPlayerModel()));
             this.file = null;
-        } else if (this.gameSaveName != null){
+        } else if (this.gameSavedName != null){
+            int gameStateId = dbManager.getIdForSaveName(gameSavedName);
+            GameState gameState = dbManager.getGameState(gameStateId);
+            PlayerModel playerModel = dbManager.getPlayerModel(gameStateId);
+            List<ItemModel> itemModels = dbManager.getAllItemModels(gameStateId);
+//            List<Actor> monsterModels = dbManager.getAllMonstersModels(gameStateId);
+            List<MonsterModel> monsterModels = new ArrayList<>();
 
+            gameWorld.importWorld(GameWorldFactory.importGame(gameState, itemModels, monsterModels, playerModel ));
+
+            gameSavedName = null;
         } else {
             StartPopUp.display();
             gameWorld.getCurrentMap().getPlayer().setName(StartPopUp.getPlayerName());
@@ -57,7 +75,7 @@ public class LoadManager {
             jsonManager.saveToProjectFile(savingFile);
             savingFile = null;
         } else if (gameSaveName != null){
-            if (nameIsAvailabe(gameSaveName)){
+            if (nameIsAvailable(gameSaveName)){
                 dbManager.saveGameState(String.format("map%s", gameWorld.getCurrentMap().getMapNumber()), SavePopUp.getPlayerName(), gameWorld.getCurrentMap().getPlayer());
                 dbManager.savePlayer(gameWorld.getCurrentMap().getPlayer());
                 dbManager.saveItems(gameWorld.getItemList(), gameWorld.getCurrentMap().getPlayer().getId());
@@ -72,7 +90,7 @@ public class LoadManager {
 
     }
 
-    private boolean nameIsAvailabe(String gameSaveName) {
+    private boolean nameIsAvailable(String gameSaveName) {
         List<String> savedNames = dbManager.getAllSavedNames();
         return  !(savedNames.contains(gameSaveName));
     }
@@ -89,5 +107,8 @@ public class LoadManager {
         this.savingFile = savingFile;
     }
 
+    public void setGameSavedName(String gameSavedName) {
+        this.gameSavedName = gameSavedName;
+    }
 }
 

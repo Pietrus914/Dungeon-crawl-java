@@ -127,90 +127,90 @@ public class ItemDaoJdbc implements ItemDao {
         return itemsModels;
     }
 
-    @Override
-    public List<ItemModel> getAllForInventory(int gameStateId) {
-        String sql = "SELECT id, item_name, message, x, y, points, " +
-                "inventory, game_state_id, map_number  FROM items " +
-                "WHERE game_state_id = ? AND inventory = ?";
+//    @Override
+//    public List<ItemModel> getAllForInventory(int gameStateId) {
+//        String sql = "SELECT id, item_name, message, x, y, points, " +
+//                "inventory, game_state_id, map_number  FROM items " +
+//                "WHERE game_state_id = ? AND inventory = ?";
+//
+//        List<ItemModel> itemsModels = new ArrayList<>();
+//
+//
+//        try (Connection conn = dataSource.getConnection();
+//             PreparedStatement statement = conn.prepareStatement(sql)){
+//            statement.setInt(1, gameStateId);
+//            statement.setBoolean(2, true);
+//
+//            try (ResultSet rs = statement.executeQuery()) {
+//                while (rs.next()){
+//                    ItemModel itemModel = new ItemModel(rs.getInt("id"),
+//                            rs.getString("item_name"),
+//                            rs.getString("message"),
+//                            rs.getInt("x"),
+//                            rs.getInt("y"),
+//                            rs.getInt("points"),
+//                            rs.getBoolean("inventory"),
+//                            rs.getInt("game_state_id"),
+//                            rs.getInt("map_number"));
+//                    itemsModels.add(itemModel);
+//                }
+//            }
+//        } catch (SQLException e){
+//            throw new RuntimeException(e);
+//        }
+//        return itemsModels;
+//    }
 
-        List<ItemModel> itemsModels = new ArrayList<>();
-
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)){
-            statement.setInt(1, gameStateId);
-            statement.setBoolean(2, true);
-
-            try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()){
-                    ItemModel itemModel = new ItemModel(rs.getInt("id"),
-                            rs.getString("item_name"),
-                            rs.getString("message"),
-                            rs.getInt("x"),
-                            rs.getInt("y"),
-                            rs.getInt("points"),
-                            rs.getBoolean("inventory"),
-                            rs.getInt("game_state_id"),
-                            rs.getInt("map_number"));
-                    itemsModels.add(itemModel);
-                }
-            }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-        return itemsModels;
-    }
-
-    @Override
-    public List<ItemModel> getAllOnFloor(int gameStateId) {
-        String sql = "SELECT id, item_name, message, x, y, points, " +
-                "inventory, game_state_id, map_number  FROM items " +
-                "WHERE game_state_id = ? AND inventory = ?";
-
-        List<ItemModel> itemsModels = new ArrayList<>();
-
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)){
-            statement.setInt(1, gameStateId);
-            statement.setBoolean(2,false);
-
-            try (ResultSet rs = statement.executeQuery()){
-                while (rs.next()){
-                    ItemModel itemModel = new ItemModel(rs.getInt("id"),
-                            rs.getString("item_name"),
-                            rs.getString("message"),
-                            rs.getInt("x"),
-                            rs.getInt("y"),
-                            rs.getInt("points"),
-                            rs.getBoolean("inventory"),
-                            rs.getInt("game_state_id"),
-                            rs.getInt("map_number"));
-                    itemsModels.add(itemModel);
-                }
-            }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-        return itemsModels;
-    }
-
-
-    // prepared for refactoring queries:
-    private ItemModel createItemModel(ResultSet rs) throws SQLException {
-        ItemModel itemModel = null;
-        while (rs.next()){
-            itemModel = new ItemModel(rs.getInt("id"),
-                    rs.getString("item_name"),
-                    rs.getString("message"),
-                    rs.getInt("x"),
-                    rs.getInt("y"),
-                    rs.getInt("points"),
-                    rs.getBoolean("inventory"),
-                    rs.getInt("game_state_id"),
-                    rs.getInt("map_number"));
-
-        }
-        return itemModel;
-    }
+//    @Override
+//    public List<ItemModel> getAllOnFloor(int gameStateId) {
+//        String sql = "SELECT id, item_name, message, x, y, points, " +
+//                "inventory, game_state_id, map_number  FROM items " +
+//                "WHERE game_state_id = ? AND inventory = ?";
+//
+//        List<ItemModel> itemsModels = new ArrayList<>();
+//
+//
+//        try (Connection conn = dataSource.getConnection();
+//             PreparedStatement statement = conn.prepareStatement(sql)){
+//            statement.setInt(1, gameStateId);
+//            statement.setBoolean(2,false);
+//
+//            try (ResultSet rs = statement.executeQuery()){
+//                while (rs.next()){
+//                    ItemModel itemModel = new ItemModel(rs.getInt("id"),
+//                            rs.getString("item_name"),
+//                            rs.getString("message"),
+//                            rs.getInt("x"),
+//                            rs.getInt("y"),
+//                            rs.getInt("points"),
+//                            rs.getBoolean("inventory"),
+//                            rs.getInt("game_state_id"),
+//                            rs.getInt("map_number"));
+//                    itemsModels.add(itemModel);
+//                }
+//            }
+//        } catch (SQLException e){
+//            throw new RuntimeException(e);
+//        }
+//        return itemsModels;
+//    }
+//
+//
+//    // prepared for refactoring queries:
+//    private ItemModel createItemModel(ResultSet rs) throws SQLException {
+//        ItemModel itemModel = null;
+//        while (rs.next()){
+//            itemModel = new ItemModel(rs.getInt("id"),
+//                    rs.getString("item_name"),
+//                    rs.getString("message"),
+//                    rs.getInt("x"),
+//                    rs.getInt("y"),
+//                    rs.getInt("points"),
+//                    rs.getBoolean("inventory"),
+//                    rs.getInt("game_state_id"),
+//                    rs.getInt("map_number"));
+//
+//        }
+//        return itemModel;
+//    }
 }

@@ -35,29 +35,49 @@ public class GameStateDaoJdbc implements GameStateDao {
         }
     }
 
+
+    public int getGameId(String saveName){
+        String sql = "SELECT id FROM game_state WHERE save_name = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1, saveName);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return -1;
+            }
+            return resultSet.getInt("id");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     @Override
     public void update(GameState state) {
 
     }
 
     @Override
-    public GameState get(int id) {
-        String sql = "SELECT save_name, current_map, saved_at FROM game_state WHERE id = ?";
+    public GameState get(int game_state_id) {
+        String sql = "SELECT current_map, saved_at, save_name FROM game_state WHERE id = ?";
+        GameState gameState = null;
         try (Connection conn = dataSource.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
-            statement.setInt(1, id);
+            statement.setInt(1, game_state_id);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
                 return null;
             }
-            GameState gameState = new GameState(resultSet.getString(1), resultSet.getTimestamp(2), resultSet.getString(3));
-            gameState.setId(id);
+             gameState = new GameState(resultSet.getString("current_map"),
+                     resultSet.getTimestamp("saved_at"), resultSet.getString("save_name"));
+//            gameState.setId(id);
             return gameState;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return gameState;
     }
 
     @Override
