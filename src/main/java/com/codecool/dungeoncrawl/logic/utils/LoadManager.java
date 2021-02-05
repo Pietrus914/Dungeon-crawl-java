@@ -51,6 +51,8 @@ public class LoadManager {
 
     public void chooseSaveOption(){
         if (savingFile != null){
+            jsonManager.update(String.format("map%s", gameWorld.getCurrentMap().getMapNumber()), SavePopUp.getPlayerName(),
+                    gameWorld.getCurrentMap().getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
             jsonManager.saveToProjectFile(savingFile);
             savingFile = null;
         } else if (gameSaveName != null){
