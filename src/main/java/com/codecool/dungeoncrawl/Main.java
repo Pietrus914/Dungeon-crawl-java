@@ -180,14 +180,14 @@ public class Main extends Application {
         } else if (saveCombination.match(keyEvent)) {
 //            SavePopUp.display(loadManager);
 //            itemsList = ItemsFactory.getItems();
-            jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
+            GameJsonManager jsonManagerSave = new GameJsonManager(String.format("map%s", map.getMapNumber()),
                     SavePopUp.getPlayerName(), map.getPlayer(), gameWorld.getItemList(), gameWorld.getMonsterList());
 //            jsonManager.saveToProjectFile();
-            SavePopUp.display(jsonManager);
+            SavePopUp.display(jsonManagerSave);
 
             dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
             dbManager.savePlayer(map.getPlayer());
-            dbManager.saveItems(itemsList, map.getPlayer().getId());
+            dbManager.saveItems(gameWorld.getItemList(), map.getPlayer().getId());
             dbManager.saveMonsters(gameWorld.getMonsterList(), map.getPlayer().getId());
 
 
