@@ -8,7 +8,7 @@ import com.codecool.dungeoncrawl.model.MonsterModel;
 public class MonsterConverter {
     public static Actor recoverMonster(MonsterModel monsterModel, GameMap map) {
         Cell cell = map.getCell(monsterModel.getX(), monsterModel.getY());
-        MonsterNames monsterName = MonsterNames.valueOf(monsterModel.getMonsterName());
+        MonsterNames monsterName = MonsterNames.valueOf(monsterModel.getMonsterName().toUpperCase());
 
         Actor recoveredMonster = null;
 

@@ -8,5 +8,5 @@ public interface MonsterDao {
     void add(MonsterModel monstersModel);
     void update(MonsterModel monstersModel);
     MonsterModel get(int id);
-    List<MonsterModel> getAll();
+    List<MonsterModel> getAll(int gameStateId);
 }

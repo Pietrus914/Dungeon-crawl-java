@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.SavePopUp;
 import com.codecool.dungeoncrawl.gui.StartPopUp;
 import com.codecool.dungeoncrawl.logic.GameWorld;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.MonsterModel;
@@ -52,8 +53,7 @@ public class LoadManager {
             GameState gameState = dbManager.getGameState(gameStateId);
             PlayerModel playerModel = dbManager.getPlayerModel(gameStateId);
             List<ItemModel> itemModels = dbManager.getAllItemModels(gameStateId);
-//            List<Actor> monsterModels = dbManager.getAllMonstersModels(gameStateId);
-            List<MonsterModel> monsterModels = new ArrayList<>();
+            List<MonsterModel> monsterModels = dbManager.getAllMonstersModels(gameStateId);
 
             gameWorld.importWorld(GameWorldFactory.importGame(gameState, itemModels, monsterModels, playerModel ));
 

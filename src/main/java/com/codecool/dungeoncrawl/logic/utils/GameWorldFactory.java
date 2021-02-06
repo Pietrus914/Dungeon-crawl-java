@@ -50,10 +50,9 @@ public class GameWorldFactory {
     }
 
     public static GameWorld importGame(GameState gameState, List<ItemModel> itemModels, List<MonsterModel> monsterModels, PlayerModel playerModel){
-        int id = 1;
-//        player = null;
         levels.clear();
         ItemsFactory.getItems().clear();
+        monsterList.clear();
 
         for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
             GameMap newMap = createLevel(listOfFile.getName());
@@ -61,10 +60,9 @@ public class GameWorldFactory {
             ItemsPlacer newItemPlacer = new ItemsPlacer(newMap);
             newItemPlacer.addRecoveredItems(getItemsForLevel(itemModels, newMap.getMapNumber()));
 
-            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap, id);
-            newMap.setMonsterPlacer(monsterPlacer);
-            monsterPlacer.addAllMonsters();
-            id = monsterPlacer.getId();
+            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap, 1);
+
+            monsterPlacer.addRecoveredMonsters(getMonstersForLevel(monsterModels, newMap.getMapNumber()));
             monsterList.addAll(monsterPlacer.getMonsters());
         }
         int index = Integer.parseInt(gameState.getCurrentMap().substring(3));
@@ -91,6 +89,12 @@ public class GameWorldFactory {
 
         return itemModels.stream()
                 .filter(itemModel -> itemModel.getMapNumber() == mapNumber)
+                .collect(Collectors.toList());
+    }
+
+    private static List<MonsterModel> getMonstersForLevel(List<MonsterModel> monsterModels, int mapNumber) {
+        return monsterModels.stream()
+                .filter(monsterModel -> monsterModel.getMapNumber() == mapNumber)
                 .collect(Collectors.toList());
     }
 }
