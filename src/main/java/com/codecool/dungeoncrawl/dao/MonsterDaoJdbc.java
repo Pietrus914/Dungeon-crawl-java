@@ -1,11 +1,14 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.MonsterModel;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MonsterDaoJdbc implements MonsterDao {
@@ -46,7 +49,31 @@ public class MonsterDaoJdbc implements MonsterDao {
     }
 
     @Override
-    public List<MonsterModel> getAll() {
-        return null;
+    public List<MonsterModel> getAll(int gameStateId) {
+        String sql = "SELECT *  FROM monsters " +
+                "WHERE game_state_id = ?";
+
+        List<MonsterModel> monsterModels = new ArrayList<>();
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setInt(1, gameStateId);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()){
+                    MonsterModel monsterModel = new MonsterModel(rs.getInt("id"),
+                            rs.getString("monster_name"),
+                            rs.getInt("hp"),
+                            rs.getInt("x"),
+                            rs.getInt("y"),
+                            rs.getInt("game_state_id"),
+                            rs.getInt("map_number"));
+                    monsterModels.add(monsterModel);
+                }
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return monsterModels;
     }
 }
