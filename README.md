@@ -1,3 +1,16 @@
+Technology:
+- Java 11
+- JDBC
+- DAO Pattern
+- Junit Test
+
+Group project (4 persons)
+My tasks:
+-  Different monsters type (task no. 8)
+-  Monsters move (task no. 9)
+-  save/load popup
+
+
 # Dungeon Crawl (sprint 1)
 
 ## Story
