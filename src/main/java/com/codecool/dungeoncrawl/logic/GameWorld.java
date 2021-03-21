@@ -26,34 +26,6 @@ public class GameWorld {
         this.itemList = itemList;
     }
 
-    public GameWorld() {
-        this.monsterList = new ArrayList<>();
-        this.levels = new ArrayList<>();
-    }
-
-    public void createLevels() {
-        File folder = new File("src/main/resources/levels");
-        File[] listOfFiles = folder.listFiles();
-        int id = 1;
-        for (File listOfFile : Objects.requireNonNull(listOfFiles)) {
-            String fileName = listOfFile.getName();
-            GameMap newMap = MapLoader.loadMap("/levels/" + fileName);
-            levels.add(newMap);
-            int mapNumber = Integer.parseInt(String.valueOf(fileName.charAt(fileName.length() - 5)));
-            newMap.setMapNumber(mapNumber);
-
-            ItemsPlacer newItemPlacer = new ItemsPlacer(newMap);
-            MonsterPlacer monsterPlacer = new MonsterPlacer(newMap, id);
-            newMap.setMonsterPlacer(monsterPlacer);
-            newItemPlacer.addItemsRandomly();
-            monsterPlacer.addAllMonsters();
-            id = monsterPlacer.getId();   // po co to?
-            monsterList.addAll(monsterPlacer.getMonsters());
-        }
-        itemList = ItemsFactory.getItems();
-        currentMap = levels.get(0);
-    }
-
     public void changeLevel() {
         if (currentMap.getPlayer().getCell().getBuilding() != null) {
             if (currentMap.getPlayer().getCell().getBuilding().getTileName().equals("ladder up")) {
