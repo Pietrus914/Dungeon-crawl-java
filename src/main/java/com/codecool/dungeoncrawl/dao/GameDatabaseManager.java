@@ -94,6 +94,10 @@ public class GameDatabaseManager {
         return itemDao.getAll(gameStatusId);
     }
 
+    public List<MonsterModel> getAllMonstersModels(int gameStatusId){
+        return monsterDao.getAll(gameStatusId);
+    }
+
     private MonsterModel getMonsterModel(Actor actor, int gameStateId){
         MonsterModel monsterModel = new MonsterModel(actor, gameStateId);
 //        monsterModel.setId(actor.getId());
