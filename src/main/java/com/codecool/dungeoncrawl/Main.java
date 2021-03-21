@@ -10,6 +10,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.ItemsFactory;
 import com.codecool.dungeoncrawl.logic.utils.GameWorldFactory;
+import com.codecool.dungeoncrawl.logic.utils.LoadManager;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -34,6 +35,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -43,9 +45,10 @@ public class Main extends Application {
     GraphicsContext context;
     private GameMenu gameMenu;
 
-    List<Item> itemsList;
+
     GameDatabaseManager dbManager;
     GameJsonManager jsonManager;
+    private LoadManager loadManager;
 
 
 
@@ -54,7 +57,9 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
-        setupDbManager();
+        loadManager = createLoadManager();
+        NewGameLoadGamePopup.display(loadManager);
+        setupDbManager();  // sprawdzic, czy jtu jest porzebny
 
         GameMap map = gameWorld.getCurrentMap();
 
@@ -64,14 +69,6 @@ public class Main extends Application {
         context = canvas.getGraphicsContext2D();
 
         gameCamera = new GameCamera(map, 0, 0);
-
-        //TODO żeby odczytać jsona na początku gry potrzebowałem skopiować dwie poniższe linijki żeby nie było błędu. Jakiś pomysł na refactor bez kopiowania?
-        itemsList = ItemsFactory.getItems();
-        jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
-        NewGameLoadGamePopup.display(jsonManager);
-        //StartPopUp.display();
-        map.getPlayer().setName(StartPopUp.getPlayerName());
 
         gameMenu = new GameMenu(map.getPlayer());
 
@@ -96,6 +93,21 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+    }
+
+    private LoadManager createLoadManager(){
+
+        dbManager = new GameDatabaseManager();
+        try {
+            dbManager.setup();
+        } catch (SQLException ex) {
+            System.out.println("Cannot connect to database.");
+        }
+
+        jsonManager = new GameJsonManager();
+
+        return  new LoadManager(dbManager, jsonManager, gameWorld);
+
     }
 
 
@@ -153,7 +165,7 @@ public class Main extends Application {
 
 
     private void onKeyReleased(KeyEvent keyEvent) {
-        GameMap map = gameWorld.getCurrentMap();
+//        GameMap map = gameWorld.getCurrentMap();
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
         KeyCombination saveCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
@@ -162,20 +174,7 @@ public class Main extends Application {
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } else if (saveCombination.match(keyEvent)) {
-//            SavePopUp.display();
-            itemsList = ItemsFactory.getItems();
-            jsonManager = new GameJsonManager(String.format("map%s", map.getMapNumber()),
-                    SavePopUp.getPlayerName(), map.getPlayer(), itemsList, gameWorld.getMonsterList());
-//            jsonManager.saveToProjectFile();
-            SavePopUp.display(jsonManager);
-
-            dbManager.saveGameState(String.format("map%s", map.getMapNumber()), SavePopUp.getPlayerName(), map.getPlayer());
-            dbManager.savePlayer(map.getPlayer());
-            dbManager.saveItems(itemsList, map.getPlayer().getId());
-            dbManager.saveMonsters(gameWorld.getMonsterList(), map.getPlayer().getId());
-
-
-
+            SavePopUp.display(loadManager);
         }
     }
 

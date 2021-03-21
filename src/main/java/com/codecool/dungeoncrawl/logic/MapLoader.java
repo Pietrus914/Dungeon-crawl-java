@@ -44,10 +44,6 @@ public class MapLoader {
                         case '.':
                             cell.setType(CellType.FLOOR);
                             break;
-                        case 'k':
-                            cell.setType(CellType.FLOOR);
-                            new Key(cell, 1);
-                            break;
                         case 'u':
                             cell.setType(CellType.FLOOR);
                             new LadderUp(cell, BuildingsName.UP);

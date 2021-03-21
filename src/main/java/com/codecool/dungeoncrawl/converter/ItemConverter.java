@@ -10,7 +10,7 @@ public class ItemConverter {
 
     public static Item recoverItem(ItemModel itemModel, GameMap map){
         Cell cell = map.getCell(itemModel.getX(), itemModel.getY());
-        ItemNames itemName = ItemNames.valueOf(itemModel.getName());
+        ItemNames itemName = ItemNames.valueOf(itemModel.getName().toUpperCase());
 
         Item recoveredItem = null;
 
@@ -18,6 +18,7 @@ public class ItemConverter {
             case KEY:
                 recoveredItem = new Key(cell, itemModel.getMapNumber());
                 break;
+
             case SWORD:
                 recoveredItem = new Sword(cell, itemModel.getMapNumber());
                 break;

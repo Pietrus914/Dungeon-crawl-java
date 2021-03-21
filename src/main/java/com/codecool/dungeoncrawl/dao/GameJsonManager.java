@@ -23,16 +23,18 @@ public class GameJsonManager {
     private List<ItemModel> itemModels;
     private List<MonsterModel> monsterModels;
 
+    public GameJsonManager(){
 
-    public GameJsonManager(String currentMap, String saveName, Player player,
-                           List<Item> items,List<Actor> monsters ){
+    }
+
+    public void update(String currentMap, String saveName, Player player,
+                       List<Item> items,List<Actor> monsters) {
         this.gameState = prepareGameState(currentMap, saveName);
         this.playerModel = preparePlayerModel(player);
         this.itemModels = prepareItemModels(items);
         this.monsterModels = prepareMonsterModels(monsters);
 
     }
-
 
     private GameState prepareGameState(String currentMap, String saveName){
         GameState gameState = new GameState(currentMap, new Timestamp(System.currentTimeMillis()), saveName);
@@ -165,4 +167,6 @@ public class GameJsonManager {
     public List<MonsterModel> getMonsterModels() {
         return monsterModels;
     }
+
+
 }

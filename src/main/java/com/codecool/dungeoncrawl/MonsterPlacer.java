@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.converter.MonsterConverter;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
@@ -7,6 +8,7 @@ import com.codecool.dungeoncrawl.logic.actors.Demon;
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.logic.utils.RandomProvider;
+import com.codecool.dungeoncrawl.model.MonsterModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,5 +143,16 @@ public class MonsterPlacer {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void addRecoveredMonsters(List<MonsterModel> models){
+        for (MonsterModel model : models){
+            Actor monster = MonsterConverter.recoverMonster(model, map);
+            if (monster.isDead()) {
+                monster.getCell().setActor(null);
+            }
+            monsters.add(monster);
+        }
+
     }
 }

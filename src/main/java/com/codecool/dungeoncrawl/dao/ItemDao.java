@@ -10,7 +10,7 @@ public interface ItemDao {
     void update(ItemModel item);
     ItemModel get(int id, int gameStatusID, int mapNumber);
     List<ItemModel> getAll(int gameStateId);
-    List<ItemModel> getAllForInventory(int gameStateId);
-    List<ItemModel> getAllOnFloor(int gameStateId);
+//    List<ItemModel> getAllForInventory(int gameStateId);
+//    List<ItemModel> getAllOnFloor(int gameStateId);
 
 }

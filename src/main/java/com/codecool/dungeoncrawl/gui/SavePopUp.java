@@ -1,8 +1,8 @@
 package com.codecool.dungeoncrawl.gui;
 
-import com.codecool.dungeoncrawl.dao.GameJsonManager;
 import com.codecool.dungeoncrawl.gui.guiControllers.ButtonExport;
-import com.codecool.dungeoncrawl.gui.guiControllers.ButtonImport;
+import com.codecool.dungeoncrawl.logic.utils.LoadManager;
+import com.codecool.dungeoncrawl.logic.utils.WrongNameException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,27 +12,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.VLineTo;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-
 public class SavePopUp {
     private static String title = "Save Game";
-    private static String playerName;
+    private static String saveName;
 
-    public static void display(GameJsonManager manager){
+    public static void display(LoadManager manager){
 
         Stage window = new Stage();
         window.setOnCloseRequest(windowEvent -> {
             Platform.exit();
         });
-        FileChooser fileChooser = new FileChooser();
-
-
 
 
         /**
@@ -54,12 +46,18 @@ public class SavePopUp {
 
         Button saveButton = new Button(title);
         saveButton.setOnAction(e -> {
-            playerName = nameField.getText();
-            window.close();
+            saveName = nameField.getText();
+            manager.setGameSaveName(saveName);
+            try {
+                manager.chooseSaveOption();
+                window.close();
+            } catch (WrongNameException wne){
+                label.setText("This name is not availabe. Choose another one: ");
+            }
         });
 
-        Button importButton = new ButtonImport(fileChooser, window, manager);
-        Button exportButton = new ButtonExport(fileChooser,window, manager);
+
+        Button exportButton = new ButtonExport(window, manager);
 
         Button cancelButton = new Button("Cancel");
         cancelButton.setOnAction(e -> window.close());
@@ -72,7 +70,7 @@ public class SavePopUp {
 
 
         VBox layout = new VBox(10);
-        buttonNode.getChildren().addAll(saveButton, importButton, exportButton, cancelButton);
+        buttonNode.getChildren().addAll(saveButton, exportButton, cancelButton);
         layout.getChildren().addAll(label, nameField, buttonNode);
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setPadding(new Insets(25,25,25,25));
@@ -86,6 +84,8 @@ public class SavePopUp {
     }
 
     public static String getPlayerName() {
-        return playerName;
+        return saveName;
     }
+
 }
+
