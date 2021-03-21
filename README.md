@@ -5,6 +5,7 @@ Technology:
 - Junit Test
 
 Group project (4 people)
+
 My tasks:
 -  Different monsters type (task no. 8)
 -  Monsters move (task no. 9)
