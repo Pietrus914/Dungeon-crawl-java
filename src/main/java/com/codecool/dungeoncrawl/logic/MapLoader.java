@@ -9,7 +9,6 @@ import com.codecool.dungeoncrawl.logic.buildings.CloseDoor;
 import com.codecool.dungeoncrawl.logic.buildings.LadderDown;
 import com.codecool.dungeoncrawl.logic.buildings.LadderUp;
 import com.codecool.dungeoncrawl.logic.items.Helmet;
-import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.logic.items.Sword;
 
@@ -44,34 +43,6 @@ public class MapLoader {
                             break;
                         case '.':
                             cell.setType(CellType.FLOOR);
-                            break;
-                        case 's':
-                            cell.setType(CellType.FLOOR);
-                            new Skeleton(cell);
-                            break;
-                        case 'g':
-                            cell.setType(CellType.FLOOR);
-                            new Ghost(cell);
-                            break;
-                        case 'm':
-                            cell.setType(CellType.FLOOR);
-                            new Demon(cell);
-                            break;
-                        case '@':
-                            cell.setType(CellType.FLOOR);
-                            map.setPlayer(new Player(cell));
-                            break;
-                        case 'k':
-                            cell.setType(CellType.FLOOR);
-                            new Key(cell);
-                            break;
-                        case 'h':
-                            cell.setType(CellType.FLOOR);
-                            new Helmet(cell);
-                            break;
-                        case 'r':
-                            cell.setType(CellType.FLOOR);
-                            new Sword(cell);
                             break;
                         case 'u':
                             cell.setType(CellType.FLOOR);

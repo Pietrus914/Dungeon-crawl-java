@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.CurrentStatus;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
 import java.util.function.Consumer;
@@ -12,9 +13,12 @@ public abstract class Actor implements Drawable {
     private int health = 10;
     private int strength = 1;
     private int armor = 0;
-    private Consumer<Integer> onHealthChange = null;
-    private Consumer<Integer> onStrengthChange = null;
-    private Consumer<Integer> onArmorChange = null;
+    private static Consumer<Integer> onHealthChange = null;
+    private static Consumer<Integer> onStrengthChange = null;
+    private static Consumer<Integer> onArmorChange = null;
+    private int id;
+    private int mapNumber;
+
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -35,21 +39,25 @@ public abstract class Actor implements Drawable {
         Cell nextCell = cell.getNeighbor(dx, dy);
         Actor player = cell.getActor();
         Actor monster = nextCell.getActor();
+        int hit = player.getStrength();
 
         int monsterHp = monster.getHealth();
-        monster.setHealth(monsterHp - player.getStrength());
+        monster.setHealth(monsterHp - hit);
         player.counterAttack();
 
 //        uncomment below for testing in command line:
+        StringBuilder currentFightStatus = new StringBuilder();
+        currentFightStatus.append("hit " + player.getStrength() + "\n");
+        currentFightStatus.append("monsterHP " + monsterHp + "\n");
+        currentFightStatus.append("armor " + player.getArmor() + "\n");
+        currentFightStatus.append("playerHP " + player.getHealth());
 
-//        System.out.println("hit " + player.getStrength());
-//        System.out.println("monsterHP " + monsterHp);
-//
-//        System.out.println("armor " + player.getArmor());
-//        System.out.println("playerHP " + player.getHealth());
+        CurrentStatus.getInstance().setStatus(currentFightStatus.toString());
 
         if (monsterHp <= 0) {
             nextCell.setActor(null);
+            CurrentStatus.getInstance().setStatus("You have won the fight with "
+                    + monster.getClass().getSimpleName() + " !");
         }
     }
 
@@ -60,12 +68,16 @@ public abstract class Actor implements Drawable {
         int playerArmor = player.getArmor();
 
         if (playerArmor >= 2) {
-            player.setArmor(playerArmor - 2);
+//            player.setArmor(playerArmor - 2);
+            player.decreaseArmor(2);
         } else if (playerArmor == 1) {
-            player.setArmor(0);
-            player.setHealth(playerHp - 1);
+//            player.setArmor(0);
+//            player.setHealth(playerHp - 1);
+            player.decreaseArmor(1);
+            player.decreaseHealth(1);
         }  else {
-            player.setHealth(playerHp - 2);
+//            player.setHealth(playerHp - 2);
+            player.decreaseHealth(2);
         }
     }
 
@@ -75,6 +87,13 @@ public abstract class Actor implements Drawable {
 
     public void increaseHealth(int points) {
         this.health += points;
+        if (this.onHealthChange != null){
+            this.onHealthChange.accept(this.health);
+        }
+    }
+
+    public void decreaseHealth(int points) {
+        this.health -= points;
         if (this.onHealthChange != null){
             this.onHealthChange.accept(this.health);
         }
@@ -97,6 +116,13 @@ public abstract class Actor implements Drawable {
 
     public void increaseArmor(int points) {
         this.armor += points;
+        if (this.onArmorChange != null){
+            this.onArmorChange.accept(this.armor);
+        }
+    }
+
+    public void decreaseArmor(int points) {
+        this.armor -= points;
         if (this.onArmorChange != null){
             this.onArmorChange.accept(this.armor);
         }
@@ -150,5 +176,25 @@ public abstract class Actor implements Drawable {
 
     public void setArmor(int armor) {
         this.armor = armor;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getMapNumber() {
+        return mapNumber;
+    }
+
+    public void setMapNumber(int mapNumber) {
+        this.mapNumber = mapNumber;
+    }
+
+    public boolean isDead() {
+        return health <= 0;
     }
 }

@@ -38,4 +38,8 @@ public class Inventory {
     public void removeKey() {
         inventoryList.removeIf(item -> item.getName().equals("key"));
     }
+
+    public void setInventoryList(List<Item> inventoryList) {
+        this.inventoryList = inventoryList;
+    }
 }
